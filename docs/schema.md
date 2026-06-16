@@ -69,7 +69,6 @@ interface RubricEntry {
   checkedItems: CheckedItem[];        // from the curated QCM bank (or user-added)
   freeText?: string;                  // the person's own words
   keywords: string[];                 // retained ("bold") words that feed the synthesis
-  rubricSalience?: Weight;            // optional: importance of this rubric to the question
 }
 
 interface CheckedItem {
@@ -110,7 +109,7 @@ interface ActionStep {
 
 **Notes**
 - **Recursion** is modelled by `Cycle.parentCycleId` + `Case.cycleIds`. The canonical resignation case (concept.md G.1) is *one Case with two cycles*: cycle 1 ("Should I resign?") whose `reformulatedQuestion` becomes cycle 2's `question` ("How do I overcome my fear of telling my boss?"), and cycle 2 carries the `actionPlan`.
-- **Weighting** is per checked item (`CheckedItem.weight`); `rubricSalience` optionally captures how much a whole rubric matters. *(Open: keep both, or just one? — §6.)*
+- **Weighting** is **per checked item** (`CheckedItem.weight`) — relative importance, 1–5. *(Decided: per-item only; no rubric-level weight.)*
 - **Croisements** (`CrossLink`) are derived, not hand-entered: the engine detects items/keywords recurring across rubrics and sums their weights to surface priorities.
 
 ---
@@ -241,7 +240,7 @@ This validates the model: the reframing links two cycles, and the action plan li
 
 ## 7. Open questions
 
-1. **Weighting:** per-item only, rubric-level only, or both (current draft keeps both)? And the exact scale (1–5 "billes" vs low/med/high)?
+1. **Weighting scale:** weighting is **per item** (decided). Open: keep the **1–5 "billes"** scale, or low/med/high?
 2. **Croisements:** matched on `itemId`, on normalized keywords, or AI-assisted clustering?
 3. **Socrate mapping:** how a free conversation is reliably mapped onto rubric entries (function-calling into this schema vs post-hoc extraction).
 4. **Storage & sync:** local-first store + optional encrypted sync; how the team `identityRef` is isolated (separate store / key).
