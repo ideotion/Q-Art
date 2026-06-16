@@ -1,6 +1,7 @@
 # Q‑Art — Concept, Methodology & Build Brief
 
 > **Status:** Living foundation · last revised 2026‑06‑16
+> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (see `LICENSE`).
 > **How to read this:** This document is deliberately **self‑contained**. Assume the reader — including a future AI session with **no memory of prior conversations or source files** — has zero other context. Everything needed to understand *what Q‑Art is, why it works, and what we are building* is captured here. If you are that future session: start at §0, and treat this file as the single source of truth.
 
 ---
@@ -156,17 +157,17 @@ Beyond filling boards, a good Q‑Art pass requires judgment that we now deliver
 
 Q‑Art synthesizes established traditions; each maps to concrete rubrics above.
 
-- **Systemic / brief therapy (Palo Alto / MRI).** Systems thinking; *"more of the same"*; attempted solutions that **become** the problem; **reframing** (recadrage); second‑order change. → rubrics 8, and the whole reformulation logic.
+- **Systemic / brief therapy (the Palo Alto school).** Systems thinking; *"more of the same"*; attempted solutions that **become** the problem; **reframing** (recadrage); second‑order change. → rubrics 8, and the whole reformulation logic.
 - **Solution‑Focused approach.** The **ideal scene** / miracle question; **exceptions**; progress over perfection. → rubrics 5, 6.
-- **Transactional Analysis.** The **drama (Karpman) triangle** — Persecutor / Victim / Rescuer. → rubric 3.
+- **Transactional Analysis.** The **drama triangle** — Persecutor / Victim / Rescuer. → rubric 3.
 - **Constructivism / NLP.** *"The map is not the territory"; "I see the world as I am."* → rubric 2.
 - **Complexity & systems science.** Interactivity, **retroactivity**, the **butterfly effect**; a system's emergent autonomy. → §2.
 - **Cognitive science of heuristics.** The reflex shortcut as an energy‑saving "comfort path" (fast, automatic thinking) that misfires on novel problems. → §1.
 - **Socratic maieutics.** Questioning that "gives birth" to the answer already within — the spirit of the **Socrate** door. Galileo and Socrates are emblematic of the questioning stance Q‑Art revives.
 - **GROW arc** (Goal → Reality → Options → Will) as a coaching backbone.
-- **Dialectical consensus (the *protocole φ*, Francis Métivier).** A structured confrontation protocol for groups — complementary to Q‑Art in team/governance use (Appendix F).
+- **Dialectical consensus (the φ-protocol).** A structured confrontation protocol for groups — complementary to Q‑Art in team/governance use (Appendix F).
 
-**Q-Art as a synthesis of decision methods.** There is no "decision machine": real decisions are by turns intuitive, emotional, logical, collective, and personal. A published comparison of the ten common decision-aid methods (Gasquet & Le Gonidec, *Journal du Net*), scored on **reliability, speed, credibility, and ease of implementation**, found no single winner. Q-Art's robustness comes from deliberately **combining six of the ten in one structured pass** — *deciding alone* (solo reflection), *analysing the numbers / using models* (project, marketing, business plans), *deciding as a team*, *turning to a third party*, *trusting intuition* (treated as the fruit of emotional intelligence and accumulated experience), and *mind-mapping* (the *croisements* step naturally forms a heuristic map). It deliberately **excludes the four passive or avoidant methods** — *act-then-think, not deciding at all, doing as everyone else does, leaving it to chance* — for which it is not intended. At any step, a third party, a team, or AI can be brought in to validate a result.
+**Q-Art as a synthesis of decision methods.** There is no "decision machine": real decisions are by turns intuitive, emotional, logical, collective, and personal. Comparisons of the common decision-aid methods, scored on **reliability, speed, credibility, and ease of implementation**, found no single winner. Q-Art's robustness comes from deliberately **combining six of the ten in one structured pass** — *deciding alone* (solo reflection), *analysing the numbers / using models* (project, marketing, business plans), *deciding as a team*, *turning to a third party*, *trusting intuition* (treated as the fruit of emotional intelligence and accumulated experience), and *mind-mapping* (the *croisements* step naturally forms a heuristic map). It deliberately **excludes the four passive or avoidant methods** — *act-then-think, not deciding at all, doing as everyone else does, leaving it to chance* — for which it is not intended. At any step, a third party, a team, or AI can be brought in to validate a result.
 
 ---
 
@@ -248,6 +249,16 @@ These two doors are the ends of the **AI-intensity axis** (§5): each can apply 
 
 ---
 
+## 10. License & IP
+
+**This work is proprietary and confidential. © 2026 Ideotion. All rights reserved.** It is **not** open source; no license to use, copy, or distribute is granted — see the `LICENSE` file.
+
+- **Posture:** protected / closed **at first.** Any later move toward a more open or commercial license is a deliberate, deferred decision.
+- **Assets to protect:** the Q-Art method and module structure; the curated QCM banks (Appendices B–C); the worked-case library (Appendix G); and the product names (*Q-Art*, *Atlas*, *Socrate*).
+- **Drafting rule for this repo (applies to every future edit):** name no living or recent individuals and no third-party organizations; reference only well-known historical figures; avoid statements that could carry legal or regulatory weight.
+
+---
+
 ## Appendix A — Signature mottos (tone reference)
 - "A problem with no solution is a poorly‑stated problem."
 - "Insanity is doing the same thing and expecting a different result."
@@ -257,7 +268,7 @@ These two doors are the ends of the **AI-intensity axis** (§5): each can apply 
 - "The more it changes, the more it's the same."
 - "The other is the mirror of my behaviors."
 - "Even a good decision is the wrong decision when it's made too late."
-- "Every successful enterprise traces back to someone, one day, making a courageous decision." (Drucker)
+- "Every successful enterprise traces back to someone, one day, making a courageous decision."
 - "Asking the right question is already holding a good part of the answer."
 
 ## Appendix B — RISKS taxonomy (verbatim curated checklist)
@@ -278,7 +289,7 @@ List participants and assign each a number (mapping known only to the facilitato
 ## Appendix E — Governance: why boards would use Q‑Art (rationale)
 Administrators bear personal criminal liability. Legal/accounting breaches are well framed by law, but **"management‑power" and humanist decisions are subjective**, with vague jurisprudence. Decisions made under urgency invite challenge; employees and unions inject non‑measurable, ideology‑driven variables that must be weighed. The purely Cartesian choice (e.g. cut payroll) is easy to justify on paper but can carry an unquantifiable social cost; a member voting against it can rarely defend the position with figures, and **a "parasitic" group dynamic pushes everyone toward the logically‑defensible vote to protect their own credibility and avoid liability.** Boards therefore need a method for **economic *and* humanist** dossiers. In‑session debate is insufficient (people self‑censor). Q‑Art supplies anonymous, complete, individual appraisals that aggregate into a **collegial written synthesis annexable to the report and defensible against individual‑liability claims.**
 
-## Appendix F — Dialectical consensus: the *protocole φ* (Francis Métivier)
+## Appendix F — Dialectical consensus: the φ-protocol
 **Goal:** reach **unanimity** via consensus built on confronting opinions (not winning).
 **Steps:** identify the dilemma A vs B → A states position (B silent) → B objects (A silent) → A answers objections (B silent) → B states position (A silent) → A objects (B silent) → B answers (A silent) → each person privately writes the points of **agreement** between A and B → facilitator studies the sheets → facilitator synthesizes the agreement points into a unanimous consensus.
 **When:** decisions where quantitative data alone can't settle it and the *quality* of the arguments must be weighed.
@@ -330,4 +341,4 @@ An innovative SME — prototypes finished and orders in hand — must industrial
 - **Recursion** — feeding the reformulated question into a new cycle until the system is exhausted.
 - **Decision object** — the canonical data structure both Atlas and Socrate fill in.
 - **Atlas / Socrate** — the structured door and the conversational door over the same engine.
-- **Protocole φ** — Métivier's dialectical consensus protocol, complementary in team/governance mode.
+- **φ-protocol** — a dialectical consensus protocol, complementary in team/governance mode.
