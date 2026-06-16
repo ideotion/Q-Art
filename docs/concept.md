@@ -107,7 +107,9 @@ The deliverable of a cycle is the **synthesis**: the **initial question → the 
 
 Then **recurse**: feed the reformulated question into a new cycle. Repeat until the system's relevant components are exhausted. A later pass produces the concrete **action plan**.
 
-### 3.5 Canonical worked example (use this one)
+### 3.5 Worked examples
+
+**Example 1 — canonical (use this one).**
 
 1. **Initial question:** *"I'm overwhelmed — how can I better manage my time?"*
 2. **Systemic questioning** unfolds (simplified): *"I struggle to delegate" → "I struggle to trust my colleagues" → "I generally operate from distrust" → "I'm a perfectionist" → "If I do it myself it'll be better and faster" → "but I'll soon hit the limit of what I can do alone" → "I risk stress, for me and those around me."*
@@ -117,6 +119,18 @@ Then **recurse**: feed the reformulated question into a new cycle. Repeat until 
 4. **Action paths:** *"I could relearn trust gradually, starting with low‑stakes situations."* → first concrete step: *"On Monday I'll hand task ABC to X, while keeping light oversight of progress."*
 
 The real problem was never time management; it was trust and delegation. The reframing made the answer visible.
+
+**Example 2 — an independent operator's dilemma.**
+
+1. **Initial question:** *"Should I drop my most demanding client?"*
+2. **Systemic questioning** unfolds (simplified): *"They're ~40% of my revenue, so losing them scares me" → "yet I dread every exchange with them" → "I say yes to their every last-minute demand because I'm afraid they'll walk" → "I haven't reviewed my price with them in three years" → "I assume they'd never accept boundaries or a higher rate" (never tested) → "they consume so much of my time that I have no pipeline — which is exactly why I feel I can't afford to lose them."*
+   - **Exception noticed:** *"My easy clients pay on time and rarely overrun — what's different there? I set clear terms with them up front."*
+   - **Risks surfaced:** burnout, resentment, neglect of my other clients, my health, zero growth.
+   - **Benefits surfaced:** reclaimed time and energy, room to win better-fit clients, self-respect, a healthier book of business.
+3. **Reformulated question:** *"How do I renegotiate this relationship on my own terms — and what's my safety net if they walk?"*
+4. **Action paths:** *"Test the belief I've never tested — propose new terms and a rate increase — but build a cushion first."* → first concrete steps: *"This week, reinvest two reclaimed hours into outreach to two prospects and draft the new terms; hold the renegotiation conversation in two weeks."*
+
+The real problem was never this one client; it was an **untested belief** and a **self-maintained dependency** — over-serving had itself become the problem ("more of the same"). The binary *"drop them or not?"* dissolved into *"renegotiate from strength."*
 
 ### 3.6 The intelligence layer (formerly a person's craft — now structure + AI)
 
@@ -147,7 +161,21 @@ Q‑Art synthesizes established traditions; each maps to concrete rubrics above.
 
 ---
 
-## 5. Two products, one engine
+## 5. Products & variants — one engine
+
+The product lineup is **not yet fixed.** Two independent axes combine, and we have **not** decided how many variants to ship or how to package them:
+
+- **Context axis — Solo vs Team/Governance** (detailed in §5.1–§5.2 below).
+- **AI-intensity axis — LLM-less vs LLM-enhanced.** An **LLM-less** mode is structured, deterministic, fully private and offline-capable (the *Atlas* end, §6). An **LLM-enhanced** mode adds AI — from light assist up to a fully conversational guide (the *Socrate* end, §6).
+
+Crossing the axes gives up to **four** candidate variants, and the count is genuinely open (we may ship two, three, or four):
+
+| | LLM-less (Atlas end) | LLM-enhanced (Socrate end) |
+|---|---|---|
+| **Solo** | structured, fully private | AI-assisted / conversational |
+| **Team** | structured, anonymized pooling | AI-assisted synthesis & facilitation |
+
+Every variant fills the **same** decision object (§6). The LLM-less modes are the privacy / offline / audit baseline; the LLM-enhanced modes trade some privacy for lower friction and adaptivity. **Exploratory — decision deferred.**
 
 ### 5.1 Solo
 A private, personal "get unstuck" tool: one person, one question, the full cycle, a synthesis they own.
@@ -171,6 +199,8 @@ Build the **canonical Q‑Art "decision object" once** — the data structure ho
 - **SOCRATE — *it questions you*.** The conversational door: an **AI that runs the method maieutically**, adapting its questioning, probing thin spots, detecting connected questions and self‑sabotage, and proposing the reformulation. Low‑friction, broad‑audience; a larger trust/cost commitment. A Socrate session still **produces the same Atlas map artifact.**
 
 *Naming rationale:* **Atlas** = the book of maps you hold (the *cartographie*); **Socrate** (French spelling) = the maieutic art of questioning that is literally *Q‑Art*, nodding to the Francophone roots. Structure + dialogue; map + questioner.
+
+These two doors are the ends of the **AI-intensity axis** (§5): each can apply within both **Solo** and **Team** contexts. *Atlas* spans the LLM-less → light-assist range; *Socrate* is fully AI-driven. How many of these combinations we actually ship is undecided.
 
 ---
 
@@ -203,8 +233,9 @@ Build the **canonical Q‑Art "decision object" once** — the data structure ho
 1. **Finalize the canonical decision‑object schema** — confirm the 7‑board packaging (§3.2), field types, weighting scale, and the synthesis/recursion data model. *(Proposed immediate next deliverable.)*
 2. **Author the full curated QCM banks** per rubric — partially preserved here (Appendices B–C); the rest to be (re)written, since they are the core IP.
 3. **Socrate**: choose the AI approach, provider, and privacy‑preserving deployment / trust model.
-4. **Business model** — decide later.
-5. **First prototype** — proposed: **Atlas** (the deterministic backbone the rest builds on).
+4. **Decide the product matrix** (§5) — how many variants to ship across Solo/Team × LLM-less/LLM-enhanced, and how to package them. *(Open — not yet decided.)*
+5. **Business model** — decide later.
+6. **First prototype** — proposed: **Atlas** (the deterministic backbone the rest builds on).
 
 ---
 
