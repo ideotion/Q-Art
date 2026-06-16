@@ -164,7 +164,9 @@ Q‑Art synthesizes established traditions; each maps to concrete rubrics above.
 - **Cognitive science of heuristics.** The reflex shortcut as an energy‑saving "comfort path" (fast, automatic thinking) that misfires on novel problems. → §1.
 - **Socratic maieutics.** Questioning that "gives birth" to the answer already within — the spirit of the **Socrate** door. Galileo and Socrates are emblematic of the questioning stance Q‑Art revives.
 - **GROW arc** (Goal → Reality → Options → Will) as a coaching backbone.
-- **Dialectical consensus (the *protocole φ*, Francis Métivier).** A structured confrontation protocol for groups — complementary to Q‑Art in team/governance use (Appendix G).
+- **Dialectical consensus (the *protocole φ*, Francis Métivier).** A structured confrontation protocol for groups — complementary to Q‑Art in team/governance use (Appendix F).
+
+**Q-Art as a synthesis of decision methods.** There is no "decision machine": real decisions are by turns intuitive, emotional, logical, collective, and personal. A published comparison of the ten common decision-aid methods (Gasquet & Le Gonidec, *Journal du Net*), scored on **reliability, speed, credibility, and ease of implementation**, found no single winner. Q-Art's robustness comes from deliberately **combining six of the ten in one structured pass** — *deciding alone* (solo reflection), *analysing the numbers / using models* (project, marketing, business plans), *deciding as a team*, *turning to a third party*, *trusting intuition* (treated as the fruit of emotional intelligence and accumulated experience), and *mind-mapping* (the *croisements* step naturally forms a heuristic map). It deliberately **excludes the four passive or avoidant methods** — *act-then-think, not deciding at all, doing as everyone else does, leaving it to chance* — for which it is not intended. At any step, a third party, a team, or AI can be brought in to validate a result.
 
 ---
 
