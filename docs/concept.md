@@ -132,6 +132,13 @@ The real problem was never time management; it was trust and delegation. The ref
 
 The real problem was never this one client; it was an **untested belief** and a **self-maintained dependency** — over-serving had itself become the problem ("more of the same"). The binary *"drop them or not?"* dissolved into *"renegotiate from strength."*
 
+**Example 3 — the most complete real dossier (resignation).** *(Full raw dossier in Appendix G.)*
+
+1. **Initial question:** *"Should I resign from my post as corporate officer (mandataire social)?"*
+2. **What the map surfaced:** he is excluded from board meetings yet personally — even criminally — liable (*"I'm responsible for things I can't control"*); weighted stakeholders: boss (a lot), wife (a lot); feelings: fear of losing his job and of being charged, fear of disappointing and losing his spouse; already tried a meeting with the boss and emails flagging the risks → *status quo, nothing happens*; timeframe: two weeks.
+3. **Reformulated question:** *"How do I overcome my fear of telling my boss I'm resigning — i.e. how do I present my resignation as corporate officer?"*
+4. **Insight:** once mapped, resigning was clearly the right call — the real problem was the **fear of the conversation**. The person does not validate here; they **re-run Q-Art on the reformulated question**, and that second cycle builds the action plan.
+
 ### 3.6 The intelligence layer (formerly a person's craft — now structure + AI)
 
 Beyond filling boards, a good Q‑Art pass requires judgment that we now deliver via structure and AI (no human tutor):
@@ -249,6 +256,7 @@ These two doors are the ends of the **AI-intensity axis** (§5): each can apply 
 - "The other is the mirror of my behaviors."
 - "Even a good decision is the wrong decision when it's made too late."
 - "Every successful enterprise traces back to someone, one day, making a courageous decision." (Drucker)
+- "Asking the right question is already holding a good part of the answer."
 
 ## Appendix B — RISKS taxonomy (verbatim curated checklist)
 *Prompt:* "What risks are tied to this question? Unlike *what I feel*, list here the near‑certain consequences if I do **not** resolve the question or move past the situation."
@@ -272,6 +280,43 @@ Administrators bear personal criminal liability. Legal/accounting breaches are w
 **Goal:** reach **unanimity** via consensus built on confronting opinions (not winning).
 **Steps:** identify the dilemma A vs B → A states position (B silent) → B objects (A silent) → A answers objections (B silent) → B states position (A silent) → A objects (B silent) → B answers (A silent) → each person privately writes the points of **agreement** between A and B → facilitator studies the sheets → facilitator synthesizes the agreement points into a unanimous consensus.
 **When:** decisions where quantitative data alone can't settle it and the *quality* of the arguments must be weighed.
+
+## Appendix G — Worked cases & example questions (from source; for later analysis)
+
+*A stock of real cases and decision questions drawn from the source material — preserved for testing the method, designing prompts, and training Socrate.*
+
+**G.1 — Full dossier: the resignation case** *(the most complete worked example in the corpus)*
+- **Initial question:** "Should I resign from my post as corporate officer (*mandataire social*)?"
+- **Reformulated (after Q-Art):** "How do I overcome my fear of presenting my resignation to my boss? → How do I present my resignation as corporate officer?"
+- **Objective:** free myself from a responsibility that weighs on me; end the fear of legal prosecution; be calmer; make the company aware of the dangers it runs; get reassurance about future income.
+- **Who is involved:** boss (a lot), colleagues (a little), investors, wife (a lot).
+- **Resources / levers:** investors (a little), friends (a little), myself (a lot), wife (a lot).
+- **Expected benefits:** make the team effective and add value to the company; restore marital balance and avoid divorce; re-motivate myself, regain serenity and self-trust.
+- **Brakes / obstacles:** boss (a lot — blocking); investors allied with the boss; wife (fear of losing her); myself (I no longer know where I stand; stress).
+- **Me / feelings:** team demotivation and the company's financial risk feel like *my* responsibility; fear of being misunderstood by my spouse and of disappointing/losing them; fear of losing my job, of financial trouble, and of being criminally charged.
+- **Risks:** lost productivity and staff departures; legal risk; divorce; depression, damaged self-image, lost income, demotivation.
+- **Solutions already tried + result:** a meeting with the boss, soliciting investors' opinions, an email detailing the risks → *status quo; nothing happens.*
+- **Timeframe:** two weeks.
+- **Also surfaced:** "I'm not included in board meetings; decisions are made without me; I'm liable for things I can't control; I'm reduced to scrounging for information."
+- **Key insight:** after mapping, resigning is *obviously* the decision — the real problem is the **fear of telling the boss**. The person does not stop here; they **re-run Q-Art on the reformulated question**, where the concrete action plan is built.
+
+**G.2 — Family / personal practice case**
+"Where should we go on holiday so that every member of the family is satisfied?" — used as a lighter, multi-stakeholder "delicate" question to practice the method.
+
+**G.3 — Team case: "SUB OPTI"** *(real, anonymized; facilitator restitution notes)*
+A team working on motivation and direction. Threads that emerged: each member's personal happiness and **personal driver/goal** ("is this project just a grade, or building a future — circumstantial or lasting?"); widening **resources** beyond people (training, sport, subcontracting); reframing **pressure/control** ("little but reliably delivered" beats grand objectives; one final goal plus many small, celebrated steps; learn to say no — and explain — when a deadline is too short); **defining the perimeter of one's responsibility** and the help wanted, to avoid external pressure; clarifying whether supervisors are *project resources* (to manage like suppliers) or teachers; and accepting the negative consequences of one's choices.
+
+**G.4 — Board / governance case: factory location** *(see also Appendix E)*
+An innovative SME — prototypes finished and orders in hand — must industrialize fast; cash is not the constraint. The board must choose between a factory **in China** (investors' preference — faster ROI) and one **in a hard-hit French employment area** (the founder's ethical preference — slower, costlier). A figures-only pro/con yields no clear winner — the textbook case for the team/governance mode.
+
+**G.5 — Example-question bank** *(quick test inputs)*
+- "I'm overwhelmed — how do I manage my time better?" → *learn to trust / delegate.* (canonical, §3.5)
+- "Should I resign as corporate officer?" → *overcome the fear of telling the boss.* (G.1)
+- "Where do we holiday so the whole family is happy?" (G.2)
+- "Should I drop my most demanding client?" → *renegotiate from strength.* (§3.5, Example 2)
+- Team motivation & direction — "SUB OPTI." (G.3)
+- Factory in China vs a depressed French region — ethics vs ROI. (G.4)
+- A layoff / social plan — the "Cartesian" payroll cut vs the unquantifiable human cost. (governance, §5)
 
 ## Glossary
 - **Q‑Art** — *l'art du questionnement*; the method and the product.
