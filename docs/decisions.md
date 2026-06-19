@@ -1,90 +1,105 @@
 # Q‑Art — Decision Records (ADRs)
 
 > **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (see `LICENSE`).
-> **Reads with:** `concept.md`, `schema.md`, `question-banks.md`, `data-policy.md`, `roadmap.md`.
-> **Scope note:** the "no third‑party orgs / no legally‑loaded claims" drafting rule governs the **method / concept** content. These ADRs record **engineering** decisions, so they name the chosen tools/vendors — capabilities only, **no legal claims**.
+> **Reads with:** `concept.md`, `schema.md`, `question-banks.md`, `data-policy.md`, `roadmap.md`, **`design.md`**, `diagnostics.md`.
+> **Scope note:** the "no third‑party orgs / no legally‑loaded claims" drafting rule governs the **method / concept** content. These ADRs record **engineering** decisions, so they name tools/vendors — capabilities only, **no legal claims**.
 
-Each entry: **Status · Context · Decision · Consequences.**
+Each entry: **Status · Context · Decision · Consequences.** Several ADRs were **revised June 2026** after a five‑pass UI/architecture research review (see `design.md`).
 
 ---
 
 ## ADR‑001 — v1 scope: Solo, both doors
 - **Status:** Accepted
-- **Context:** The product spans two axes (Solo/Team × LLM‑less/LLM‑enhanced); we need a first shippable slice.
-- **Decision:** v1 = **Solo**, shipping **both Atlas (structured) and Socrate (conversational)**. Team/governance deferred.
-- **Consequences:** Pulls AI, a backend, and the privacy/cost questions into v1. *Done* = one user runs a full cycle (question → 7 boards → synthesis/reframe → action plan) through either door and exports it.
+- **Decision:** v1 = **Solo**, shipping **both Atlas and Socrate** — *but* Socrate v1 is a **deterministic question‑tree** (see ADR‑016), so v1 carries no LLM. Team/governance deferred.
+- **Consequences:** *Done* = one user runs a full cycle (question → 7 boards → synthesis/reframe → action plan → export) through either door, fully offline‑capable.
 
 ## ADR‑002 — Bilingual FR/EN from day one
 - **Status:** Accepted
-- **Decision:** Ship **French and English from the start**, with i18n built in; object keys stay language‑neutral (schema.md §7).
-- **Consequences:** Question banks and UI copy are authored/reviewed in both languages from the outset.
+- **Decision:** **FR + EN from the start**; object keys language‑neutral (schema.md §7). i18n via **Paraglide** (ADR‑003). CSS **logical properties** for cheap RTL‑readiness.
+- **Consequences:** Banks, question‑tree, and UI copy authored/reviewed in both languages; design for ~30% FR expansion.
 
-## ADR‑003 — Frontend: Next.js + TypeScript
-- **Status:** Accepted
-- **Decision:** **Next.js (App Router) + TypeScript**, built as a **PWA**, **mobile‑first** and responsive up. `src/` dir, import alias `@/*`. Styling **Tailwind**; i18n **next‑intl**; PWA/SW **Serwist**; local store **Dexie**; state **Zustand**.
-- **Consequences:** Server routes/actions available for the backend.
+## ADR‑003 — Frontend stack *(Revised 2026‑06)*
+- **Status:** Accepted (revised)
+- **Decision:** **Next.js (App Router) + TypeScript**, PWA, mobile‑first, `src/`, alias `@/*`. **Tailwind**; **shadcn/ui on Radix** (Base UI = upgrade path, React Aria = a11y escape hatch); **Paraglide** i18n; **Serwist** PWA; **Zustand** (UI) **+ XState** (guided flow); **RxDB** storage, **encrypted at rest**, behind a **repository abstraction**; motion = **CSS/View Transitions first, Motion (JS) only for physics/gestures**; **react‑textarea‑autosize** inputs; **Lucide** icons.
+- **Consequences:** Next.js kept for an SSR marketing/SEO surface (discoverability, since no App Store). Changed from the original lean: next‑intl→Paraglide, Dexie→RxDB, +XState, +View‑Transitions, storage abstracted. All reversible.
 
-## ADR‑004 — Light backend in v1
-- **Status:** Accepted
-- **Context:** Socrate needs a server‑side model proxy; secrets and IP prompts must stay off the client.
-- **Decision:** Stand up a **light, stateless backend** (a Next route handler) — **no user DB in v1**. **All secrets live in the server environment only** — never in the client bundle or the repo.
-- **Consequences:** Atlas must still work fully **without the backend / model** (LLM‑optional).
+## ADR‑004 — Backend deferred to v2 *(Revised 2026‑06)*
+- **Status:** Accepted (revised — supersedes "light backend in v1")
+- **Context:** Socrate v1 is deterministic (no model). With no LLM in v1, the v1 backend's reason to exist disappears.
+- **Decision:** **v1 ships with no backend** — a fully client‑side PWA. The backend (a stateless **Mistral** proxy + optional **EU sync**) arrives in **v2**. When it does: secrets server‑side only; `.env.example` committed, never a real `.env`.
+- **Consequences:** Dramatically smaller v1 surface (privacy, cost, ops). Diagnostics `cid` client→server seam (ADR‑013) becomes relevant in v2.
 
-## ADR‑005 — Weighting per item
-- **Status:** Accepted
-- **Decision:** Importance weighting is **per checked item** (1–5); no rubric‑level weight.
-- **Consequences:** `CheckedItem.weight` only (schema.md §2). *(Scale 1–5 "billes" vs low/med/high — to confirm.)*
+## ADR‑005 — Weighting method *(Revised 2026‑06)*
+- **Status:** Accepted (revised — method under test)
+- **Context:** Research rates per‑item 1–5 the weakest (no forced trade‑off); MaxDiff and constant‑sum both force trade‑offs.
+- **Decision:** **Prototype both MaxDiff (tap best/worst) and constant‑sum "marbles," decide by user test.** Per‑item 1–5 **deprecated** as the sole method. A **non‑drag / stepper path is required** (WCAG 2.2 SC 2.5.7). **Billes/marbles remain the visual identity** regardless of method.
+- **Consequences:** `schema.md` weighting field must accommodate either method; keep it method‑agnostic until the test resolves.
 
-## ADR‑006 — AI provider: Mistral (sovereign EU)
-- **Status:** Accepted
-- **Context:** Privacy‑first product handling intimate decisions; Francophone heritage; no need for a frontier‑scale model (deterministic Atlas backbone + curated banks carry most of the load).
-- **Decision:** **Mistral** as the LLM provider. Prefer the **EU‑hosted endpoint** with **no‑training‑on‑inputs and minimal/zero retention** *(terms to verify)*. **Model tiering:** capable mid/large tier for reasoning turns; small/edge tier for cheap turns. **Structured output / function calling** writes the canonical decision object (schema.md). **Roadmap:** self‑host an **open‑weight** Mistral model on EU infra for the governance/enterprise tier.
-- **Consequences:** **Not** using Anthropic/Claude (no Anthropic SDK code). Exact model IDs/pricing **to confirm**. Access via `MISTRAL_API_KEY` (server env); a developer/API key (*La Plateforme*) is required — a consumer chat subscription alone is insufficient.
+## ADR‑006 — LLM provider: Mistral — **v2** *(Revised 2026‑06)*
+- **Status:** Accepted (revised — scope moved to v2)
+- **Decision:** **No LLM in v1.** When Socrate gains LLM enrichment in **v2**, the provider is **Mistral** (sovereign EU): EU endpoint, **no‑training / minimal retention**, structured output to the decision object, **self‑host open‑weights** on the roadmap. Access via `MISTRAL_API_KEY` (server env; *La Plateforme* key required).
+- **Consequences:** **Not** Anthropic/Claude (no Anthropic SDK). v1's "method is IP, prompts server‑side" concern is deferred with the LLM; v1's question‑tree content is client‑visible IP.
 
-## ADR‑007 — Privacy posture & data handling
-- **Status:** Accepted — *supersedes the earlier "local‑first" framing.*
-- **Decision:** **Connected PWA, private by contract** — governed by **`docs/data-policy.md`** (single source of truth). Pseudonymous; **redact/minimize** before model calls; **export + delete** from `0.1.0`; **encryption at rest** (client) now, **E2E** for sync (v2); **LLM‑optional** (Atlas needs no model; *offline is a later nice‑to‑have, not a v1 guarantee*); **anonymous, content‑free, EU‑hosted analytics**. Same baseline both doors.
-- **Consequences:** Highest‑stakes area — team anonymity threat model required before Team mode (number↔identity isolation).
+## ADR‑007 — Privacy posture & data handling *(Revised 2026‑06)*
+- **Status:** Accepted (revised)
+- **Decision:** Governed by **`docs/data-policy.md`**. **v1 = no‑LLM, fully local ⇒ decision content never leaves the device** (honest, strongest posture). **Encryption at rest** is concrete via **RxDB** (not aspirational). Pseudonymous; **export + delete** from `0.1.0`; **anonymous, content‑free, EU‑hosted analytics**; **E2E** sync in v2. A **legal/safeguarding workstream is gating** (ADR‑017).
+- **Consequences:** When v2 adds the LLM/sync, the data policy's disclosed EU/no‑train model‑call posture applies; redaction before any send.
 
 ## ADR‑008 — License / IP
 - **Status:** Accepted
-- **Decision:** **Proprietary, all rights reserved** (see `LICENSE`); protected at first.
-- **Consequences:** Any move to a more open or commercial license is a deliberate, deferred decision.
+- **Decision:** **Proprietary, all rights reserved** (see `LICENSE`).
+- **Consequences:** Any more‑open/commercial license is a deliberate, deferred decision.
 
-## ADR‑009 — Unified data policy
+## ADR‑009 — Unified data policy *(lightly revised 2026‑06)*
 - **Status:** Accepted
-- **Context:** Privacy‑first, EU‑rooted; need one consistent, honest contract across both doors.
-- **Decision:** A single canonical data policy (**`docs/data-policy.md`**) with **three tiers** — *decision content* (never stored/mined/trained), *operational data* (anonymous, content‑free, EU‑hosted — collected to improve the app), *account data* (minimal, v2). Same baseline both doors; Socrate's model call disclosed inside the same policy. EU residency throughout.
-- **Consequences:** The public Privacy Policy/ToS (counsel) must mirror this. Anonymous analytics tooling must be content‑/identity‑free and EU‑hosted.
+- **Decision:** One canonical policy (`data-policy.md`), three tiers — *decision content* (v1: never leaves device; v2 Socrate‑LLM: transient EU call), *operational data* (anonymous, content‑free, EU‑hosted), *account data* (v2). One policy, both doors.
+- **Consequences:** Public Privacy Policy/ToS (counsel) mirror this; analytics must be content‑/identity‑free.
 
 ## ADR‑010 — Versioning & release roadmap
 - **Status:** Accepted
-- **Decision:** See **`docs/roadmap.md`**. Decimal intent → semver: `0.0.x` private pre‑alpha grind (starts `0.0.1`); `0.1.0` public alpha (core loop complete); `0.5.0` production alpha; `0.9.0` beta; `1.0.0` polished full release. Quality bar **ramps** with version.
-- **Consequences:** Releases are gated, not vibed; `package.json` starts at `0.0.1`.
+- **Decision:** See `roadmap.md`. `0.0.x` private grind (starts `0.0.1`) → `0.1.0` public alpha (core loop, **no‑LLM**) → `0.5.0` → `0.9.0` → `1.0.0`. LLM enrichment + sync land **post‑0.1** (see roadmap).
+- **Consequences:** `package.json` starts `0.0.1`; bumps are gated.
 
 ## ADR‑011 — Repo shape: single app
 - **Status:** Accepted
 - **Decision:** **Single Next.js app** (not a monorepo) for now.
-- **Consequences:** Extract to a monorepo only if a marketing site / mobile app / shared packages appear.
 
 ## ADR‑012 — Quality bar & CI
 - **Status:** Accepted
-- **Decision:** **TS strict**; **ESLint + Prettier**; **Vitest** (unit); **Playwright** (e2e smoke); **GitHub Actions** CI (lint/typecheck/test/build); a **SessionStart hook** so Claude‑on‑web can run lint/tests. Bar ramps with version (lenient at `0.0.x`, strict by `0.9.0`/`1.0.0`).
-- **Consequences:** CI/quality scaffolding lands with the first scaffold.
+- **Decision:** TS strict; ESLint+Prettier; Vitest; Playwright (e2e smoke); GitHub Actions; SessionStart hook. Bar ramps with version. **WCAG 2.2 AA** + reduced‑motion + contrast are release gates (ADR‑014).
 
 ## ADR‑013 — Diagnostics fabric for recursive development
 - **Status:** Accepted
-- **Context:** Vibe‑coded; Claude can't observe the running app. We need an evidence channel for semi‑automated recursive iteration — *without* breaking the content‑free promise.
-- **Decision:** A privacy‑safe **diagnostics fabric** (see **`docs/diagnostics.md`**) — one `diag` core + thin **seams** (action wrappers, Zustand middleware, IO/LLM wrapper, error boundary, global handlers, lifecycle hooks), a bounded **ring buffer mirrored to IndexedDB**, **content‑free + secret‑scrubbed by construction** (typed sink + redaction + a failing "no content in logs" test), exported as a **layered downloadable bundle** (manifest‑first, dense JSONL), **commit‑stamped**, with a `cid` threading client → Socrate server. Quiet by default; opt‑in **deep mode**. **Scaffold pillar from `0.0.1`.**
-- **Consequences:** Every new feature wires its seam + event codes. "Debug without ever seeing content" becomes a proof point. Integrates with A7 observability; the bundle schema is versioned (`diagSchemaVersion`).
+- **Decision:** Privacy‑safe diagnostics fabric (see `diagnostics.md`) — `diag` core + thin seams, ring buffer mirrored to IndexedDB/RxDB, content‑free + secret‑scrubbed by construction, layered downloadable bundle, commit‑stamped. Scaffold pillar from `0.0.1`.
+- **Consequences:** Every feature wires its seam + event codes. (This is also our privacy‑respecting answer to "improve UX without tracking.")
+
+## ADR‑014 — UI design language & direction *(New 2026‑06)*
+- **Status:** Accepted
+- **Decision:** "**Calm, but discoverable**" (see `design.md`): calm base + progressive disclosure + clear affordances + ⌘K palette; reject extreme minimalism. Core = **"Quiet Atlas"**; card/"deck" presentation + balance/"thermometer" synthesis carried as prototype options. **Text‑first synthesis** (no node‑graph in v1). **WCAG 2.2 AA** as a gate.
+- **Consequences:** Discoverability + affordance clarity are explicit requirements, not afterthoughts.
+
+## ADR‑015 — Platform hedge: PWA + Capacitor‑ready *(New 2026‑06)*
+- **Status:** Accepted
+- **Decision:** **PWA primary**; storage behind a **repository abstraction** so a **Capacitor** shell (WKWebView + native SQLite) is a drop‑in. **Export/backup first‑class** (iOS eviction isn't fully solvable); install + `storage.persist()` as onboarding. Decide PWA‑vs‑Capacitor **before public launch**.
+- **Consequences:** Don't hardwire the storage engine into UI; trigger to switch = real‑device data loss or iOS retention far below Android.
+
+## ADR‑016 — Socrate v1 = deterministic question‑tree *(New 2026‑06)*
+- **Status:** Accepted
+- **Context:** Independent passes found a full LLM chat door under‑earns its cost/latency/privacy surface in v1; a clean guided flow already "shows its work."
+- **Decision:** **Socrate v1 is a pre‑authored maieutic question‑tree (no LLM)** that fills the same boards. **LLM enrichment → v2** (ADR‑006). Wrap any future AI SDK behind an adapter; store our own normalized message shape.
+- **Consequences:** v1 is fully local/sovereign. The "two doors" identity holds (both deterministic in v1); the Atlas/Socrate distinction in v1 is *format* (structured form vs guided Q&A), with LLM enrichment as the v2 differentiator.
+
+## ADR‑017 — Legal & safeguarding gating workstream *(New 2026‑06)*
+- **Status:** Accepted (workstream; legal text owned by counsel)
+- **Decision:** Treat as **pre‑launch gates**: a screening **DPIA** (decision content can be GDPR **Article 9**), **explicit consent** design, **retention** policy, **data‑subject rights** (export/delete built in); plus **"not therapy/medical/legal advice"** framing and **crisis signposting** (FR/EN). v1's local/no‑LLM design keeps the surface small.
+- **Consequences:** We do not draft legal text in‑repo; we build the product affordances (consent, export, delete, disclaimers, crisis links) the policy requires.
 
 ---
 
 ## Open / deferred
-- **Data‑policy final wording** sign‑off (working version in `docs/data-policy.md`).
-- **Beachhead persona / wedge** use case.
-- **Monetization direction** (informs where value‑gates land).
+- **Weighting method** (resolve by A/B test) and **reflection serif‑vs‑sans** (resolve by test).
+- **Data‑policy final wording** sign‑off; **DPIA** with counsel.
+- **Beachhead persona / wedge**; **monetization direction**.
 - Concrete **EU host** + EU analytics/error tooling.
-- **Team / governance** product + anonymity threat model (post‑v1).
-- **ToS / Privacy Policy** legal text (counsel).
-- Languages beyond FR/EN; weighting scale (1–5 vs low/med/high).
+- **v2**: LLM (Mistral) Socrate enrichment + E2E local‑first sync details.
+- **Team / governance** + anonymity threat model (post‑v1).
