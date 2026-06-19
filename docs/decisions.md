@@ -72,6 +72,12 @@ Each entry: **Status · Context · Decision · Consequences.**
 - **Decision:** **TS strict**; **ESLint + Prettier**; **Vitest** (unit); **Playwright** (e2e smoke); **GitHub Actions** CI (lint/typecheck/test/build); a **SessionStart hook** so Claude‑on‑web can run lint/tests. Bar ramps with version (lenient at `0.0.x`, strict by `0.9.0`/`1.0.0`).
 - **Consequences:** CI/quality scaffolding lands with the first scaffold.
 
+## ADR‑013 — Diagnostics fabric for recursive development
+- **Status:** Accepted
+- **Context:** Vibe‑coded; Claude can't observe the running app. We need an evidence channel for semi‑automated recursive iteration — *without* breaking the content‑free promise.
+- **Decision:** A privacy‑safe **diagnostics fabric** (see **`docs/diagnostics.md`**) — one `diag` core + thin **seams** (action wrappers, Zustand middleware, IO/LLM wrapper, error boundary, global handlers, lifecycle hooks), a bounded **ring buffer mirrored to IndexedDB**, **content‑free + secret‑scrubbed by construction** (typed sink + redaction + a failing "no content in logs" test), exported as a **layered downloadable bundle** (manifest‑first, dense JSONL), **commit‑stamped**, with a `cid` threading client → Socrate server. Quiet by default; opt‑in **deep mode**. **Scaffold pillar from `0.0.1`.**
+- **Consequences:** Every new feature wires its seam + event codes. "Debug without ever seeing content" becomes a proof point. Integrates with A7 observability; the bundle schema is versioned (`diagSchemaVersion`).
+
 ---
 
 ## Open / deferred
