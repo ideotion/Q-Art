@@ -7,8 +7,17 @@
 Both write the **same decision object** (`docs/schema.md`). Privacy‑first, **sovereign (EU)**, **bilingual FR/EN**. **v1 is fully local — your decision content never leaves your device.**
 
 ## Status
-- **Phase:** pre‑alpha (`0.0.1`) — strategy + UI/architecture **locked**, **scaffold pending** (next step).
-- **Stack:** Next.js + TS PWA · Tailwind · shadcn/Radix · Paraglide · Serwist · **RxDB (encrypted)** · Zustand + **XState** · CSS/View Transitions (+ Motion for physics) · Lucide. **No LLM / no backend in v1** (Mistral enrichment = v2).
+- **Phase:** pre‑alpha (`0.0.1`) — strategy + UI/architecture **locked**, and the **scaffold is in place** (both doors run end‑to‑end, fully local).
+- **Stack:** Next 16 + TS PWA · Tailwind v4 · Zustand + **XState** · in‑memory storage behind a repository abstraction · diagnostics fabric · FR/EN. **No LLM / no backend in v1** (Mistral enrichment = v2). *Deferred behind their swap points:* RxDB+encryption, Paraglide, Serwist, Motion.
+
+## Run
+```bash
+npm install
+npm run dev        # http://localhost:3000  → / , /atlas , /socrate
+npm run check      # typecheck + lint + unit tests
+npm run build      # production build
+npm run test:e2e   # Playwright smoke (browsers needed)
+```
 
 ## Docs — start here
 | File | What |

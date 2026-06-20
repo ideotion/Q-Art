@@ -14,18 +14,19 @@ test("language toggle switches to French", async ({ page }) => {
 
 test("Atlas walks the boards to the synthesis", async ({ page }) => {
   await page.goto("/atlas");
+  const nav = page.getByRole("navigation"); // scope to the flow nav, not stray buttons
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  // Step Next through the 7 boards into the synthesis view.
   for (let i = 0; i < 7; i++) {
-    await page.getByRole("button", { name: /Next|Suivant/ }).click();
+    await nav.getByRole("button", { name: /Next|Suivant/ }).click();
   }
   await expect(page.getByText(/Initial question|Question initiale/)).toBeVisible();
 });
 
 test("Socrate starts the deterministic question-tree", async ({ page }) => {
   await page.goto("/socrate");
+  const nav = page.getByRole("navigation");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  await page.getByRole("button", { name: /Next|Suivant/ }).click();
+  await nav.getByRole("button", { name: /Next|Suivant/ }).click();
   // The first real node asks for the question (a textarea is present).
   await expect(page.locator("textarea")).toBeVisible();
 });

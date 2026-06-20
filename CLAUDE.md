@@ -7,7 +7,9 @@ Q‑Art is a **strategic decision‑making tool**. One method, **two doors**, ov
 v1 = **Solo**, **bilingual FR/EN**, and — critically — **fully local, no LLM, no backend.**
 
 ## Current status
-- **Phase:** pre‑alpha, **`0.0.1`**. Strategy **and** UI/architecture are **locked** (consolidated from a 5‑pass research review in `docs/design.md`). The **scaffold has not been run yet** — that is the immediate next task.
+- **Phase:** pre‑alpha, **`0.0.1`**. Strategy **and** UI/architecture are **locked** (`docs/design.md`). The **`0.0.1` scaffold is in place and green** (typecheck · lint · unit · build · format): Next 16 + TS + Tailwind PWA, the `qart` domain layer, the shared Zustand+XState store, the diagnostics fabric, and **both door UIs** (Atlas boards + Socrate question‑tree) writing one store.
+- **Wired vs deferred:** *wired* = domain layer, store, diagnostics, in‑memory storage **behind the repository abstraction**, FR/EN dictionary seam, both doors, CI + SessionStart hook. *Deferred (stubbed with clear swap points):* **RxDB + encryption** (`src/lib/storage`), **Paraglide** (`src/lib/i18n`), **Serwist** SW, **Motion**. e2e (Playwright) runs in CI.
+- **Layout:** `src/lib/qart` (domain) · `src/lib/diag` (diagnostics) · `src/lib/storage` (repo) · `src/lib/i18n` (FR/EN) · `src/store` (Zustand+XState) · `src/app` + `src/components` (UI).
 - Read, in order: **`docs/design.md`**, **`docs/decisions.md`** (ADRs), `docs/data-policy.md`, `docs/roadmap.md`, `docs/concept.md`, `docs/schema.md`, `docs/question-banks.md`, `docs/diagnostics.md`, `docs/research/ui-research-summary.md`.
 
 ## Stack (decided — see `design.md`/ADR‑003)
@@ -34,4 +36,4 @@ Next.js (App Router) + TypeScript, PWA, mobile‑first · **Tailwind** · **shad
 - Weighting method + reflection serif‑vs‑sans (resolve by test) · beachhead persona/wedge · monetization · concrete EU host · v2 LLM + sync details.
 
 ## Immediate next step
-Run the scaffold at **`0.0.1`** per `docs/design.md` + `docs/decisions.md`: Next.js + TS PWA, the library set above, the diagnostics fabric, `src/lib/qart/` (schema types + seeded banks + the Socrate question‑tree), the one shared store (Zustand + XState) written by **both** deterministic doors, SessionStart hook. Then iterate **Atlas UI → weighting A/B → synthesis → Socrate question‑tree**.
+Iterate on the green `0.0.1` scaffold: **Atlas UI polish → weighting A/B (MaxDiff vs marbles) → synthesis depth (croisements) → Socrate question‑tree depth**, then wire the deferred libs at their swap points (**RxDB** in `src/lib/storage`, **Paraglide** in `src/lib/i18n`, **Serwist** SW). Run: `npm install` → `npm run dev`; gate with `npm run check` (typecheck+lint+test) + `npm run build`.
