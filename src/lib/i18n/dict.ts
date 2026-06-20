@@ -35,6 +35,25 @@ export interface UiDict {
   notAdvice: string;
   language: string;
   progress: string; // "{a} / {b}"
+  // weighting (ADR-005)
+  weighting: string;
+  weightingHint: string;
+  methodStepper: string;
+  methodMaxdiff: string;
+  methodMarbles: string;
+  maxdiffMost: string;
+  maxdiffLeast: string;
+  maxdiffSet: string; // "Set {a} / {b}"
+  marblesLeft: string; // "{n} marbles left"
+  apply: string;
+  applied: string;
+  weightNeedsItems: string;
+  // croisements
+  crossLinks: string;
+  crossLinksHint: string;
+  crossLinksAcross: string; // "across {n} areas"
+  noCrossLinks: string;
+  priorities: string;
 }
 
 export const DICT: Record<Locale, UiDict> = {
@@ -69,6 +88,23 @@ export const DICT: Record<Locale, UiDict> = {
       "Q‑Art helps you think — it is not therapy, medical, or legal advice. In crisis, contact local emergency services.",
     language: "Language",
     progress: "{a} / {b}",
+    weighting: "Weigh what matters",
+    weightingHint: "Pick a method. Every method keeps a non-drag, keyboard path.",
+    methodStepper: "Steppers",
+    methodMaxdiff: "Most / least",
+    methodMarbles: "Marbles",
+    maxdiffMost: "Most",
+    maxdiffLeast: "Least",
+    maxdiffSet: "Set {a} / {b}",
+    marblesLeft: "{n} marbles left",
+    apply: "Apply",
+    applied: "Applied",
+    weightNeedsItems: "Check a few items first, then weigh them here.",
+    crossLinks: "What recurs across your map",
+    crossLinksHint: "Themes that surface in more than one area — often the real knot.",
+    crossLinksAcross: "across {n} areas",
+    noCrossLinks: "No themes recur yet — keep mapping.",
+    priorities: "Top of your map",
   },
   fr: {
     appName: "Q‑Art",
@@ -102,5 +138,22 @@ export const DICT: Record<Locale, UiDict> = {
       "Q‑Art vous aide à réfléchir — ce n'est ni une thérapie, ni un avis médical ou juridique. En cas de crise, contactez les services d'urgence locaux.",
     language: "Langue",
     progress: "{a} / {b}",
+    weighting: "Pesez ce qui compte",
+    weightingHint: "Choisissez une méthode. Chacune offre un chemin clavier, sans glisser.",
+    methodStepper: "Curseurs",
+    methodMaxdiff: "Plus / moins",
+    methodMarbles: "Billes",
+    maxdiffMost: "Le plus",
+    maxdiffLeast: "Le moins",
+    maxdiffSet: "Série {a} / {b}",
+    marblesLeft: "{n} billes restantes",
+    apply: "Appliquer",
+    applied: "Appliqué",
+    weightNeedsItems: "Cochez d'abord quelques éléments, puis pesez-les ici.",
+    crossLinks: "Ce qui revient sur votre carte",
+    crossLinksHint: "Les thèmes présents dans plusieurs zones — souvent le vrai nœud.",
+    crossLinksAcross: "dans {n} zones",
+    noCrossLinks: "Aucun thème ne revient encore — continuez la cartographie.",
+    priorities: "En haut de votre carte",
   },
 };

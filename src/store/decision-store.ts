@@ -6,10 +6,12 @@
  */
 import { create } from "zustand";
 import {
+  computeCrossLinks,
   createCase,
   createCycle,
   emptyRubricEntry,
   nowISO,
+  topKeywordsByRubric,
   type Case,
   type Cycle,
   type ID,
@@ -17,10 +19,17 @@ import {
   type RubricEntry,
   type RubricKey,
   type Weight,
+  type WeightMethod,
 } from "../lib/qart";
 import { diag, safe } from "../lib/diag";
 
 const DEFAULT_WEIGHT: Weight = 3;
+
+const SESSION_EVENT: Record<Mode, string> = {
+  atlas: "atlas.case.create",
+  socrate: "socrate.session.start",
+  cartes: "cartes.session.start",
+};
 
 export interface ItemRef {
   id?: ID;
@@ -28,6 +37,10 @@ export interface ItemRef {
 }
 export interface ToggleItemInput extends ItemRef {
   custom?: boolean;
+}
+export interface WeightUpdate extends ItemRef {
+  rubric: RubricKey;
+  weight: Weight;
 }
 
 export interface DecisionState {
@@ -38,8 +51,15 @@ export interface DecisionState {
   setQuestion(question: string): void;
   toggleItem(rubric: RubricKey, item: ToggleItemInput): void;
   setItemWeight(rubric: RubricKey, ref: ItemRef, weight: Weight): void;
+  /** Apply many weights at once (MaxDiff / marbles fold their result in here). */
+  setWeights(updates: WeightUpdate[]): void;
+  setWeightMethod(method: WeightMethod): void;
   setFreeText(rubric: RubricKey, text: string): void;
   setReformulation(question: string): void;
+  /** Recompute the derived synthesis (croisements + keywords) onto the object. */
+  runSynthesis(): void;
+  /** Replace the working cycle (e.g. after loading from storage). */
+  loadCycle(c: Case, cy: Cycle): void;
   reset(): void;
 }
 
@@ -75,10 +95,10 @@ export const useDecisionStore = create<DecisionState>()((set, get) => {
       const cy = createCycle(c.id, { mode, question });
       c.cycleIds = [cy.id];
       set({ activeCase: c, activeCycle: cy });
-      diag("I", "store", mode === "socrate" ? "socrate.session.start" : "atlas.case.create", {
-        mode: safe(mode),
-      });
+      diag("I", "store", SESSION_EVENT[mode], { mode: safe(mode) });
     },
+
+    loadCycle: (c, cy) => set({ activeCase: c, activeCycle: cy }),
 
     setQuestion: (question) =>
       update((cy) => {
@@ -114,6 +134,23 @@ export const useDecisionStore = create<DecisionState>()((set, get) => {
         diag("D", "store", "atlas.weight.set", { rubric: safe(rubric), w: weight });
       }),
 
+    setWeights: (updates) =>
+      update((cy) => {
+        for (const u of updates) {
+          const entry = cy.rubrics[u.rubric];
+          if (!entry) continue;
+          const i = matches(entry, u);
+          if (i >= 0) entry.checkedItems[i].weight = u.weight;
+        }
+        diag("D", "store", "atlas.weight.set", { n: updates.length });
+      }),
+
+    setWeightMethod: (method) =>
+      update((cy) => {
+        cy.weightMethod = method;
+        diag("I", "store", "weight.method.set", { method: safe(method) });
+      }),
+
     setFreeText: (rubric, text) =>
       update((cy) => {
         ensureEntry(cy, rubric).freeText = text;
@@ -122,6 +159,16 @@ export const useDecisionStore = create<DecisionState>()((set, get) => {
     setReformulation: (question) =>
       update((cy) => {
         cy.synthesis.reformulatedQuestion = question;
+      }),
+
+    runSynthesis: () =>
+      update((cy) => {
+        cy.synthesis.initialQuestion = cy.question;
+        cy.synthesis.crossLinks = computeCrossLinks(cy);
+        cy.synthesis.keywordsByRubric = topKeywordsByRubric(cy);
+        diag("I", "store", "atlas.synthesis.run", {
+          links: cy.synthesis.crossLinks.length,
+        });
       }),
 
     reset: () => set({ activeCase: null, activeCycle: null }),
