@@ -1,0 +1,11 @@
+.next/
+node_modules/
+coverage/
+playwright-report/
+test-results/
+package-lock.json
+public/
+src/app/favicon.ico
+# Docs are hand-formatted (tables, spacing) — don't let Prettier reflow them.
+*.md
+docs/
