@@ -94,6 +94,40 @@ Each entry: **Status · Context · Decision · Consequences.** Several ADRs were
 - **Decision:** Treat as **pre‑launch gates**: a screening **DPIA** (decision content can be GDPR **Article 9**), **explicit consent** design, **retention** policy, **data‑subject rights** (export/delete built in); plus **"not therapy/medical/legal advice"** framing and **crisis signposting** (FR/EN). v1's local/no‑LLM design keeps the surface small.
 - **Consequences:** We do not draft legal text in‑repo; we build the product affordances (consent, export, delete, disclaimers, crisis links) the policy requires.
 
+## ADR‑018 — Three GUIs over one object ("le triptyque") *(New — `0.1.0-rc.1`)*
+- **Status:** Accepted
+- **Context:** The RC adds a third presentation. The locked rule is "one map, two doors" generalized to "one object, N views" — GUIs are presentation only and must never fork the schema or store.
+- **Decision:** A **GUI registry** (`src/lib/gui`) describes three presentations — **Atlas** (workbench/boards), **Socrate** (guided dialogue), **Cartes** (deck) — keyed by the schema `Mode`, so "which GUI is shown" and "which door edited this" stay in lockstep. `Mode` is extended `atlas | socrate | cartes` (additive, backward compatible; persisted shape unchanged ⇒ `SCHEMA_VERSION` stays 1). One Zustand store + one XState flow machine; a `useGuiSession` hook ensures a single session so switching GUIs mid-flow loses nothing.
+- **Consequences:** New GUIs are presentation modules under `src/app/<gui>` + `src/components/<gui>`; the domain/store/diagnostics layers are untouched. Bilingual parity + the a11y gate apply to each GUI independently.
+
+## ADR‑019 — Cartes: the deck GUI *(New — `0.1.0-rc.1`)*
+- **Status:** Accepted
+- **Context:** `design.md` carried a card/"deck" presentation as a prototype option. The RC builds it to full parity as the third GUI.
+- **Decision:** **Cartes** deals the same rubrics as a one-card-at-a-time deck (`CARTES_DECK` = question + 10 rubric cards + synthesis), with a **keep/skip** card stack per rubric and a **spread** overview. Touch/gesture is a future enhancement; the **buttons + keyboard are the required non-drag path** (WCAG 2.2 SC 2.5.7), so no Motion/drag dependency ships in the RC. Motion is on the floor for later physics only.
+- **Consequences:** No `tldraw`/`GSAP` (proprietary); no new runtime dep. Card motion is CSS-only and reduced-motion-safe.
+
+## ADR‑020 — Encrypted-at-rest persistence: encrypted IndexedDB (RxDB deferred) *(New — `0.1.0-rc.1`)*
+- **Status:** Accepted (supersedes the RxDB wiring step for the RC)
+- **Context:** Encryption at rest is non-negotiable (ADR‑007). RxDB + its encryption plugin is a heavy add and risky to land green inside an autonomous RC.
+- **Decision:** Ship an **encrypted IndexedDB adapter** behind the existing `StorageRepository` — **AES‑GCM** via Web Crypto under a **non-extractable** key kept in IndexedDB; structural uuids stored in the clear (no content) for indexing/cascade. Versioned export/import (`dossier`) + a migration seam. In-memory stays the test double. This is the brief's explicitly blessed fallback; **persistence is never shipped unencrypted.**
+- **Consequences:** RxDB (and its replication/sync path) can replace this later behind the same interface; a Capacitor/SQLite swap remains a drop-in. Browser-only; degrades to in-memory if Web Crypto/IndexedDB are unavailable.
+
+## ADR‑021 — PWA service worker: hand-authored (Serwist deferred) *(New — `0.1.0-rc.1`)*
+- **Status:** Accepted (revises ADR‑003's Serwist choice for the RC)
+- **Context:** Serwist's Next plugin is webpack-based; Next 16 builds with **Turbopack**, so the integration is uncertain and can't be iterated on safely in this environment.
+- **Decision:** Ship a small **hand-authored, dependency-free service worker** (`public/sw.js`, Serwist-style): precache the app shell, network-first navigations (offline fallback), stale-while-revalidate for content-hashed assets. No user content cached (it lives encrypted in IndexedDB). Plus a manifest, icons, an install path, a dismissible update toast, and a `navigator.storage.persist()` onboarding prompt.
+- **Consequences:** Swappable for Serwist when its Turbopack story is solid. Raster PNG icons are a polish item (SVG icons ship now).
+
+## ADR‑022 — Weighting A/B plumbing *(New — implements ADR‑005)*
+- **Status:** Accepted
+- **Decision:** Ship **all three** weighting methods, selectable and persisted (`Cycle.weightMethod`, recorded content-free): direct **stepper**, **MaxDiff** (best-worst), and constant-sum **marbles**. The canonical importance stays the **1–5 billes** (`CheckedItem.weight`); MaxDiff and marbles derive it through one shared normalizer, so the schema stays method-agnostic until the test resolves. Every method has a **non-drag, keyboard path** (SC 2.5.7).
+- **Consequences:** The A/B can be run later from real `weightMethod` telemetry (content-free). Billes remain the visual identity regardless of method.
+
+## ADR‑023 — Installer: transparent, Debian-first, least-privilege *(New — `0.1.0-rc.1`)*
+- **Status:** Accepted
+- **Decision:** A `curl | bash` `install.sh` served from GitHub: `set -euo pipefail`, idempotent, no obfuscation, a banner naming the project + source + "100% local". Flags for dir/ref/port/dry-run/no-start/service/with-deps/uninstall. **Never requires root**; only `--with-deps` touches OS packages and **prints the exact NodeSource/apt commands first**. Defaults to the pinned RC tag, falls back to `main`; prints the checked-out SHA. A `shellcheck` + `--dry-run` CI job gates it; an `uninstall.sh` shim ships too.
+- **Consequences:** Trust-first distribution without an app store; reversible (`--uninstall`); no hidden network calls or data egress.
+
 ---
 
 ## Open / deferred

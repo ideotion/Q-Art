@@ -123,4 +123,16 @@
   by calculation (lowest accent-on-bg 4.70 — passes); added `aria-label` to the
   previously-unlabelled textareas (Socrate Q/reframe, Cartes Q, synthesis reframe);
   sync `<html lang>` to the active locale.
+- CI green incl. the new **a11y** job (axe found no serious/critical across all
+  5 routes × light/dark × FR/EN) — the proactive contrast calc + labels held.
+
+## Slice 8 — documentation (repo + dev) + ADRs
+
+- ADRs 018–023 (three-GUI, Cartes, encrypted IndexedDB, hand-authored SW,
+  weighting A/B, installer) appended to `decisions.md`.
+- New: `README.md` (rewritten — triptyque + install one-liner), `architecture.md`
+  (one-object-three-views module map), `CONTRIBUTING.md`, `SECURITY.md`,
+  `docs/install.md`, `docs/testing.md`, `docs/release.md`, `CHANGELOG.md`.
+- In-app Help/onboarding already shipped in slice 5 (About) + slice 4 (persist
+  prompt). Format/typecheck green.
 </content>
