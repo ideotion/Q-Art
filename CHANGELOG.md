@@ -1,7 +1,10 @@
 # Changelog
 
+> **Confidential & proprietary** — Q‑Art is the property of **Ideotion**.
+> © 2026 Ideotion · all rights reserved (`LICENSE`).
+
 All notable changes to Q‑Art. Format follows [Keep a Changelog](https://keepachangelog.com);
-versioning follows `docs/roadmap.md` (ADR‑010). Proprietary — all rights reserved.
+versioning follows `docs/roadmap.md` (ADR‑010).
 
 ## [0.1.0-rc.1] — 2026‑06 (release candidate)
 

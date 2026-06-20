@@ -1,5 +1,8 @@
 # Q‑Art — Autonomous Build Brief: the "Triptyque" Release Candidate (`0.1.0-rc.1`)
 
+> **Confidential & proprietary** — Q‑Art is the property of **Ideotion**.
+> © 2026 Ideotion · all rights reserved (`LICENSE`).
+
 > **What this is.** A self‑contained brief for a **fully autonomous** Claude Code session on the
 > `ideotion/q-art` repo. The operator **cannot answer questions** during the run. Read it top to
 > bottom, then execute. The repository's own docs are the source of truth and override this brief

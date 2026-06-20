@@ -1,5 +1,8 @@
 # Q‑Art
 
+> **Confidential & proprietary** — Q‑Art is the property of **Ideotion**.
+> © 2026 Ideotion · all rights reserved. See `LICENSE`.
+
 **A strategic decision‑making tool.** Bring the question you can't resolve; leave with a
 better question — and the answer that comes with it.
 
@@ -79,6 +82,7 @@ diagnostics) · `src/lib/i18n` (FR/EN) · `src/store` (Zustand + XState) · `src
 | `CONTRIBUTING.md` | Setup, scripts, conventions, the a11y gate, commit style. |
 | `CHANGELOG.md` | Notable changes. |
 
-## License
+## License & ownership
 
-**Proprietary — all rights reserved.** See `LICENSE`.
+**Q‑Art is the property of Ideotion.** Proprietary — © 2026 Ideotion, all rights reserved.
+No license is granted; see `LICENSE`.

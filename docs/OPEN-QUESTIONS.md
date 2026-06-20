@@ -1,5 +1,8 @@
 # Q‑Art — Open Questions (autonomous RC)
 
+> **Confidential & proprietary** — Q‑Art is the property of **Ideotion**.
+> © 2026 Ideotion · all rights reserved (`LICENSE`).
+
 > Genuinely irreversible or ambiguous calls surfaced during the autonomous
 > `0.1.0-rc.1` build. For each, the **safe, reversible default** that was taken so
 > the build could continue (per the brief's "never block on a question" rule).
