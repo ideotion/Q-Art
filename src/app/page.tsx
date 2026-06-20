@@ -1,8 +1,14 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { GUIS, rememberGui, type GuiMeta } from "@/lib/gui";
+import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
+import { GUIS, getGui, rememberGui, type GuiMeta } from "@/lib/gui";
+import { getRepository } from "@/lib/storage";
+import type { Case, Cycle } from "@/lib/qart";
 import { useLoc, useLocale } from "@/lib/i18n/react";
+import { useBoot, useDecisionStore } from "@/store";
 import { GuiIcon } from "@/components/gui-icon";
 import { LanguageToggle } from "@/components/language-toggle";
 
@@ -17,6 +23,7 @@ export default function Home() {
 
       <div className="flex flex-1 flex-col justify-center py-10">
         <h1 className="text-2xl leading-snug font-medium text-balance sm:text-3xl">{ui.tagline}</h1>
+        <ContinueBanner />
         <p className="mt-6 text-sm font-medium">{ui.pickGuiTitle}</p>
         <p className="text-muted mt-1 text-sm">{ui.pickGuiHint}</p>
         <div className="mt-5 grid gap-4 sm:grid-cols-3">
@@ -28,6 +35,53 @@ export default function Home() {
 
       <footer className="text-muted border-border border-t pt-4 text-xs">{ui.notAdvice}</footer>
     </main>
+  );
+}
+
+/** Offers to reopen the most-recent encrypted session, if any. Opt-in, never forced. */
+function ContinueBanner() {
+  const { ui } = useLocale();
+  const router = useRouter();
+  const hydrated = useBoot((s) => s.hydrated);
+  const loadCycle = useDecisionStore((s) => s.loadCycle);
+  const [resume, setResume] = useState<{ c: Case; cy: Cycle } | null>(null);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    let live = true;
+    void (async () => {
+      try {
+        const repo = getRepository();
+        const cases = await repo.listCases();
+        if (!cases.length) return;
+        const c = [...cases].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
+        const cycles = await repo.listCycles(c.id);
+        const cy = [...cycles].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
+        if (live && cy) setResume({ c, cy });
+      } catch {
+        /* no resumable session */
+      }
+    })();
+    return () => {
+      live = false;
+    };
+  }, [hydrated]);
+
+  if (!resume) return null;
+  const open = () => {
+    loadCycle(resume.c, resume.cy);
+    router.push(getGui(resume.cy.mode).route);
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={open}
+      className="border-accent bg-accent/10 hover:bg-accent/15 mt-6 inline-flex min-h-12 items-center gap-2 self-start rounded-full border px-5 text-sm font-medium transition-colors"
+    >
+      {ui.continueSession}
+      <ArrowRight className="size-4" aria-hidden />
+    </button>
   );
 }
 

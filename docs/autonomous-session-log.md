@@ -51,4 +51,25 @@
   e2e updated (3 GUIs, Cartes deck walk, cross-GUI data-preservation).
 - Gate green: typecheck·lint·48 unit tests·format·build; all four routes 200 in a
   prod server smoke. (e2e runs in CI — no browser in this sandbox.)
+- CI on this push: **verify + e2e both green** (confirms the Cartes + cross-GUI
+  e2e logic runs correctly in CI, since I can't run a browser locally).
+
+## Slice 3 — encrypted-at-rest persistence + export/import (ADR-020)
+
+- Chose the brief's blessed fallback over RxDB: an **encrypted IndexedDB adapter**
+  (`crypto-idb.ts`) behind the same `StorageRepository`. AES-GCM via Web Crypto;
+  key is **non-extractable**, stored in IndexedDB; structural uuids in the clear
+  to index/cascade without decrypting (no content). `codec.ts` is unit-tested
+  (round-trip, ciphertext doesn't leak plaintext, fresh IV, wrong-key fails).
+- `migrate.ts` migration seam (+ test) and `dossier.ts` versioned export/import
+  (+ test, repo round-trip). In-memory repo stays the test double.
+- App-level `usePersistence` (in a new client `AppProviders`): swaps in the
+  encrypted repo, **autosaves** the active case/cycle (debounced), all defensive
+  — any storage failure degrades to in-memory so the app never breaks.
+- `SavedIndicator` (quiet autosave status), `ExportPanel` (export · import ·
+  delete — the data-subject rights, in the shared SynthesisView so every GUI has
+  them), and a non-coercive **Continue** affordance on the landing (resume the
+  most-recent encrypted session).
+- e2e added: dossier export download + autosave→reload→continue round-trip.
+- Gate green: typecheck·lint·61 unit tests·format·build; route smoke 200.
 </content>

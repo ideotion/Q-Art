@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { LocaleProvider } from "@/lib/i18n/react";
+import { AppProviders } from "@/components/app-providers";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
@@ -25,7 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="bg-background text-foreground flex min-h-full flex-col">
-        <LocaleProvider>{children}</LocaleProvider>
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );

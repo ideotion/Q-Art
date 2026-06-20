@@ -5,6 +5,10 @@
  */
 export * from "./types";
 export * from "./memory";
+export * from "./codec";
+export * from "./migrate";
+export * from "./crypto-idb";
+export * from "./dossier";
 
 import { InMemoryStorageRepository } from "./memory";
 import type { StorageRepository } from "./types";

@@ -6,6 +6,7 @@ import { useLoc, useLocale } from "@/lib/i18n/react";
 import { useDecisionStore } from "@/store";
 import { AutoTextarea } from "./text-field";
 import { WeightingPanel } from "./weighting-panel";
+import { ExportPanel } from "./export-panel";
 
 const fmt = (t: string, vars: Record<string, string | number>) =>
   Object.entries(vars).reduce((s, [k, v]) => s.replace(`{${k}}`, String(v)), t);
@@ -91,6 +92,8 @@ export function SynthesisView() {
       </div>
 
       <p className="text-muted border-border border-t pt-3 text-xs">{ui.actionPlanHint}</p>
+
+      <ExportPanel />
     </section>
   );
 }

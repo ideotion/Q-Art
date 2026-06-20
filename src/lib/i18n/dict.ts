@@ -70,6 +70,18 @@ export interface UiDict {
   yourDeck: string;
   close: string;
   done: string;
+  // persistence / data rights
+  saving: string;
+  saved: string;
+  continueSession: string;
+  exportDossier: string;
+  importDossier: string;
+  deleteAll: string;
+  confirmDelete: string;
+  imported: string;
+  importFailed: string;
+  yourData: string;
+  dataHint: string;
 }
 
 export const DICT: Record<Locale, UiDict> = {
@@ -136,6 +148,18 @@ export const DICT: Record<Locale, UiDict> = {
     yourDeck: "Your deck",
     close: "Close",
     done: "Done",
+    saving: "Saving…",
+    saved: "Saved",
+    continueSession: "Continue your last session",
+    exportDossier: "Export dossier",
+    importDossier: "Import dossier",
+    deleteAll: "Delete all my data",
+    confirmDelete: "Delete everything stored on this device? This can't be undone.",
+    imported: "Imported",
+    importFailed: "That file isn't a Q‑Art dossier.",
+    yourData: "Your data",
+    dataHint:
+      "Everything stays on this device, encrypted at rest. Export a backup or delete it anytime.",
   },
   fr: {
     appName: "Q‑Art",
@@ -202,5 +226,17 @@ export const DICT: Record<Locale, UiDict> = {
     yourDeck: "Votre jeu",
     close: "Fermer",
     done: "Terminé",
+    saving: "Enregistrement…",
+    saved: "Enregistré",
+    continueSession: "Reprendre votre dernière session",
+    exportDossier: "Exporter le dossier",
+    importDossier: "Importer un dossier",
+    deleteAll: "Supprimer toutes mes données",
+    confirmDelete: "Tout supprimer de cet appareil ? Cette action est irréversible.",
+    imported: "Importé",
+    importFailed: "Ce fichier n'est pas un dossier Q‑Art.",
+    yourData: "Vos données",
+    dataHint:
+      "Tout reste sur cet appareil, chiffré au repos. Exportez une sauvegarde ou supprimez à tout moment.",
   },
 };
