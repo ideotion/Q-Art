@@ -5,6 +5,11 @@ on:
     branches: ["**"]
   pull_request:
 
+# Cancel superseded runs and collapse the duplicate push+PR runs on a branch.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify:
     runs-on: ubuntu-latest

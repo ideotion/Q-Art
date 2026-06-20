@@ -27,6 +27,7 @@ test("Socrate starts the deterministic question-tree", async ({ page }) => {
   const nav = page.getByRole("navigation");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await nav.getByRole("button", { name: /Next|Suivant/ }).click();
-  // The first real node asks for the question (a textarea is present).
-  await expect(page.locator("textarea")).toBeVisible();
+  // The first real node asks for the question. Query by role: react-textarea-autosize
+  // also renders a hidden aria-hidden measurement textarea, which role queries exclude.
+  await expect(page.getByRole("textbox")).toBeVisible();
 });
