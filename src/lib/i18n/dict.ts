@@ -10,6 +10,10 @@ export interface UiDict {
   appName: string;
   tagline: string;
   chooseDoor: string;
+  pickGuiTitle: string;
+  pickGuiHint: string;
+  switchView: string;
+  guiBestFor: string;
   atlasName: string;
   atlasDesc: string;
   socrateName: string;
@@ -35,6 +39,7 @@ export interface UiDict {
   notAdvice: string;
   language: string;
   progress: string; // "{a} / {b}"
+  steps: string; // accessible name for the flow nav
   // weighting (ADR-005)
   weighting: string;
   weightingHint: string;
@@ -54,6 +59,49 @@ export interface UiDict {
   crossLinksAcross: string; // "across {n} areas"
   noCrossLinks: string;
   priorities: string;
+  // cartes (deck GUI)
+  keep: string;
+  skip: string;
+  kept: string;
+  cardOf: string; // "Card {a} / {b}"
+  deckProgress: string; // "{a} / {b}"
+  allCardsSeen: string;
+  spread: string;
+  yourDeck: string;
+  close: string;
+  done: string;
+  // persistence / data rights
+  saving: string;
+  saved: string;
+  continueSession: string;
+  exportDossier: string;
+  importDossier: string;
+  deleteAll: string;
+  confirmDelete: string;
+  imported: string;
+  importFailed: string;
+  yourData: string;
+  dataHint: string;
+  // pwa
+  persistTitle: string;
+  persistBody: string;
+  persistAllow: string;
+  dismiss: string;
+  updateReady: string;
+  reload: string;
+  // about / help / diagnostics
+  about: string;
+  aboutTitle: string;
+  diagnostics: string;
+  diagnosticsHint: string;
+  downloadDiag: string;
+  deepMode: string;
+  version: string;
+  // atlas deepening + socrate progress
+  commands: string;
+  jumpToBoard: string;
+  selectedCount: string; // "{n} selected"
+  stepOf: string; // "Step {a} of {b}"
 }
 
 export const DICT: Record<Locale, UiDict> = {
@@ -62,6 +110,10 @@ export const DICT: Record<Locale, UiDict> = {
     tagline:
       "Bring the question you can't resolve. Leave with a better question — and the answer that comes with it.",
     chooseDoor: "Choose a door",
+    pickGuiTitle: "Choose how you'll work",
+    pickGuiHint: "Three ways into the same method. Switch anytime — your work follows you.",
+    switchView: "Switch view",
+    guiBestFor: "Best for",
     atlasName: "Atlas",
     atlasDesc: "Map it yourself — the structured boards, at your own pace.",
     socrateName: "Socrate",
@@ -88,6 +140,7 @@ export const DICT: Record<Locale, UiDict> = {
       "Q‑Art helps you think — it is not therapy, medical, or legal advice. In crisis, contact local emergency services.",
     language: "Language",
     progress: "{a} / {b}",
+    steps: "Steps",
     weighting: "Weigh what matters",
     weightingHint: "Pick a method. Every method keeps a non-drag, keyboard path.",
     methodStepper: "Steppers",
@@ -105,12 +158,58 @@ export const DICT: Record<Locale, UiDict> = {
     crossLinksAcross: "across {n} areas",
     noCrossLinks: "No themes recur yet — keep mapping.",
     priorities: "Top of your map",
+    keep: "Keep",
+    skip: "Skip",
+    kept: "Kept",
+    cardOf: "Card {a} / {b}",
+    deckProgress: "{a} / {b}",
+    allCardsSeen: "You've been through every card in this suit.",
+    spread: "Spread",
+    yourDeck: "Your deck",
+    close: "Close",
+    done: "Done",
+    saving: "Saving…",
+    saved: "Saved",
+    continueSession: "Continue your last session",
+    exportDossier: "Export dossier",
+    importDossier: "Import dossier",
+    deleteAll: "Delete all my data",
+    confirmDelete: "Delete everything stored on this device? This can't be undone.",
+    imported: "Imported",
+    importFailed: "That file isn't a Q‑Art dossier.",
+    yourData: "Your data",
+    dataHint:
+      "Everything stays on this device, encrypted at rest. Export a backup or delete it anytime.",
+    persistTitle: "Keep your work safe on this device",
+    persistBody:
+      "Allow persistent storage so the browser won't evict your encrypted dossiers under pressure.",
+    persistAllow: "Allow",
+    dismiss: "Not now",
+    updateReady: "A new version is ready.",
+    reload: "Reload",
+    about: "About",
+    aboutTitle: "About Q‑Art",
+    diagnostics: "Diagnostics",
+    diagnosticsHint:
+      "A content-free, safe-to-share log of what the app did (codes, counts, timings — never your words). Helps fix bugs.",
+    downloadDiag: "Download diagnostics",
+    deepMode: "Detailed logging",
+    version: "Version",
+    commands: "Commands",
+    jumpToBoard: "Jump to a board…",
+    selectedCount: "{n} selected",
+    stepOf: "Step {a} of {b}",
   },
   fr: {
     appName: "Q‑Art",
     tagline:
       "Apportez la question que vous n'arrivez pas à trancher. Repartez avec une meilleure question — et la réponse qui l'accompagne.",
     chooseDoor: "Choisissez une porte",
+    pickGuiTitle: "Choisissez votre manière de travailler",
+    pickGuiHint:
+      "Trois entrées dans la même méthode. Changez à tout moment — votre travail vous suit.",
+    switchView: "Changer de vue",
+    guiBestFor: "Idéal pour",
     atlasName: "Atlas",
     atlasDesc: "Cartographiez vous-même — les tableaux structurés, à votre rythme.",
     socrateName: "Socrate",
@@ -138,6 +237,7 @@ export const DICT: Record<Locale, UiDict> = {
       "Q‑Art vous aide à réfléchir — ce n'est ni une thérapie, ni un avis médical ou juridique. En cas de crise, contactez les services d'urgence locaux.",
     language: "Langue",
     progress: "{a} / {b}",
+    steps: "Étapes",
     weighting: "Pesez ce qui compte",
     weightingHint: "Choisissez une méthode. Chacune offre un chemin clavier, sans glisser.",
     methodStepper: "Curseurs",
@@ -155,5 +255,46 @@ export const DICT: Record<Locale, UiDict> = {
     crossLinksAcross: "dans {n} zones",
     noCrossLinks: "Aucun thème ne revient encore — continuez la cartographie.",
     priorities: "En haut de votre carte",
+    keep: "Garder",
+    skip: "Passer",
+    kept: "Gardé",
+    cardOf: "Carte {a} / {b}",
+    deckProgress: "{a} / {b}",
+    allCardsSeen: "Vous avez parcouru toutes les cartes de cette série.",
+    spread: "Vue d'ensemble",
+    yourDeck: "Votre jeu",
+    close: "Fermer",
+    done: "Terminé",
+    saving: "Enregistrement…",
+    saved: "Enregistré",
+    continueSession: "Reprendre votre dernière session",
+    exportDossier: "Exporter le dossier",
+    importDossier: "Importer un dossier",
+    deleteAll: "Supprimer toutes mes données",
+    confirmDelete: "Tout supprimer de cet appareil ? Cette action est irréversible.",
+    imported: "Importé",
+    importFailed: "Ce fichier n'est pas un dossier Q‑Art.",
+    yourData: "Vos données",
+    dataHint:
+      "Tout reste sur cet appareil, chiffré au repos. Exportez une sauvegarde ou supprimez à tout moment.",
+    persistTitle: "Gardez votre travail en sécurité sur cet appareil",
+    persistBody:
+      "Autorisez le stockage persistant pour que le navigateur n'efface pas vos dossiers chiffrés.",
+    persistAllow: "Autoriser",
+    dismiss: "Plus tard",
+    updateReady: "Une nouvelle version est prête.",
+    reload: "Recharger",
+    about: "À propos",
+    aboutTitle: "À propos de Q‑Art",
+    diagnostics: "Diagnostics",
+    diagnosticsHint:
+      "Un journal sans contenu, partageable en confiance, de ce qu'a fait l'app (codes, comptes, durées — jamais vos mots). Aide à corriger les bugs.",
+    downloadDiag: "Télécharger les diagnostics",
+    deepMode: "Journalisation détaillée",
+    version: "Version",
+    commands: "Commandes",
+    jumpToBoard: "Aller à un tableau…",
+    selectedCount: "{n} sélectionné(s)",
+    stepOf: "Étape {a} sur {b}",
   },
 };

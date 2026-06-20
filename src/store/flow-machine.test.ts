@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createActor } from "xstate";
-import { BOARDS, SOCRATE_TREE } from "../lib/qart";
+import { BOARDS, CARTES_DECK, SOCRATE_TREE } from "../lib/qart";
 import { flowMachine } from "./flow-machine";
 
 const start = () => createActor(flowMachine).start();
@@ -29,6 +29,21 @@ describe("flow machine", () => {
 
     for (let i = 0; i < BOARDS.length + 3; i++) a.send({ type: "NEXT" });
     expect(a.getSnapshot().context.boardIndex).toBe(BOARDS.length - 1); // clamped high
+  });
+
+  it("flips the Cartes deck and clamps at both ends", () => {
+    const a = start();
+    a.send({ type: "START", mode: "cartes" });
+    expect(a.getSnapshot().context.cardIndex).toBe(0);
+
+    a.send({ type: "PREV" });
+    expect(a.getSnapshot().context.cardIndex).toBe(0); // clamped low
+
+    for (let i = 0; i < CARTES_DECK.length + 3; i++) a.send({ type: "NEXT" });
+    expect(a.getSnapshot().context.cardIndex).toBe(CARTES_DECK.length - 1); // clamped high
+
+    a.send({ type: "GOTO_CARD", index: 2 });
+    expect(a.getSnapshot().context.cardIndex).toBe(2);
   });
 
   it("finishes and resets", () => {

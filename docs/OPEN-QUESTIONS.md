@@ -36,4 +36,16 @@
   onboarding. Recorded in **ADR‑021**.
 - **i18n library.** **Default taken:** keep the typed FR/EN dictionary seam
   (bilingual parity is the gate, not the library); Paraglide migration deferred.
+
+## Release (human‑owned — capability gap)
+
+- **Draft GitHub Release not created by the build.** This session has only
+  read‑only release tools (no create/publish‑release), and must not tag or publish
+  `main`. The version is bumped (`0.1.0-rc.1` in `package.json` + `version.ts`),
+  `CHANGELOG.md` has the entry, and **`RELEASE_NOTES.md`** holds the ready‑to‑paste
+  draft body. **Action for the human:** merge the PR, tag `0.1.0-rc.1` on `main`,
+  create a **draft** Release from `RELEASE_NOTES.md`, publish when ready
+  (`docs/release.md`).
+- **Raster PNG icons.** SVG icons ship (installable); generating 192/512 PNGs
+  needs an image tool unavailable in the sandbox. Polish item.
 </content>

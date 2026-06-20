@@ -1,57 +1,111 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Compass, MessagesSquare, type LucideIcon } from "lucide-react";
-import { useLocale } from "@/lib/i18n/react";
+import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
+import { GUIS, getGui, rememberGui, type GuiMeta } from "@/lib/gui";
+import { getRepository } from "@/lib/storage";
+import type { Case, Cycle } from "@/lib/qart";
+import { useLoc, useLocale } from "@/lib/i18n/react";
+import { useBoot, useDecisionStore } from "@/store";
+import { GuiIcon } from "@/components/gui-icon";
 import { LanguageToggle } from "@/components/language-toggle";
 
 export default function Home() {
   const { ui } = useLocale();
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-5 py-8">
+    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-5 py-8">
       <header className="flex items-center justify-between">
         <span className="text-lg font-semibold tracking-tight">{ui.appName}</span>
         <LanguageToggle />
       </header>
 
-      <div className="flex flex-1 flex-col justify-center py-12">
+      <div className="flex flex-1 flex-col justify-center py-10">
         <h1 className="text-2xl leading-snug font-medium text-balance sm:text-3xl">{ui.tagline}</h1>
-        <p className="text-muted mt-6 text-sm">{ui.chooseDoor}</p>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <DoorCard href="/atlas" icon={Compass} name={ui.atlasName} desc={ui.atlasDesc} />
-          <DoorCard
-            href="/socrate"
-            icon={MessagesSquare}
-            name={ui.socrateName}
-            desc={ui.socrateDesc}
-          />
+        <ContinueBanner />
+        <p className="mt-6 text-sm font-medium">{ui.pickGuiTitle}</p>
+        <p className="text-muted mt-1 text-sm">{ui.pickGuiHint}</p>
+        <div className="mt-5 grid gap-4 sm:grid-cols-3">
+          {GUIS.map((g) => (
+            <GuiCard key={g.id} gui={g} />
+          ))}
         </div>
       </div>
 
-      <footer className="text-muted border-border border-t pt-4 text-xs">{ui.notAdvice}</footer>
+      <footer className="text-muted border-border flex flex-wrap items-center justify-between gap-2 border-t pt-4 text-xs">
+        <span className="max-w-prose">{ui.notAdvice}</span>
+        <Link href="/about" className="hover:text-foreground shrink-0 underline underline-offset-2">
+          {ui.about}
+        </Link>
+      </footer>
     </main>
   );
 }
 
-function DoorCard({
-  href,
-  icon: Icon,
-  name,
-  desc,
-}: {
-  href: string;
-  icon: LucideIcon;
-  name: string;
-  desc: string;
-}) {
+/** Offers to reopen the most-recent encrypted session, if any. Opt-in, never forced. */
+function ContinueBanner() {
+  const { ui } = useLocale();
+  const router = useRouter();
+  const hydrated = useBoot((s) => s.hydrated);
+  const loadCycle = useDecisionStore((s) => s.loadCycle);
+  const [resume, setResume] = useState<{ c: Case; cy: Cycle } | null>(null);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    let live = true;
+    void (async () => {
+      try {
+        const repo = getRepository();
+        const cases = await repo.listCases();
+        if (!cases.length) return;
+        const c = [...cases].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
+        const cycles = await repo.listCycles(c.id);
+        const cy = [...cycles].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
+        if (live && cy) setResume({ c, cy });
+      } catch {
+        /* no resumable session */
+      }
+    })();
+    return () => {
+      live = false;
+    };
+  }, [hydrated]);
+
+  if (!resume) return null;
+  const open = () => {
+    loadCycle(resume.c, resume.cy);
+    router.push(getGui(resume.cy.mode).route);
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={open}
+      className="border-accent bg-accent/10 hover:bg-accent/15 mt-6 inline-flex min-h-12 items-center gap-2 self-start rounded-full border px-5 text-sm font-medium transition-colors"
+    >
+      {ui.continueSession}
+      <ArrowRight className="size-4" aria-hidden />
+    </button>
+  );
+}
+
+function GuiCard({ gui }: { gui: GuiMeta }) {
+  const { ui } = useLocale();
+  const loc = useLoc();
   return (
     <Link
-      href={href}
+      href={gui.route}
+      onClick={() => rememberGui(gui.id)}
       className="border-border bg-card hover:border-accent group flex flex-col gap-2 rounded-xl border p-5 transition-colors"
     >
-      <Icon className="text-accent size-6" aria-hidden />
-      <span className="text-lg font-medium">{name}</span>
-      <span className="text-muted text-sm">{desc}</span>
+      <GuiIcon iconKey={gui.iconKey} className="text-accent size-6" />
+      <span className="text-lg font-medium">{loc(gui.name)}</span>
+      <span className="text-accent text-xs tracking-wide uppercase">{loc(gui.paradigm)}</span>
+      <span className="text-muted text-sm">{loc(gui.tagline)}</span>
+      <span className="text-muted mt-1 text-xs">
+        <span className="font-medium">{ui.guiBestFor}:</span> {loc(gui.bestFor)}
+      </span>
     </Link>
   );
 }

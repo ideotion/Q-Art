@@ -1,58 +1,59 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useMachine } from "@xstate/react";
+import { useEffect } from "react";
 import { ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
 import { BOARDS, RUBRIC_META } from "@/lib/qart";
 import { useLoc, useLocale } from "@/lib/i18n/react";
-import { useDecisionStore } from "@/store";
-import { flowMachine } from "@/store/flow-machine";
+import { useDecisionStore, useGuiSession } from "@/store";
 import { AppHeader } from "@/components/app-header";
 import { RubricEditor } from "@/components/rubric-editor";
 import { SynthesisView } from "@/components/synthesis-view";
 import { AutoTextarea } from "@/components/text-field";
+import { CommandPalette } from "@/components/atlas/command-palette";
 
 const PRIMARY =
   "bg-accent text-accent-foreground inline-flex min-h-12 items-center gap-1 rounded-full px-5 text-sm font-medium disabled:opacity-40";
 const SECONDARY =
   "border-border text-foreground inline-flex min-h-12 items-center gap-1 rounded-full border px-5 text-sm disabled:opacity-40";
 
+const isTyping = (el: EventTarget | null): boolean => {
+  const t = el as HTMLElement | null;
+  const tag = t?.tagName;
+  return tag === "INPUT" || tag === "TEXTAREA" || t?.isContentEditable === true;
+};
+
 export default function AtlasPage() {
   const { ui } = useLocale();
   const loc = useLoc();
-  const [snap, send] = useMachine(flowMachine);
-  const startCase = useDecisionStore((s) => s.startCase);
-  const reset = useDecisionStore((s) => s.reset);
+  const { snap, send, restart } = useGuiSession("atlas");
   const question = useDecisionStore((s) => s.activeCycle?.question ?? "");
   const setQuestion = useDecisionStore((s) => s.setQuestion);
-  const init = useRef(false);
-
-  useEffect(() => {
-    if (init.current) return;
-    init.current = true;
-    reset();
-    startCase({ mode: "atlas" });
-    send({ type: "START", mode: "atlas" });
-  }, [reset, startCase, send]);
 
   const idx = snap.context.boardIndex;
   const board = BOARDS[idx];
   const isLast = idx >= BOARDS.length - 1;
 
-  const restart = () => {
-    reset();
-    startCase({ mode: "atlas" });
-    send({ type: "RESET" });
-    send({ type: "START", mode: "atlas" });
-  };
+  // Keyboard shortcuts: ←/→ walk the boards (when not typing in a field).
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (isTyping(e.target) || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === "ArrowRight") send({ type: "NEXT" });
+      else if (e.key === "ArrowLeft") send({ type: "PREV" });
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [send]);
 
   return (
     <div className="flex min-h-full flex-col">
       <AppHeader />
       <main className="mx-auto w-full max-w-2xl flex-1 px-5 py-6">
-        <p className="text-muted text-xs">
-          {ui.progress.replace("{a}", String(idx + 1)).replace("{b}", String(BOARDS.length))}
-        </p>
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-muted text-xs">
+            {ui.progress.replace("{a}", String(idx + 1)).replace("{b}", String(BOARDS.length))}
+          </p>
+          <CommandPalette onJump={(i) => send({ type: "GOTO_BOARD", index: i })} />
+        </div>
         <h1 className="mt-1 text-xl font-medium">{loc(board.title)}</h1>
 
         <div className="mt-6 space-y-8">
@@ -82,7 +83,10 @@ export default function AtlasPage() {
         </div>
       </main>
 
-      <nav className="border-border bg-background sticky bottom-0 mx-auto flex w-full max-w-2xl items-center justify-between gap-3 border-t px-5 py-3">
+      <nav
+        aria-label={ui.steps}
+        className="border-border bg-background sticky bottom-0 mx-auto flex w-full max-w-2xl items-center justify-between gap-3 border-t px-5 py-3"
+      >
         <button
           type="button"
           onClick={() => send({ type: "PREV" })}

@@ -11,12 +11,15 @@ export function AutoTextarea({
   onChange,
   placeholder,
   label,
+  ariaLabel,
   minRows = 2,
 }: {
   value: string;
   onChange: (v: string) => void;
   placeholder?: string;
   label?: string;
+  /** Accessible name when there is no visible label (WCAG 2.2 — every field is named). */
+  ariaLabel?: string;
   minRows?: number;
 }) {
   return (
@@ -27,6 +30,7 @@ export function AutoTextarea({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
+        aria-label={label ? undefined : ariaLabel}
         className="border-border bg-card focus:border-accent w-full resize-none rounded-lg border p-3 text-sm outline-none"
       />
     </label>

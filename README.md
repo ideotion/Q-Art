@@ -1,43 +1,84 @@
 # Q‑Art
 
-**Strategic decision‑making tool** — two doors to the same method:
-- **Atlas** — structured, deterministic board flow.
-- **Socrate** — guided maieutic flow (**v1 = deterministic question‑tree, no LLM**; LLM enrichment in v2).
+**A strategic decision‑making tool.** Bring the question you can't resolve; leave with a
+better question — and the answer that comes with it.
 
-Both write the **same decision object** (`docs/schema.md`). Privacy‑first, **sovereign (EU)**, **bilingual FR/EN**. **v1 is fully local — your decision content never leaves your device.**
+One method, **three GUIs**, over one shared decision object (`docs/schema.md`):
 
-## Status
-- **Phase:** pre‑alpha (`0.0.1`) — strategy + UI/architecture **locked**, and the **scaffold is in place** (both doors run end‑to‑end, fully local).
-- **Stack:** Next 16 + TS PWA · Tailwind v4 · Zustand + **XState** · in‑memory storage behind a repository abstraction · diagnostics fabric · FR/EN. **No LLM / no backend in v1** (Mistral enrichment = v2). *Deferred behind their swap points:* RxDB+encryption, Paraglide, Serwist, Motion.
+- **Atlas — the workbench.** Structured boards, keyboard‑first, at your own pace.
+- **Socrate — the dialogue.** A calm, guided question‑tree, one prompt at a time. **v1 is
+  deterministic — no LLM.**
+- **Cartes — the deck.** A tactile card deck: keep, skip, and weigh each card.
 
-## Run
+All three write the **same** decision — switch between them mid‑session without losing a thing.
+
+**v1 is fully local:** your decision content never leaves your device. No account, no server, no
+tracking; **encrypted at rest**. Bilingual **FR/EN**. Targets **WCAG 2.2 AA**.
+
+> **Status:** `0.1.0‑rc.1` — release candidate. Proprietary, all rights reserved (`LICENSE`).
+
+## Quickstart (dev)
+
 ```bash
 npm install
-npm run dev        # http://localhost:3000  → / , /atlas , /socrate
+npm run dev        # http://localhost:3000  →  / · /atlas · /socrate · /cartes · /about
 npm run check      # typecheck + lint + unit tests
 npm run build      # production build
-npm run test:e2e   # Playwright smoke (browsers needed)
+npm run test:e2e   # Playwright e2e (needs a browser)
 ```
 
+Node ≥ 20.
+
+## Install & run locally (one line, Debian/Ubuntu)
+
+The installer is **transparent and local‑only** — it clones, builds, and serves Q‑Art on your
+machine and sends none of your data anywhere. Read it before running (recommended):
+
+```bash
+# Audit, then run
+curl -fsSLO https://raw.githubusercontent.com/ideotion/q-art/main/install.sh
+less install.sh && bash install.sh
+
+# Or, the convenient form
+curl -fsSL https://raw.githubusercontent.com/ideotion/q-art/main/install.sh | bash
+```
+
+It never needs root. Useful flags: `--dry-run`, `--port <n>`, `--service` (a user systemd unit),
+`--uninstall`. See **`docs/install.md`** for the full list and security notes.
+
+## The core loop
+
+A full cycle, in any GUI, entirely on‑device:
+
+**question → 7 boards / 10 rubrics → weighting → text‑first synthesis & reframe → export.**
+
+- **Weighting** (`ADR‑005`): pick **steppers**, **MaxDiff** (most/least), or constant‑sum
+  **marbles** — each keyboard‑operable, no drag required. The 1–5 *billes* stay the visual identity.
+- **Croisements:** themes that recur across rubrics are surfaced and weight‑summed → ranked
+  priorities.
+- **Synthesis:** text/ranked‑list first, always — plus your reframed question. No node‑graph.
+- **Export/import:** a portable, versioned JSON *dossier*; delete everything anytime.
+
+## Architecture in one line
+
+**One object, three views.** `src/lib/qart` (domain) · `src/lib/gui` (GUI registry) ·
+`src/lib/storage` (repository abstraction, encrypted IndexedDB) · `src/lib/diag` (content‑free
+diagnostics) · `src/lib/i18n` (FR/EN) · `src/store` (Zustand + XState) · `src/app` + `src/components`
+(UI). See **`docs/architecture.md`**.
+
 ## Docs — start here
+
 | File | What |
 |---|---|
-| `docs/design.md` | **Consolidated UI & architecture decisions** (start here). |
-| `docs/concept.md` | The method, the two doors, the 7 boards. |
-| `docs/schema.md` | The canonical decision object. |
-| `docs/question-banks.md` | Curated questions / rubrics (IP content). |
+| `docs/design.md` | Consolidated UI & architecture decisions. |
+| `docs/architecture.md` | One‑object‑three‑views: module map, store/flow, storage, diagnostics. |
 | `docs/decisions.md` | Architecture Decision Records (ADRs). |
-| `docs/data-policy.md` | The single, unified data policy. |
-| `docs/roadmap.md` | Version ladder + release gates. |
-| `docs/diagnostics.md` | The diagnostics fabric. |
-| `docs/research/` | UI research provenance + summary. |
-| `CLAUDE.md` | Project context for AI sessions. |
-
-## Next step
-Scaffold the Next.js + TS PWA at **`0.0.1`** per `docs/design.md` + `docs/decisions.md` — single‑app repo, the library set above, the diagnostics fabric, one shared store written by both deterministic doors.
-
-## Open questions
-- Weighting method + reflection serif‑vs‑sans (resolve by test) · beachhead persona/wedge · monetization · concrete EU host · v2 LLM + sync.
+| `docs/concept.md` · `docs/schema.md` · `docs/question-banks.md` | The method, the object, the IP content. |
+| `docs/data-policy.md` · `SECURITY.md` | Privacy posture & security. |
+| `docs/install.md` · `docs/testing.md` · `docs/release.md` | Run, test, release. |
+| `CONTRIBUTING.md` | Setup, scripts, conventions, the a11y gate, commit style. |
+| `CHANGELOG.md` | Notable changes. |
 
 ## License
+
 **Proprietary — all rights reserved.** See `LICENSE`.

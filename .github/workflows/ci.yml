@@ -25,6 +25,17 @@ jobs:
       - run: npm run lint
       - run: npm run test
       - run: npm run build
+        env:
+          NEXT_PUBLIC_GIT_COMMIT: ${{ github.sha }}
+
+  shell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck && shellcheck install.sh uninstall.sh
+      - name: installer dry-run (changes nothing)
+        run: bash install.sh --dry-run --no-start
 
   e2e:
     runs-on: ubuntu-latest
@@ -36,4 +47,17 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e
+      - run: npx playwright test --grep-invert "^a11y"
+
+  a11y:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: axe scan (WCAG 2.2 AA) across all GUIs · light/dark · FR/EN
+        run: npx playwright test e2e/a11y.spec.ts
