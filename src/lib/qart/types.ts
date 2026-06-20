@@ -24,7 +24,21 @@ export type LocalizedText = { [L in Locale]: string };
 export type ID = string; // opaque unique id (uuid)
 export type ISODate = string; // ISO-8601 timestamp
 export type Weight = 1 | 2 | 3 | 4 | 5; // relative importance ("billes"): 1 minor … 5 major
-export type Mode = "atlas" | "socrate"; // which door produced/edited this
+/**
+ * Which GUI produced/edited this — the schema's only nod to presentation. The
+ * three GUIs are views over ONE object (ADR-018); extending this enum is additive
+ * and backward compatible (old atlas/socrate data stays valid), so it does not
+ * change the persisted shape (SCHEMA_VERSION unchanged).
+ */
+export type Mode = "atlas" | "socrate" | "cartes";
+
+/**
+ * Weighting method (ADR-005, "decide by test"). All three ship and are
+ * selectable; the canonical importance stays the 1–5 billes (`CheckedItem.weight`),
+ * which any method derives — the schema stays method-agnostic. This records which
+ * method the user reached for (content-free, for later A/B analysis).
+ */
+export type WeightMethod = "stepper" | "maxdiff" | "marbles";
 
 // ---------- the 10 exploration rubrics ----------
 // (The spine `question` and the `action plan` are modelled separately, not as rubrics.)
@@ -59,6 +73,7 @@ export interface Cycle {
   mode: Mode;
   question: string; // "Ma question" — what this cycle works on
   rubrics: Partial<Record<RubricKey, RubricEntry>>;
+  weightMethod?: WeightMethod; // which weighting UI was used (default: stepper)
   synthesis: Synthesis;
   actionPlan?: ActionPlan; // typically built in a later cycle
   createdAt: ISODate;

@@ -4,3 +4,5 @@ export * from "./rubrics";
 export * from "./banks";
 export * from "./question-tree";
 export * from "./factory";
+export * from "./weighting";
+export * from "./croisements";
