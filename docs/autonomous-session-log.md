@@ -111,4 +111,16 @@
 - CI `shell` job: shellcheck both scripts + `install.sh --dry-run`. Build now
   stamps `NEXT_PUBLIC_GIT_COMMIT`. Verified locally: syntax, --help, --dry-run
   (full + --service), --uninstall, shim delegation (shellcheck runs in CI).
+- CI confirmed green for slices 3–6: verify + e2e + shell all pass (validates the
+  persistence-reload, PWA-SW, and About e2e I couldn't run locally).
+
+## Slice 7 — accessibility gate (axe, WCAG 2.2 AA)
+
+- Added `@axe-core/playwright`; `e2e/a11y.spec.ts` scans all 5 routes × light/dark
+  × FR/EN (20 scans), failing CI on any serious/critical violation (WCAG A/AA tags).
+- New CI `a11y` job (e2e job now excludes a11y to avoid double-run).
+- Proactive fixes (no local browser to iterate): verified every text pair ≥4.5:1
+  by calculation (lowest accent-on-bg 4.70 — passes); added `aria-label` to the
+  previously-unlabelled textareas (Socrate Q/reframe, Cartes Q, synthesis reframe);
+  sync `<html lang>` to the active locale.
 </content>

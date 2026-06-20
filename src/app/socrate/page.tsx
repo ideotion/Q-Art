@@ -45,6 +45,7 @@ export default function SocratePage() {
                   value={question}
                   onChange={setQuestion}
                   placeholder={ui.questionPlaceholder}
+                  ariaLabel={ui.yourQuestion}
                   minRows={3}
                 />
               ) : null}
@@ -54,6 +55,7 @@ export default function SocratePage() {
                   value={reformulation}
                   onChange={setReformulation}
                   placeholder={ui.reframePlaceholder}
+                  ariaLabel={ui.reformulatedQuestion}
                   minRows={3}
                 />
               ) : null}

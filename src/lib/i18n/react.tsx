@@ -40,6 +40,11 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
     diag("I", "i18n", "i18n.locale.load", { locale: safe(l) });
   }, []);
 
+  // Keep the document language in sync so assistive tech announces correctly.
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
+
   const value = useMemo<LocaleContextValue>(
     () => ({ locale, setLocale, ui: DICT[locale] }),
     [locale, setLocale],

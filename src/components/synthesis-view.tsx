@@ -88,6 +88,7 @@ export function SynthesisView() {
           value={cycle.synthesis.reformulatedQuestion ?? ""}
           onChange={setReformulation}
           placeholder={ui.reframePlaceholder}
+          ariaLabel={ui.reformulatedQuestion}
         />
       </div>
 

@@ -76,6 +76,7 @@ export default function CartesPage() {
                   value={question}
                   onChange={setQuestion}
                   placeholder={ui.questionPlaceholder}
+                  ariaLabel={ui.yourQuestion}
                   minRows={3}
                 />
               ) : null}
