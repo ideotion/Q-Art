@@ -14,6 +14,7 @@ export type Category =
   | "nav"
   | "atlas"
   | "socrate"
+  | "cartes"
   | "store"
   | "llm"
   | "net"

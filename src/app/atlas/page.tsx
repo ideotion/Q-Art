@@ -1,12 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useMachine } from "@xstate/react";
 import { ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
 import { BOARDS, RUBRIC_META } from "@/lib/qart";
 import { useLoc, useLocale } from "@/lib/i18n/react";
-import { useDecisionStore } from "@/store";
-import { flowMachine } from "@/store/flow-machine";
+import { useDecisionStore, useGuiSession } from "@/store";
 import { AppHeader } from "@/components/app-header";
 import { RubricEditor } from "@/components/rubric-editor";
 import { SynthesisView } from "@/components/synthesis-view";
@@ -20,31 +17,13 @@ const SECONDARY =
 export default function AtlasPage() {
   const { ui } = useLocale();
   const loc = useLoc();
-  const [snap, send] = useMachine(flowMachine);
-  const startCase = useDecisionStore((s) => s.startCase);
-  const reset = useDecisionStore((s) => s.reset);
+  const { snap, send, restart } = useGuiSession("atlas");
   const question = useDecisionStore((s) => s.activeCycle?.question ?? "");
   const setQuestion = useDecisionStore((s) => s.setQuestion);
-  const init = useRef(false);
-
-  useEffect(() => {
-    if (init.current) return;
-    init.current = true;
-    reset();
-    startCase({ mode: "atlas" });
-    send({ type: "START", mode: "atlas" });
-  }, [reset, startCase, send]);
 
   const idx = snap.context.boardIndex;
   const board = BOARDS[idx];
   const isLast = idx >= BOARDS.length - 1;
-
-  const restart = () => {
-    reset();
-    startCase({ mode: "atlas" });
-    send({ type: "RESET" });
-    send({ type: "START", mode: "atlas" });
-  };
 
   return (
     <div className="flex min-h-full flex-col">
@@ -82,7 +61,10 @@ export default function AtlasPage() {
         </div>
       </main>
 
-      <nav className="border-border bg-background sticky bottom-0 mx-auto flex w-full max-w-2xl items-center justify-between gap-3 border-t px-5 py-3">
+      <nav
+        aria-label={ui.steps}
+        className="border-border bg-background sticky bottom-0 mx-auto flex w-full max-w-2xl items-center justify-between gap-3 border-t px-5 py-3"
+      >
         <button
           type="button"
           onClick={() => send({ type: "PREV" })}

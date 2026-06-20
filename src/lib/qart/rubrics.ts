@@ -244,3 +244,21 @@ export const BOARDS: Board[] = [
   },
   { id: "synthesis", title: { en: "Synthesis", fr: "Synthèse" }, rubrics: [], isSynthesis: true },
 ];
+
+/**
+ * The Cartes deck (ADR-018): the same rubrics as a one-card-at-a-time deck — a
+ * question card, one card per rubric, then a synthesis card. A genuinely
+ * different granularity from Atlas's 7 boards, written to the same object.
+ */
+export type CartesCardKind = "question" | "rubric" | "synthesis";
+export interface CartesCard {
+  id: string;
+  kind: CartesCardKind;
+  rubric?: RubricKey;
+}
+
+export const CARTES_DECK: CartesCard[] = [
+  { id: "card_question", kind: "question" },
+  ...RUBRIC_KEYS.map((rubric): CartesCard => ({ id: `card_${rubric}`, kind: "rubric", rubric })),
+  { id: "card_synthesis", kind: "synthesis" },
+];

@@ -10,6 +10,10 @@ export interface UiDict {
   appName: string;
   tagline: string;
   chooseDoor: string;
+  pickGuiTitle: string;
+  pickGuiHint: string;
+  switchView: string;
+  guiBestFor: string;
   atlasName: string;
   atlasDesc: string;
   socrateName: string;
@@ -35,6 +39,7 @@ export interface UiDict {
   notAdvice: string;
   language: string;
   progress: string; // "{a} / {b}"
+  steps: string; // accessible name for the flow nav
   // weighting (ADR-005)
   weighting: string;
   weightingHint: string;
@@ -54,6 +59,17 @@ export interface UiDict {
   crossLinksAcross: string; // "across {n} areas"
   noCrossLinks: string;
   priorities: string;
+  // cartes (deck GUI)
+  keep: string;
+  skip: string;
+  kept: string;
+  cardOf: string; // "Card {a} / {b}"
+  deckProgress: string; // "{a} / {b}"
+  allCardsSeen: string;
+  spread: string;
+  yourDeck: string;
+  close: string;
+  done: string;
 }
 
 export const DICT: Record<Locale, UiDict> = {
@@ -62,6 +78,10 @@ export const DICT: Record<Locale, UiDict> = {
     tagline:
       "Bring the question you can't resolve. Leave with a better question — and the answer that comes with it.",
     chooseDoor: "Choose a door",
+    pickGuiTitle: "Choose how you'll work",
+    pickGuiHint: "Three ways into the same method. Switch anytime — your work follows you.",
+    switchView: "Switch view",
+    guiBestFor: "Best for",
     atlasName: "Atlas",
     atlasDesc: "Map it yourself — the structured boards, at your own pace.",
     socrateName: "Socrate",
@@ -88,6 +108,7 @@ export const DICT: Record<Locale, UiDict> = {
       "Q‑Art helps you think — it is not therapy, medical, or legal advice. In crisis, contact local emergency services.",
     language: "Language",
     progress: "{a} / {b}",
+    steps: "Steps",
     weighting: "Weigh what matters",
     weightingHint: "Pick a method. Every method keeps a non-drag, keyboard path.",
     methodStepper: "Steppers",
@@ -105,12 +126,27 @@ export const DICT: Record<Locale, UiDict> = {
     crossLinksAcross: "across {n} areas",
     noCrossLinks: "No themes recur yet — keep mapping.",
     priorities: "Top of your map",
+    keep: "Keep",
+    skip: "Skip",
+    kept: "Kept",
+    cardOf: "Card {a} / {b}",
+    deckProgress: "{a} / {b}",
+    allCardsSeen: "You've been through every card in this suit.",
+    spread: "Spread",
+    yourDeck: "Your deck",
+    close: "Close",
+    done: "Done",
   },
   fr: {
     appName: "Q‑Art",
     tagline:
       "Apportez la question que vous n'arrivez pas à trancher. Repartez avec une meilleure question — et la réponse qui l'accompagne.",
     chooseDoor: "Choisissez une porte",
+    pickGuiTitle: "Choisissez votre manière de travailler",
+    pickGuiHint:
+      "Trois entrées dans la même méthode. Changez à tout moment — votre travail vous suit.",
+    switchView: "Changer de vue",
+    guiBestFor: "Idéal pour",
     atlasName: "Atlas",
     atlasDesc: "Cartographiez vous-même — les tableaux structurés, à votre rythme.",
     socrateName: "Socrate",
@@ -138,6 +174,7 @@ export const DICT: Record<Locale, UiDict> = {
       "Q‑Art vous aide à réfléchir — ce n'est ni une thérapie, ni un avis médical ou juridique. En cas de crise, contactez les services d'urgence locaux.",
     language: "Langue",
     progress: "{a} / {b}",
+    steps: "Étapes",
     weighting: "Pesez ce qui compte",
     weightingHint: "Choisissez une méthode. Chacune offre un chemin clavier, sans glisser.",
     methodStepper: "Curseurs",
@@ -155,5 +192,15 @@ export const DICT: Record<Locale, UiDict> = {
     crossLinksAcross: "dans {n} zones",
     noCrossLinks: "Aucun thème ne revient encore — continuez la cartographie.",
     priorities: "En haut de votre carte",
+    keep: "Garder",
+    skip: "Passer",
+    kept: "Gardé",
+    cardOf: "Carte {a} / {b}",
+    deckProgress: "{a} / {b}",
+    allCardsSeen: "Vous avez parcouru toutes les cartes de cette série.",
+    spread: "Vue d'ensemble",
+    yourDeck: "Votre jeu",
+    close: "Fermer",
+    done: "Terminé",
   },
 };

@@ -48,6 +48,8 @@ export interface DecisionState {
   activeCycle: Cycle | null;
 
   startCase(opts: { mode: Mode; ownerId?: ID; question?: string }): void;
+  /** Record which GUI is now editing (switching GUIs keeps all data). */
+  setMode(mode: Mode): void;
   setQuestion(question: string): void;
   toggleItem(rubric: RubricKey, item: ToggleItemInput): void;
   setItemWeight(rubric: RubricKey, ref: ItemRef, weight: Weight): void;
@@ -99,6 +101,11 @@ export const useDecisionStore = create<DecisionState>()((set, get) => {
     },
 
     loadCycle: (c, cy) => set({ activeCase: c, activeCycle: cy }),
+
+    setMode: (mode) =>
+      update((cy) => {
+        if (cy.mode !== mode) cy.mode = mode;
+      }),
 
     setQuestion: (question) =>
       update((cy) => {

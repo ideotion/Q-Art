@@ -40,6 +40,21 @@ body {
   font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Cartes deck: a calm deal-in for the current card (0 KB, CSS only). */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.card-in {
+  animation: card-in 180ms ease-out;
+}
+
 /* Respect reduced-motion globally (WCAG 2.2; design.md §8). */
 @media (prefers-reduced-motion: reduce) {
   *,
