@@ -144,4 +144,16 @@
 - **Socrate:** smooth **View Transitions** between steps (`withViewTransition` +
   `flushSync`, reduced-motion-safe) and a **gentle "Step a of b"** progress line.
 - e2e: command-palette jump + Socrate progress. Gate green (65 tests, lint, build).
+- CI green incl. a11y for slices 7–9.
+
+## Slice 10 — release prep (`0.1.0-rc.1`)
+
+- Bumped `package.json` + `src/lib/version.ts` + synced `package-lock.json` to
+  `0.1.0-rc.1`; `CHANGELOG.md` entry already in place.
+- **Draft GitHub Release: prepared, not created.** No create/publish‑release tool
+  is available and the build must not tag/publish `main`, so the ready‑to‑paste
+  body lives in `RELEASE_NOTES.md` and the steps in `docs/release.md`; handed to
+  the human (see `OPEN-QUESTIONS.md`).
+- Final state: four CI gates green (verify · e2e · a11y · shell); the full core
+  loop runs in all three GUIs, FR/EN, offline, encrypted at rest.
 </content>
