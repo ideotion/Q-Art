@@ -97,6 +97,11 @@ export interface UiDict {
   downloadDiag: string;
   deepMode: string;
   version: string;
+  // atlas deepening + socrate progress
+  commands: string;
+  jumpToBoard: string;
+  selectedCount: string; // "{n} selected"
+  stepOf: string; // "Step {a} of {b}"
 }
 
 export const DICT: Record<Locale, UiDict> = {
@@ -190,6 +195,10 @@ export const DICT: Record<Locale, UiDict> = {
     downloadDiag: "Download diagnostics",
     deepMode: "Detailed logging",
     version: "Version",
+    commands: "Commands",
+    jumpToBoard: "Jump to a board…",
+    selectedCount: "{n} selected",
+    stepOf: "Step {a} of {b}",
   },
   fr: {
     appName: "Q‑Art",
@@ -283,5 +292,9 @@ export const DICT: Record<Locale, UiDict> = {
     downloadDiag: "Télécharger les diagnostics",
     deepMode: "Journalisation détaillée",
     version: "Version",
+    commands: "Commandes",
+    jumpToBoard: "Aller à un tableau…",
+    selectedCount: "{n} sélectionné(s)",
+    stepOf: "Étape {a} sur {b}",
   },
 };

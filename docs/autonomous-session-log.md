@@ -135,4 +135,13 @@
   `docs/install.md`, `docs/testing.md`, `docs/release.md`, `CHANGELOG.md`.
 - In-app Help/onboarding already shipped in slice 5 (About) + slice 4 (persist
   prompt). Format/typecheck green.
+
+## Slice 9 — deepen Atlas + Socrate
+
+- **Atlas:** ⌘K **command palette** (native `<dialog>` → focus-trap + Escape for
+  free) that doubles as a **board overview/minimap** (per-board selected counts +
+  jump); **←/→ keyboard** board navigation (ignored while typing).
+- **Socrate:** smooth **View Transitions** between steps (`withViewTransition` +
+  `flushSync`, reduced-motion-safe) and a **gentle "Step a of b"** progress line.
+- e2e: command-palette jump + Socrate progress. Gate green (65 tests, lint, build).
 </content>
