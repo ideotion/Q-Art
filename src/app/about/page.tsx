@@ -57,6 +57,10 @@ export default function AboutPage() {
           <ArrowLeft className="size-4" aria-hidden />
           {ui.backHome}
         </Link>
+
+        <p className="text-muted border-border border-t pt-4 text-xs">
+          Q‑Art — © 2026 Ideotion. All rights reserved.
+        </p>
       </main>
     </div>
   );

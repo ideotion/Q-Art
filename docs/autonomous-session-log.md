@@ -1,5 +1,8 @@
 # Q‑Art — Autonomous Session Log (`0.1.0-rc.1`)
 
+> **Confidential & proprietary** — Q‑Art is the property of **Ideotion**.
+> © 2026 Ideotion · all rights reserved (`LICENSE`).
+
 > One line per fork taken during the autonomous RC build. The rule (brief §0):
 > at every fork pick the most **reversible, lowest‑risk** option that honours the
 > locked decisions, log it here, and continue. Genuinely irreversible/ambiguous
