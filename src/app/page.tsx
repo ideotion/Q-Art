@@ -33,7 +33,12 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="text-muted border-border border-t pt-4 text-xs">{ui.notAdvice}</footer>
+      <footer className="text-muted border-border flex flex-wrap items-center justify-between gap-2 border-t pt-4 text-xs">
+        <span className="max-w-prose">{ui.notAdvice}</span>
+        <Link href="/about" className="hover:text-foreground shrink-0 underline underline-offset-2">
+          {ui.about}
+        </Link>
+      </footer>
     </main>
   );
 }

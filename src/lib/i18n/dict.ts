@@ -89,6 +89,14 @@ export interface UiDict {
   dismiss: string;
   updateReady: string;
   reload: string;
+  // about / help / diagnostics
+  about: string;
+  aboutTitle: string;
+  diagnostics: string;
+  diagnosticsHint: string;
+  downloadDiag: string;
+  deepMode: string;
+  version: string;
 }
 
 export const DICT: Record<Locale, UiDict> = {
@@ -174,6 +182,14 @@ export const DICT: Record<Locale, UiDict> = {
     dismiss: "Not now",
     updateReady: "A new version is ready.",
     reload: "Reload",
+    about: "About",
+    aboutTitle: "About Q‑Art",
+    diagnostics: "Diagnostics",
+    diagnosticsHint:
+      "A content-free, safe-to-share log of what the app did (codes, counts, timings — never your words). Helps fix bugs.",
+    downloadDiag: "Download diagnostics",
+    deepMode: "Detailed logging",
+    version: "Version",
   },
   fr: {
     appName: "Q‑Art",
@@ -259,5 +275,13 @@ export const DICT: Record<Locale, UiDict> = {
     dismiss: "Plus tard",
     updateReady: "Une nouvelle version est prête.",
     reload: "Recharger",
+    about: "À propos",
+    aboutTitle: "À propos de Q‑Art",
+    diagnostics: "Diagnostics",
+    diagnosticsHint:
+      "Un journal sans contenu, partageable en confiance, de ce qu'a fait l'app (codes, comptes, durées — jamais vos mots). Aide à corriger les bugs.",
+    downloadDiag: "Télécharger les diagnostics",
+    deepMode: "Journalisation détaillée",
+    version: "Version",
   },
 };

@@ -3,3 +3,4 @@ export * from "./types";
 export * from "./events";
 export * from "./redact";
 export * from "./diag";
+export * from "./bundle";
