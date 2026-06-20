@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && (test -d node_modules || npm install --no-audit --no-fund) >/dev/null 2>&1; echo 'Q-Art ready · npm run check (typecheck+lint+test) · npm run dev'"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+/* "Calm, but discoverable" — a quiet base with a single reserved accent. */
+:root {
+  --background: #fbfbf9;
+  --foreground: #1b1a18;
+  --muted: #6c6a66;
+  --border: #e7e5e0;
+  --card: #ffffff;
+  --accent: #4f7a68;
+  --accent-foreground: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0f1011;
+    --foreground: #ececea;
+    --muted: #9b9a96;
+    --border: #26282b;
+    --card: #16181a;
+    --accent: #7eb29a;
+    --accent-foreground: #0f1011;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Respect reduced-motion globally (WCAG 2.2; design.md §8). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
