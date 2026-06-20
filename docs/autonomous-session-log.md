@@ -72,4 +72,21 @@
   most-recent encrypted session).
 - e2e added: dossier export download + autosave→reload→continue round-trip.
 - Gate green: typecheck·lint·61 unit tests·format·build; route smoke 200.
+
+## Slice 4 — PWA (offline + install + persist onboarding) — ADR-021
+
+- Chose a **hand-authored service worker** over Serwist: Serwist's plugin is
+  webpack-based and Next 16 builds with Turbopack (high risk of breaking the
+  build, and no way to iterate on browser issues in this sandbox). Recorded
+  ADR-021. `public/sw.js`: precache the app shell, network-first navigations
+  (offline fallback), stale-while-revalidate for content-hashed assets. No user
+  content cached (it lives encrypted in IndexedDB).
+- `ServiceWorkerRegister`: registers the SW + a calm, dismissible "new version
+  ready" toast (reload on the user's terms — no surprise refresh).
+- `PersistPrompt`: one-time, dismissible `navigator.storage.persist()`
+  onboarding (inline banner, so it never obstructs the header or flow nav — a
+  fixed overlay would have broken e2e clicks). "Not now" is first-class.
+- Manifest hardened (id, lang, display_override, categories, sized icons) +
+  apple-touch icon in metadata.
+- e2e: manifest linked/served + SW registers. Gate green (61 tests, build, fmt).
 </content>

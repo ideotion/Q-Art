@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     "Bring the question you can't resolve. Leave with a better question — and the answer that comes with it.",
   manifest: "/manifest.webmanifest",
   appleWebApp: { capable: true, title: "Q‑Art", statusBarStyle: "default" },
+  icons: { icon: "/icon.svg", apple: "/icon.svg" },
 };
 
 export const viewport: Viewport = {

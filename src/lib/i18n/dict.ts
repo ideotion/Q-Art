@@ -82,6 +82,13 @@ export interface UiDict {
   importFailed: string;
   yourData: string;
   dataHint: string;
+  // pwa
+  persistTitle: string;
+  persistBody: string;
+  persistAllow: string;
+  dismiss: string;
+  updateReady: string;
+  reload: string;
 }
 
 export const DICT: Record<Locale, UiDict> = {
@@ -160,6 +167,13 @@ export const DICT: Record<Locale, UiDict> = {
     yourData: "Your data",
     dataHint:
       "Everything stays on this device, encrypted at rest. Export a backup or delete it anytime.",
+    persistTitle: "Keep your work safe on this device",
+    persistBody:
+      "Allow persistent storage so the browser won't evict your encrypted dossiers under pressure.",
+    persistAllow: "Allow",
+    dismiss: "Not now",
+    updateReady: "A new version is ready.",
+    reload: "Reload",
   },
   fr: {
     appName: "Q‑Art",
@@ -238,5 +252,12 @@ export const DICT: Record<Locale, UiDict> = {
     yourData: "Vos données",
     dataHint:
       "Tout reste sur cet appareil, chiffré au repos. Exportez une sauvegarde ou supprimez à tout moment.",
+    persistTitle: "Gardez votre travail en sécurité sur cet appareil",
+    persistBody:
+      "Autorisez le stockage persistant pour que le navigateur n'efface pas vos dossiers chiffrés.",
+    persistAllow: "Autoriser",
+    dismiss: "Plus tard",
+    updateReady: "Une nouvelle version est prête.",
+    reload: "Recharger",
   },
 };
