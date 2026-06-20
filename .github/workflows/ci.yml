@@ -25,6 +25,17 @@ jobs:
       - run: npm run lint
       - run: npm run test
       - run: npm run build
+        env:
+          NEXT_PUBLIC_GIT_COMMIT: ${{ github.sha }}
+
+  shell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck && shellcheck install.sh uninstall.sh
+      - name: installer dry-run (changes nothing)
+        run: bash install.sh --dry-run --no-start
 
   e2e:
     runs-on: ubuntu-latest

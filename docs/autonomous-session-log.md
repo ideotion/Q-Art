@@ -89,4 +89,26 @@
 - Manifest hardened (id, lang, display_override, categories, sized icons) +
   apple-touch icon in metadata.
 - e2e: manifest linked/served + SW registers. Gate green (61 tests, build, fmt).
+
+## Slice 5 — in-app Help/About + diagnostics export
+
+- `/about`: method explainer, the three GUIs, privacy, **accessibility
+  statement**, a prominent **safeguarding + crisis signposting** box (ADR-017),
+  reachable from every GUI (header link) + landing footer. Emergency numbers are
+  facts (112/EU, 911/US, 999/UK); no specific orgs named.
+- `DiagnosticsPanel` + `bundle.ts`: download a manifest-first, content-free,
+  safe-to-share bundle + deep-mode toggle + version/commit stamp (ADR-013).
+- Bilingual About content with its own FR/EN parity test; +4 unit tests (65).
+
+## Slice 6 — installer (Debian-first, transparent) + shellcheck CI
+
+- `install.sh` (`set -euo pipefail`, idempotent, no obfuscation): banner names
+  the project + source + "100% local". Flags: --help/--dry-run/--dir/--ref/
+  --port/--no-start/--service (user unit only)/--with-deps/--uninstall. Never
+  requires root; --with-deps prints the exact NodeSource/apt commands first.
+  Default --ref is the RC tag, **falls back to main** if absent. Prints the
+  checked-out SHA; verifies origin. `uninstall.sh` shim included.
+- CI `shell` job: shellcheck both scripts + `install.sh --dry-run`. Build now
+  stamps `NEXT_PUBLIC_GIT_COMMIT`. Verified locally: syntax, --help, --dry-run
+  (full + --service), --uninstall, shim delegation (shellcheck runs in CI).
 </content>
