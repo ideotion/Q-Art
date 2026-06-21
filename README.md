@@ -20,34 +20,19 @@ tracking; **encrypted at rest**. Bilingual **FR/EN**. Targets **WCAG 2.2 AA**.
 
 > **Status:** `0.1.0‑rc.1` — release candidate. Proprietary, all rights reserved (`LICENSE`).
 
-## Quickstart (dev)
+## Install (Debian/Ubuntu)
+
+One installer, one command. It's **transparent and local‑only** — it clones, builds, and serves
+Q‑Art on your machine and sends none of your data anywhere. It never needs root.
 
 ```bash
-npm install
-npm run dev        # http://localhost:3000  →  / · /atlas · /socrate · /cartes · /about
-npm run check      # typecheck + lint + unit tests
-npm run build      # production build
-npm run test:e2e   # Playwright e2e (needs a browser)
-```
-
-Node ≥ 20.
-
-## Install & run locally (one line, Debian/Ubuntu)
-
-The installer is **transparent and local‑only** — it clones, builds, and serves Q‑Art on your
-machine and sends none of your data anywhere. Read it before running (recommended):
-
-```bash
-# Audit, then run
-curl -fsSLO https://raw.githubusercontent.com/ideotion/q-art/main/install.sh
-less install.sh && bash install.sh
-
-# Or, the convenient form
 curl -fsSL https://raw.githubusercontent.com/ideotion/q-art/main/install.sh | bash
 ```
 
-It never needs root. Useful flags: `--dry-run`, `--port <n>`, `--service` (a user systemd unit),
-`--uninstall`. See **`docs/install.md`** for the full list and security notes.
+Then open `http://localhost:3000`. Prefer to read the script first, or want flags
+(`--dry-run`, `--port`, `--service`, `--uninstall`)? See **`docs/install.md`**. Node ≥ 20.
+
+> Building Q‑Art itself? Developer setup and scripts live in **`CONTRIBUTING.md`**.
 
 ## The core loop
 

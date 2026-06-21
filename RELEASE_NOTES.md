@@ -15,16 +15,13 @@ engine**, fully local, **no‑LLM**, bilingual **FR/EN**, targeting **WCAG 2.2 A
 
 ## Install (Debian/Ubuntu, 100% local)
 
-```bash
-# Audit, then run (recommended)
-curl -fsSLO https://raw.githubusercontent.com/ideotion/q-art/0.1.0-rc.1/install.sh
-less install.sh && bash install.sh --ref 0.1.0-rc.1
+One installer, one command — never needs root, sends none of your data anywhere:
 
-# Or the convenient one‑liner
+```bash
 curl -fsSL https://raw.githubusercontent.com/ideotion/q-art/0.1.0-rc.1/install.sh | bash
 ```
 
-It never needs root and sends none of your data anywhere. See `docs/install.md`.
+Flags, the audit‑first variant, and uninstall are in `docs/install.md`.
 
 ## Highlights
 
