@@ -37,7 +37,7 @@ Once the `0.1.0‑rc.1` tag is published you can pin it: `bash install.sh --ref 
 Node is part of the install, no root required:
 
 1. If a suitable **Node ≥ 20** is already on your `PATH`, it's used as‑is.
-2. Otherwise the installer downloads an **official Node build** (currently `20.18.1`) into a user
+2. Otherwise the installer downloads an **official Node build** (currently `22.13.0` LTS) into a user
    cache (`${XDG_CACHE_HOME:-$HOME/.cache}/q-art`), **verifies its SHA‑256** against
    `nodejs.org/dist/.../SHASUMS256.txt`, and uses it locally — nothing system‑wide.
 3. Prefer a system‑wide Node (on your global `PATH`)? Pass **`--with-deps`** to install it via
