@@ -47,16 +47,6 @@ Once the `0.1.0‑rc.1` tag is published you can pin it: `bash install.sh --ref 
 - Pins a tag by default and prints the commit so you know exactly what ran.
 - No analytics, no data egress. Reversible with `--uninstall` (or `uninstall.sh`).
 
-## Manual install (no script)
-
-```bash
-git clone https://github.com/ideotion/q-art.git
-cd q-art
-npm ci
-npm run build
-PORT=3000 npm run start   # http://localhost:3000
-```
-
 ## Uninstall
 
 ```bash
