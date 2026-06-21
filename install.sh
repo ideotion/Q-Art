@@ -21,7 +21,7 @@ readonly REPO_SLUG="ideotion/q-art"
 readonly REPO_URL="https://github.com/${REPO_SLUG}.git"
 readonly DEFAULT_REF="0.1.0-rc.1" # the RC tag; falls back to main if absent
 readonly MIN_NODE_MAJOR=20
-readonly NODE_VERSION="20.18.1" # pinned local Node, fetched when none is present
+readonly NODE_VERSION="22.13.0" # pinned local Node, fetched when none is present
 readonly NODE_DIST="https://nodejs.org/dist/v${NODE_VERSION}"
 readonly NODE_CACHE="${XDG_CACHE_HOME:-${HOME}/.cache}/q-art"
 NODE_BIN_DIR="" # set by ensure_node; used by the systemd unit
@@ -264,7 +264,7 @@ fetch_repo() {
 
 build_app() {
   step "Installing dependencies and building"
-  run npm --prefix "${DIR}" ci
+  run npm --prefix "${DIR}" ci --no-audit --no-fund
   run npm --prefix "${DIR}" run build
 }
 
