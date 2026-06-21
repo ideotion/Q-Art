@@ -43,6 +43,8 @@ fully local, no‑LLM, bilingual FR/EN, targeting WCAG 2.2 AA.
 - `Mode` extended to `atlas | socrate | cartes` (additive; persisted shape unchanged).
 - Synthesis now hosts the weighting pass + croisements in a shared view used by all GUIs.
 - CI now runs four gates: **verify · e2e · a11y · shell**.
+- Installer now **provisions Node automatically** when it's missing — an official build downloaded
+  into a user cache and SHA‑256‑verified (no root); `--with-deps` stays the system‑wide opt‑in.
 
 ### Notes
 

@@ -29,8 +29,10 @@ Q‑Art on your machine and sends none of your data anywhere. It never needs roo
 curl -fsSL https://raw.githubusercontent.com/ideotion/q-art/main/install.sh | bash
 ```
 
-Then open `http://localhost:3000`. Prefer to read the script first, or want flags
-(`--dry-run`, `--port`, `--service`, `--uninstall`)? See **`docs/install.md`**. Node ≥ 20.
+Then open `http://localhost:3000`. No prerequisites beyond `git` — if **Node** is missing it's
+installed for you (an official build, downloaded locally and checksum‑verified, no root). Prefer to
+read the script first, or want flags (`--dry-run`, `--port`, `--service`, `--uninstall`)? See
+**`docs/install.md`**.
 
 > Building Q‑Art itself? Developer setup and scripts live in **`CONTRIBUTING.md`**.
 

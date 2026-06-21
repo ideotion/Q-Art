@@ -29,12 +29,23 @@ Once the `0.1.0‑rc.1` tag is published you can pin it: `bash install.sh --ref 
 | `--port <n>` | Port to serve on (default `3000`). |
 | `--no-start` | Build only; don't start the server. |
 | `--service` | Install a **user** `systemctl --user` unit (never system‑wide). |
-| `--with-deps` | Allow installing Node via NodeSource (prints the exact commands first). |
-| `--uninstall` | Remove the install directory and the user service. |
+| `--with-deps` | Install Node **system‑wide** via apt/NodeSource instead of the local, no‑root Node (prints the exact commands first). |
+| `--uninstall` | Remove the install directory, the user service, and the cached Node. |
+
+## Node.js — installed for you
+
+Node is part of the install, no root required:
+
+1. If a suitable **Node ≥ 20** is already on your `PATH`, it's used as‑is.
+2. Otherwise the installer downloads an **official Node build** (currently `20.18.1`) into a user
+   cache (`${XDG_CACHE_HOME:-$HOME/.cache}/q-art`), **verifies its SHA‑256** against
+   `nodejs.org/dist/.../SHASUMS256.txt`, and uses it locally — nothing system‑wide.
+3. Prefer a system‑wide Node (on your global `PATH`)? Pass **`--with-deps`** to install it via
+   apt/NodeSource (needs sudo; the exact commands are printed first).
 
 ## What it does
 
-1. Detects Debian/Ubuntu and checks **Node ≥ 20** (instructs, or installs with `--with-deps`).
+1. Detects Debian/Ubuntu and ensures **Node ≥ 20** (see above).
 2. Clones or fast‑forwards the repo at `--ref`; prints the **checked‑out commit SHA**; verifies the
    origin URL.
 3. `npm ci` → `npm run build`.
@@ -42,8 +53,9 @@ Once the `0.1.0‑rc.1` tag is published you can pin it: `bash install.sh --ref 
 
 ## Security notes
 
-- **Never requires root.** The system is touched **only** with `--with-deps`, and the exact
-  `apt`/NodeSource commands are printed first. Prefer an existing Node or `nvm`.
+- **Never requires root.** A missing Node is provisioned **locally and checksum‑verified**; the
+  system is touched **only** with `--with-deps`, and the exact `apt`/NodeSource commands are
+  printed first.
 - Pins a tag by default and prints the commit so you know exactly what ran.
 - No analytics, no data egress. Reversible with `--uninstall` (or `uninstall.sh`).
 
