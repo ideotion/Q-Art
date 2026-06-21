@@ -129,6 +129,12 @@ Each entry: **Status · Context · Decision · Consequences.** Several ADRs were
 - **Node is part of the install (revised):** if Node ≥ 20 isn't present, the installer downloads an **official Node build (pinned `22.13.0` LTS) into a user cache and verifies its SHA‑256** (no root) and uses it locally; `--with-deps` remains the opt‑in for a system‑wide Node. The earlier behaviour (bail out unless `--with-deps`) failed for users without Node, so provisioning is now the default — still least‑privilege. The pinned version satisfies every dependency's `engines` (≥ 20.19 / ≥ 22.12), so `npm ci` is warning‑free.
 - **Consequences:** Trust-first distribution without an app store; works on a clean machine with only `git`; reversible (`--uninstall` also clears the cached Node); no hidden network calls or data egress.
 
+## ADR‑024 — The reading engine: deterministic "intelligence layer" *(New — post‑`0.1.0-rc.1`)*
+- **Status:** Accepted
+- **Context:** First real use exposed that the synthesis only *mirrored* inputs (a sorted list + raw recurring tokens + a blank reframe box). It felt like data‑gathering, not help — the deterministic intelligence the method calls for (concept.md §3.6) was never built, and grading every item amplified the survey feel.
+- **Decision:** Build a pure, no‑LLM **reading engine** (`src/lib/qart/insights.ts`) that interprets the decision object and surfaces, in plain bilingual prose: the **knot** (recurring high‑weight theme), the **pull** (what you want vs. what you fear), your **part** in keeping it going, **"more of the same"**, the **quiet payoff** of the status quo, an **untested belief**, the **exception** where it already works, and skipped **gaps** — then **offers** reframed questions ("Should I…?" → "How do I…?", the method's pivot) and captures **one small step**. The engine returns structured findings keyed off the user's own words; the UI renders the copy (FR/EN). It never advises. Gathering is **lightened**: ticking is enough; weighting is an **optional** refinement, not a grade on every item.
+- **Consequences:** All three GUIs gain the reading via the shared synthesis. Insight classification uses stable bank‑item id groupings (mirrors the banks; extend together). LLM enrichment (v2/Socrate) can deepen this behind the same shape; the deterministic reading remains the private, offline baseline.
+
 ---
 
 ## Open / deferred

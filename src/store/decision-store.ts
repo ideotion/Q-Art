@@ -58,6 +58,8 @@ export interface DecisionState {
   setWeightMethod(method: WeightMethod): void;
   setFreeText(rubric: RubricKey, text: string): void;
   setReformulation(question: string): void;
+  /** Capture the one small first step (action plan, step 0). */
+  setFirstStep(action: string): void;
   /** Recompute the derived synthesis (croisements + keywords) onto the object. */
   runSynthesis(): void;
   /** Replace the working cycle (e.g. after loading from storage). */
@@ -166,6 +168,13 @@ export const useDecisionStore = create<DecisionState>()((set, get) => {
     setReformulation: (question) =>
       update((cy) => {
         cy.synthesis.reformulatedQuestion = question;
+      }),
+
+    setFirstStep: (action) =>
+      update((cy) => {
+        if (!cy.actionPlan) cy.actionPlan = { steps: [] };
+        if (cy.actionPlan.steps.length === 0) cy.actionPlan.steps.push({ action });
+        else cy.actionPlan.steps[0].action = action;
       }),
 
     runSynthesis: () =>

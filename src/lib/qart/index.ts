@@ -6,3 +6,4 @@ export * from "./question-tree";
 export * from "./factory";
 export * from "./weighting";
 export * from "./croisements";
+export * from "./insights";
