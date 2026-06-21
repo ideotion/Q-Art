@@ -59,6 +59,40 @@ export interface UiDict {
   crossLinksAcross: string; // "across {n} areas"
   noCrossLinks: string;
   priorities: string;
+  // the reading (insight engine)
+  reading: string;
+  readingIntro: string;
+  whatStandsOut: string;
+  emptyReading: string;
+  betterQuestion: string;
+  betterQuestionHint: string;
+  useThis: string;
+  oneStep: string;
+  oneStepHint: string;
+  oneStepPlaceholder: string;
+  refineOptional: string;
+  insightKnotTitle: string;
+  insightKnotBody: string; // {theme} {n}
+  insightTensionTitle: string;
+  insightTensionBody: string; // {a} {b}
+  insightRoleTitle: string;
+  insightRoleBody: string; // {a}
+  insightSamenessTitle: string;
+  insightSamenessBody: string; // {a}
+  insightPayoffTitle: string;
+  insightPayoffBody: string; // {a}
+  insightBeliefTitle: string;
+  insightBeliefBody: string; // {a}
+  insightExceptionTitle: string;
+  insightExceptionBody: string; // {a}
+  insightGapTitle: string;
+  insightGapBody: string; // {areas}
+  reframeOvercome: string; // {theme}
+  reframeNeed: string; // {theme}
+  reframeBelief: string; // {theme}
+  reframeRole: string;
+  reframeClarify: string;
+  reframeSmallestStep: string;
   // cartes (deck GUI)
   keep: string;
   skip: string;
@@ -158,6 +192,51 @@ export const DICT: Record<Locale, UiDict> = {
     crossLinksAcross: "across {n} areas",
     noCrossLinks: "No themes recur yet — keep mapping.",
     priorities: "Top of your map",
+    reading: "Your reading",
+    readingIntro:
+      "Here is what your map shows — not advice, a mirror with a memory. Take what's useful, leave the rest.",
+    whatStandsOut: "What stands out",
+    emptyReading:
+      "Tick what rings true as you go — even two or three things — and a reading will take shape here. There's nothing to get right.",
+    betterQuestion: "A better question",
+    betterQuestionHint:
+      "This is the pivot of the whole method: the answer usually lives inside the reframed question. It often shifts from “Should I…?” to “How do I…?”. Start from one of these, or write your own.",
+    useThis: "Use this",
+    oneStep: "One small step",
+    oneStepHint:
+      "The best step, not the perfect one — small, soon, low‑stakes. What could you try this week?",
+    oneStepPlaceholder: "This week, I will…",
+    refineOptional: "Weigh what matters (optional)",
+    insightKnotTitle: "The knot",
+    insightKnotBody:
+      "“{theme}” keeps coming back — it runs through {n} of the areas you mapped. When something recurs like this, it's rarely a side issue; it's usually the centre of gravity. Start there.",
+    insightTensionTitle: "The pull",
+    insightTensionBody:
+      "Part of you reaches for {a}. Another part holds back because of {b}. The decision lives in that tension — not in pretending either side away. Which one have you been listening to?",
+    insightRoleTitle: "Your part",
+    insightRoleBody:
+      "You named something you do: “{a}”. Of the whole system, this is the one piece you fully control — which is exactly why it's the hardest, and the most useful, place to move.",
+    insightSamenessTitle: "More of the same",
+    insightSamenessBody:
+      "You've been trying “{a}” — and it hasn't moved things. Often the attempted solution has quietly become the problem. The lever is to do something different, not more of the same.",
+    insightPayoffTitle: "The quiet payoff",
+    insightPayoffBody:
+      "Staying as things are spares you something: “{a}”. That payoff is real, and naming it out loud is half of getting unstuck — what would make it worth giving up?",
+    insightBeliefTitle: "An assumption worth testing",
+    insightBeliefBody:
+      "You're holding a belief: “{a}”. Is it always true — and when did you last test it? We don't see the world as it is, but as we are.",
+    insightExceptionTitle: "When it already works",
+    insightExceptionBody:
+      "You noticed an exception: “{a}”. There's gold there — whatever is different in those moments is often the seed of the solution. What makes them different?",
+    insightGapTitle: "Where you haven't looked yet",
+    insightGapBody:
+      "You moved quickly past {areas}. The answer often hides in the corner we skip — worth a glance before you decide.",
+    reframeOvercome: "How do I move forward despite {theme}?",
+    reframeNeed: "What is {theme} telling me — and what does it need?",
+    reframeBelief: "What would change if “{theme}” weren't true?",
+    reframeRole: "What is my part here — and what could I change?",
+    reframeClarify: "What would actually make this decision clear?",
+    reframeSmallestStep: "What is the smallest step I could test this week?",
     keep: "Keep",
     skip: "Skip",
     kept: "Kept",
@@ -255,6 +334,51 @@ export const DICT: Record<Locale, UiDict> = {
     crossLinksAcross: "dans {n} zones",
     noCrossLinks: "Aucun thème ne revient encore — continuez la cartographie.",
     priorities: "En haut de votre carte",
+    reading: "Votre lecture",
+    readingIntro:
+      "Voici ce que montre votre carte — pas un conseil, un miroir qui se souvient. Prenez ce qui vous est utile, laissez le reste.",
+    whatStandsOut: "Ce qui ressort",
+    emptyReading:
+      "Cochez ce qui sonne juste, au fil de l'eau — même deux ou trois choses — et une lecture se dessinera ici. Il n'y a rien à réussir.",
+    betterQuestion: "Une meilleure question",
+    betterQuestionHint:
+      "C'est le pivot de toute la méthode : la réponse vit le plus souvent dans la question reformulée. On passe souvent de « Dois‑je… ? » à « Comment faire pour… ? ». Partez de l'une d'elles, ou écrivez la vôtre.",
+    useThis: "Utiliser",
+    oneStep: "Un petit pas",
+    oneStepHint:
+      "Le meilleur pas, pas le parfait — petit, bientôt, à faible enjeu. Qu'est‑ce que vous pourriez tenter cette semaine ?",
+    oneStepPlaceholder: "Cette semaine, je vais…",
+    refineOptional: "Pesez ce qui compte (facultatif)",
+    insightKnotTitle: "Le nœud",
+    insightKnotBody:
+      "« {theme} » revient sans cesse — il traverse {n} des zones que vous avez cartographiées. Quand un élément revient ainsi, il est rarement secondaire ; c'est souvent le centre de gravité. Commencez par là.",
+    insightTensionTitle: "La tension",
+    insightTensionBody:
+      "Une part de vous vise {a}. Une autre se retient à cause de {b}. La décision se joue dans cette tension — pas en niant l'un des deux côtés. Lequel écoutez‑vous depuis quelque temps ?",
+    insightRoleTitle: "Votre part",
+    insightRoleBody:
+      "Vous avez nommé quelque chose que vous faites : « {a} ». De tout le système, c'est la seule pièce que vous maîtrisez entièrement — d'où l'endroit le plus difficile, et le plus utile, où agir.",
+    insightSamenessTitle: "Toujours pareil",
+    insightSamenessBody:
+      "Vous essayez « {a} » — sans que les choses bougent. Souvent, la solution tentée est devenue le problème. Le levier, c'est de faire autrement, pas davantage de la même chose.",
+    insightPayoffTitle: "Le bénéfice caché",
+    insightPayoffBody:
+      "Rester ainsi vous épargne quelque chose : « {a} ». Ce bénéfice est réel, et le nommer à voix haute, c'est déjà à moitié se débloquer — qu'est‑ce qui vaudrait la peine d'y renoncer ?",
+    insightBeliefTitle: "Un postulat à tester",
+    insightBeliefBody:
+      "Vous tenez un postulat : « {a} ». Est‑il toujours vrai — et quand l'avez‑vous testé pour la dernière fois ? On ne voit pas le monde tel qu'il est, mais tel qu'on est.",
+    insightExceptionTitle: "Quand ça marche déjà",
+    insightExceptionBody:
+      "Vous avez repéré une exception : « {a} ». Il y a de l'or là — ce qui diffère dans ces moments est souvent la graine de la solution. Qu'est‑ce qui les rend différents ?",
+    insightGapTitle: "Là où vous n'avez pas encore regardé",
+    insightGapBody:
+      "Vous avez vite passé {areas}. La réponse se cache souvent dans le coin qu'on saute — un coup d'œil avant de décider en vaut la peine.",
+    reframeOvercome: "Comment avancer malgré {theme} ?",
+    reframeNeed: "Que me dit {theme} — et de quoi a‑t‑elle besoin ?",
+    reframeBelief: "Qu'est‑ce qui changerait si « {theme} » n'était pas vrai ?",
+    reframeRole: "Quel est mon rôle ici — et que puis‑je changer ?",
+    reframeClarify: "Qu'est‑ce qui rendrait vraiment cette décision claire ?",
+    reframeSmallestStep: "Quel est le plus petit pas que je pourrais tester cette semaine ?",
     keep: "Garder",
     skip: "Passer",
     kept: "Gardé",

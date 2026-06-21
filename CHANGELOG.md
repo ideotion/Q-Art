@@ -45,6 +45,11 @@ fully local, no‑LLM, bilingual FR/EN, targeting WCAG 2.2 AA.
 - CI now runs four gates: **verify · e2e · a11y · shell**.
 - Installer now **provisions Node automatically** when it's missing — an official build downloaded
   into a user cache and SHA‑256‑verified (no root); `--with-deps` stays the system‑wide opt‑in.
+- **The synthesis now *reads* your map** (ADR‑024): a deterministic, no‑LLM reading engine names
+  the knot, the pull between what you want and what you fear, your own part, "more of the same",
+  the quiet payoff of the status quo, an untested belief, the exception where it already works, and
+  skipped gaps — then **offers** a better question and captures one small step. Gathering is
+  lightened: ticking is enough; weighting is now optional, not a grade on every item.
 
 ### Notes
 
