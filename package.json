@@ -19,6 +19,9 @@
     "test:e2e": "playwright test",
     "check": "npm run typecheck && npm run lint && npm run test"
   },
+  "overrides": {
+    "postcss": ">=8.5.10"
+  },
   "dependencies": {
     "@xstate/react": "^6.1.0",
     "clsx": "^2.1.1",

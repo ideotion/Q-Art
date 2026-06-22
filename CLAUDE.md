@@ -30,7 +30,7 @@ Next.js (App Router) + TypeScript, PWA, mobile‑first · **Tailwind** · **shad
 - **Versioning** (`roadmap.md`): `0.0.x` private grind → `0.1.0` public alpha (core loop, **no‑LLM**) → … → `1.0.0`. Bumps are earned.
 
 ## Git / workflow
-- Develop on branch **`claude/charming-darwin-9cv8kz`**; tracked in the PR. Conventional commits. Commit + push when changes are complete.
+- Develop on a dedicated feature branch (e.g. `claude/<name>`), tracked in its PR — never commit straight to `main`. Conventional commits. Commit + push when changes are complete.
 
 ## Open questions (ask the user)
 - Weighting method + reflection serif‑vs‑sans (resolve by test) · beachhead persona/wedge · monetization · concrete EU host · v2 LLM + sync details.
