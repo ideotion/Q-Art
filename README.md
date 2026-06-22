@@ -18,7 +18,7 @@ All three write the **same** decision — switch between them mid‑session with
 **v1 is fully local:** your decision content never leaves your device. No account, no server, no
 tracking; **encrypted at rest**. Bilingual **FR/EN**. Targets **WCAG 2.2 AA**.
 
-> **Status:** `0.1.0‑rc.1` — release candidate. Proprietary, all rights reserved (`LICENSE`).
+> **Status:** `0.1.0‑rc.1` — release candidate. Proprietary; personal, non‑commercial local use is permitted, all other rights reserved (`LICENSE`).
 
 ## Install (Debian/Ubuntu)
 
@@ -72,4 +72,6 @@ diagnostics) · `src/lib/i18n` (FR/EN) · `src/store` (Zustand + XState) · `src
 ## License & ownership
 
 **Q‑Art is the property of Ideotion.** Proprietary — © 2026 Ideotion, all rights reserved.
-No license is granted; see `LICENSE`.
+A limited grant permits **personal, non‑commercial local use of unmodified builds** (e.g. via the
+installer above); modification, redistribution, and commercial use require written permission. See
+`LICENSE`.

@@ -5,6 +5,11 @@ on:
     branches: ["**"]
   pull_request:
 
+# Least privilege: every job only reads the repo; none write contents,
+# create releases, or comment. Hardened for public-fork PRs.
+permissions:
+  contents: read
+
 # Cancel superseded runs and collapse the duplicate push+PR runs on a branch.
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
