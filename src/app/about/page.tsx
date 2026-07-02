@@ -20,10 +20,10 @@ export default function AboutPage() {
         <h1 className="text-2xl font-medium">{ui.aboutTitle}</h1>
 
         {ABOUT_SECTIONS.map((s) => (
-          <section key={s.heading.en} className="space-y-1">
+          <section key={s.id} className="space-y-1">
             <h2 className="font-medium">{loc(s.heading)}</h2>
             <p className="text-muted text-sm leading-relaxed">{loc(s.body)}</p>
-            {s.heading.en === "Three ways in" ? (
+            {s.id === "guis" ? (
               <ul className="mt-3 space-y-2">
                 {GUIS.map((g) => (
                   <li key={g.id} className="flex items-start gap-2 text-sm">
@@ -58,9 +58,7 @@ export default function AboutPage() {
           {ui.backHome}
         </Link>
 
-        <p className="text-muted border-border border-t pt-4 text-xs">
-          Q‑Art — © 2026 Ideotion. All rights reserved.
-        </p>
+        <p className="text-muted border-border border-t pt-4 text-xs">{ui.rightsLine}</p>
       </main>
     </div>
   );

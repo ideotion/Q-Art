@@ -17,7 +17,12 @@ interface DiagConfig {
 }
 
 // Dev (0.0.x) defaults to deep; tighten for prod via configureDiag.
-const config: DiagConfig = { minLevel: "T", capacity: 2000 };
+// Production default = E/W/I milestones (docs/diagnostics.md §Modes); deep
+// D/T logging is the dev default and a user opt-in via the diagnostics panel.
+const config: DiagConfig = {
+  minLevel: process.env.NODE_ENV === "production" ? "I" : "T",
+  capacity: 2000,
+};
 const baseTime = Date.now();
 let buffer: DiagEvent[] = [];
 
@@ -27,6 +32,11 @@ export function configureDiag(patch: Partial<DiagConfig>): void {
 
 export function setDeepMode(on: boolean): void {
   config.minLevel = on ? "T" : "I";
+}
+
+/** Whether deep (D/T) logging is currently on — the panel reads this. */
+export function isDeepMode(): boolean {
+  return config.minLevel === "T" || config.minLevel === "D";
 }
 
 export function diag(
