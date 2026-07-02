@@ -6,6 +6,17 @@
 All notable changes to Q‑Art. Format follows [Keep a Changelog](https://keepachangelog.com);
 versioning follows `docs/roadmap.md` (ADR‑010).
 
+## [Unreleased]
+
+The audit‑remediation series: data‑safety fixes (session resume, delete‑all,
+autosave flush, a consent‑true service worker), true a11y/i18n claims (named
+weighting controls, focus management, live regions, locale‑stable labels, deep
+axe scans), the non‑negotiables under unit test (encrypted repository,
+autosave/degrade, store actions, real migration loop), and **the method's
+missing depth (ADR‑025): recursion — a new cycle from the reformulated
+question; a structured action plan; retained keywords; `sharedWith`‑aware
+croisements with plural/diacritic folding; a deeper Socrate.**
+
 ## [0.1.0-rc.1] — 2026‑06 (release candidate)
 
 The **Triptyque** release candidate: the core loop through **three distinct GUIs over one engine**,
