@@ -2,6 +2,7 @@
 
 import { ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
 import { SOCRATE_TREE } from "@/lib/qart";
+import { fmt } from "@/lib/i18n/dict";
 import { useLoc, useLocale } from "@/lib/i18n/react";
 import { useDecisionStore, useGuiSession } from "@/store";
 import { withViewTransition } from "@/lib/view-transition";
@@ -15,13 +16,10 @@ const PRIMARY =
 const SECONDARY =
   "border-border text-foreground inline-flex min-h-12 items-center gap-1 rounded-full border px-5 text-sm disabled:opacity-40";
 
-const fmt = (t: string, vars: Record<string, string | number>) =>
-  Object.entries(vars).reduce((s, [k, v]) => s.replace(`{${k}}`, String(v)), t);
-
 export default function SocratePage() {
   const { ui } = useLocale();
   const loc = useLoc();
-  const { snap, send, restart } = useGuiSession("socrate");
+  const { snap, send, restart, ready } = useGuiSession("socrate");
   const question = useDecisionStore((s) => s.activeCycle?.question ?? "");
   const setQuestion = useDecisionStore((s) => s.setQuestion);
   const reformulation = useDecisionStore(
@@ -31,7 +29,7 @@ export default function SocratePage() {
 
   const nodeId = snap.context.nodeId;
   const node = nodeId ? SOCRATE_TREE.nodes[nodeId] : undefined;
-  const atStart = nodeId === SOCRATE_TREE.rootId;
+  const atStart = !nodeId || nodeId === SOCRATE_TREE.rootId; // pre-init frame: Back stays disabled
   const atEnd = node ? node.next === undefined : false;
   const step = nodeId ? SOCRATE_TREE.order.indexOf(nodeId) + 1 : 0;
   const total = SOCRATE_TREE.order.length;
@@ -44,7 +42,7 @@ export default function SocratePage() {
     <div className="flex min-h-full flex-col">
       <AppHeader />
       <main className="mx-auto w-full max-w-2xl flex-1 px-5 py-8">
-        {node ? (
+        {ready && node ? (
           <>
             <p className="text-muted mb-3 text-xs">{fmt(ui.stepOf, { a: step, b: total })}</p>
             <h1 className="text-xl leading-snug font-medium text-balance">{loc(node.prompt)}</h1>

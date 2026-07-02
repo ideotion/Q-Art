@@ -4,7 +4,7 @@
  * deliberate cross-rubric recurrence that *croisements* detect; risk items carry
  * org/family/self tags. Item ids are stable identifiers (not display text).
  */
-import type { QcmBank, QcmItem, RubricKey } from "./types";
+import type { ID, Locale, QcmBank, QcmItem, RubricKey } from "./types";
 
 const items = (xs: QcmItem[]) => xs;
 
@@ -520,4 +520,20 @@ export const ALL_BANKS: QcmBank[] = Object.values(QCM_BANKS);
 
 export function getBank(rubric: RubricKey): QcmBank {
   return QCM_BANKS[rubric];
+}
+
+/** Every bank item by stable id — lets the UI re-localize checked items live. */
+export const BANK_ITEM_INDEX: ReadonlyMap<ID, QcmItem> = new Map(
+  ALL_BANKS.flatMap((b) => b.items.map((i) => [i.id, i] as const)),
+);
+
+/**
+ * Resolve a checked item's display label in the *current* locale. The stored
+ * label is a snapshot from click time (kept for export fidelity); bank-backed
+ * items re-localize live so a mid-session FR↔EN toggle never yields a
+ * mixed-language synthesis. Custom items render as written.
+ */
+export function localizedItemLabel(ci: { itemId?: ID; label: string }, locale: Locale): string {
+  const item = ci.itemId ? BANK_ITEM_INDEX.get(ci.itemId) : undefined;
+  return item ? item.label[locale] : ci.label;
 }

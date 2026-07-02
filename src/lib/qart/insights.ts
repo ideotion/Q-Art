@@ -25,6 +25,7 @@ export type InsightKind =
   | "gap";
 
 export interface InsightItem {
+  itemId?: string; // bank id when present — lets the UI re-localize live
   label: string;
   rubric: RubricKey;
 }
@@ -47,6 +48,8 @@ export interface ReframeSuggestion {
   kind: ReframeKind;
   /** a short slice of the user's own words to fold into the question */
   theme?: string;
+  /** bank id of the item the theme came from — lets the UI re-localize live */
+  itemId?: string;
 }
 
 export interface Reading {
@@ -119,7 +122,11 @@ const STARTS_BINARY = /^\s*(should|shall|ought|must|do i|can i|is it|dois|devrai
 export function readCycle(cycle: Cycle): Reading {
   const checked = allChecked(cycle);
   const insights: Insight[] = [];
-  const item = (c: Checked): InsightItem => ({ label: c.label, rubric: c.rubric });
+  const item = (c: Checked): InsightItem => ({
+    itemId: c.itemId,
+    label: c.label,
+    rubric: c.rubric,
+  });
 
   // The knot — the heaviest theme recurring across ≥2 rubrics.
   const links = computeCrossLinks(cycle);
@@ -158,10 +165,13 @@ export function readCycle(cycle: Cycle): Reading {
   const reframes: ReframeSuggestion[] = [];
   const blocker = heaviest(checked.filter((c) => c.rubric === "obstacles"));
   const emotion = heaviest(checked.filter((c) => c.rubric === "emotions"));
-  if (blocker) reframes.push({ kind: "overcome", theme: shortPhrase(blocker.label) });
-  if (belief) reframes.push({ kind: "belief", theme: shortPhrase(belief.label) });
+  if (blocker)
+    reframes.push({ kind: "overcome", theme: shortPhrase(blocker.label), itemId: blocker.itemId });
+  if (belief)
+    reframes.push({ kind: "belief", theme: shortPhrase(belief.label), itemId: belief.itemId });
   if (role) reframes.push({ kind: "role" });
-  if (emotion && !blocker) reframes.push({ kind: "need", theme: shortPhrase(emotion.label) });
+  if (emotion && !blocker)
+    reframes.push({ kind: "need", theme: shortPhrase(emotion.label), itemId: emotion.itemId });
   if (STARTS_BINARY.test(cycle.question)) reframes.push({ kind: "clarify" });
   reframes.push({ kind: "smallest_step" });
 

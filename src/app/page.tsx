@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
-import { GUIS, getGui, rememberGui, type GuiMeta } from "@/lib/gui";
+import { GUIS, getGui, readGui, rememberGui, type GuiId, type GuiMeta } from "@/lib/gui";
 import { getRepository, loadMostRecent, type ResumePoint } from "@/lib/storage";
 import { useLoc, useLocale } from "@/lib/i18n/react";
 import { useBoot, useDecisionStore } from "@/store";
@@ -13,6 +13,13 @@ import { LanguageToggle } from "@/components/language-toggle";
 
 export default function Home() {
   const { ui } = useLocale();
+  // Surface the remembered GUI (post-mount: the preference lives in localStorage,
+  // so a lazy initializer would trip a hydration mismatch — same pattern as LocaleProvider).
+  const [lastUsed, setLastUsed] = useState<GuiId | null>(null);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLastUsed(readGui());
+  }, []);
   return (
     <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-5 py-8">
       <header className="flex items-center justify-between">
@@ -27,7 +34,7 @@ export default function Home() {
         <p className="text-muted mt-1 text-sm">{ui.pickGuiHint}</p>
         <div className="mt-5 grid gap-4 sm:grid-cols-3">
           {GUIS.map((g) => (
-            <GuiCard key={g.id} gui={g} />
+            <GuiCard key={g.id} gui={g} lastUsed={g.id === lastUsed} />
           ))}
         </div>
       </div>
@@ -80,7 +87,7 @@ function ContinueBanner() {
   );
 }
 
-function GuiCard({ gui }: { gui: GuiMeta }) {
+function GuiCard({ gui, lastUsed }: { gui: GuiMeta; lastUsed?: boolean }) {
   const { ui } = useLocale();
   const loc = useLoc();
   return (
@@ -89,7 +96,14 @@ function GuiCard({ gui }: { gui: GuiMeta }) {
       onClick={() => rememberGui(gui.id)}
       className="border-border bg-card hover:border-accent group flex flex-col gap-2 rounded-xl border p-5 transition-colors"
     >
-      <GuiIcon iconKey={gui.iconKey} className="text-accent size-6" />
+      <span className="flex items-center justify-between">
+        <GuiIcon iconKey={gui.iconKey} className="text-accent size-6" />
+        {lastUsed ? (
+          <span className="text-accent border-accent/40 rounded-full border px-2 py-0.5 text-[10px] tracking-wide uppercase">
+            {ui.lastUsed}
+          </span>
+        ) : null}
+      </span>
       <span className="text-lg font-medium">{loc(gui.name)}</span>
       <span className="text-accent text-xs tracking-wide uppercase">{loc(gui.paradigm)}</span>
       <span className="text-muted text-sm">{loc(gui.tagline)}</span>
