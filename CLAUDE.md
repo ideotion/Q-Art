@@ -9,7 +9,7 @@ v1 = **Solo**, **bilingual FR/EN**, and — critically — **fully local, no LLM
 
 ## Current status
 - **Phase:** release‑candidate hardening, **`0.1.0-rc.1`**. Strategy **and** UI/architecture are **locked** (`docs/design.md`). The RC is green (typecheck · lint · unit · e2e · a11y · shell · build · format): Next 16 + TS + Tailwind PWA, the `qart` domain layer + pure engines (weighting · croisements · reading), the shared Zustand+XState store, the diagnostics fabric, encrypted‑at‑rest persistence + versioned export/import, the offline service worker, and **all three GUIs** writing one store.
-- **Wired vs deferred:** *wired* = domain layer + engines, store, diagnostics, **encrypted IndexedDB** persistence behind the repository abstraction (ADR‑020), FR/EN dictionary seam (fully bilingual banks), all three GUIs, hand‑authored SW (ADR‑021), CI (verify · e2e · a11y · shell) + SessionStart hook. *Deferred at their swap points:* **RxDB** (`src/lib/storage`), **Paraglide** (`src/lib/i18n`), **Serwist**, **Motion** (deck physics).
+- **Wired vs deferred:** *wired* = domain layer + engines, store, diagnostics, **encrypted IndexedDB** persistence behind the repository abstraction (ADR‑020), FR/EN dictionary seam (fully bilingual banks), all three GUIs, hand‑authored SW (ADR‑021), CI (verify · e2e · a11y · shell) + SessionStart hook. *Deferred by decision (ADR‑026), with triggers:* **RxDB** → v2/sync (our WebCrypto adapter is stronger than RxDB's CryptoJS default), **Serwist** → `@serwist/next@10` GA (Turbopack), **Paraglide** → owner‑gated (feasible but a large refactor for tree‑shaking only), **Motion** → deck physics.
 - **Layout:** `src/lib/qart` (domain) · `src/lib/diag` (diagnostics) · `src/lib/storage` (repo) · `src/lib/i18n` (FR/EN) · `src/store` (Zustand+XState) · `src/app` + `src/components` (UI).
 - Read, in order: **`docs/design.md`**, **`docs/decisions.md`** (ADRs), `docs/data-policy.md`, `docs/roadmap.md`, `docs/concept.md`, `docs/schema.md`, `docs/question-banks.md`, `docs/diagnostics.md`, `docs/research/ui-research-summary.md`.
 
@@ -22,7 +22,7 @@ Next.js (App Router) + TypeScript, PWA, mobile‑first · **Tailwind** · **shad
 **Mistral** (sovereign EU) — the chosen LLM provider **when LLM lands in v2** (EU endpoint, no‑training, structured output, self‑host roadmap; `MISTRAL_API_KEY` server‑only). **Not** Anthropic/Claude — **do not add Anthropic SDK code.**
 
 ## Non‑negotiable rules
-- **v1 is local & LLM‑free:** decision content **never leaves the device**; **encryption at rest** from day one (shipped: encrypted IndexedDB, ADR‑020; RxDB is the planned swap).
+- **v1 is local & LLM‑free:** decision content **never leaves the device**; **encryption at rest** from day one (shipped: WebCrypto encrypted IndexedDB, ADR‑020; RxDB is a **v2/sync‑time** swap, not v1 — ADR‑026).
 - **Weighting:** prototype **MaxDiff vs constant‑sum marbles**, decide by test; a **non‑drag/stepper path is required** (WCAG 2.2 SC 2.5.7); billes = visual identity; per‑item 1–5 deprecated.
 - **Synthesis:** **text/ranked‑list first**; no node‑graph in v1; always a text restatement.
 - **Design:** "**calm, but discoverable**" — reject extreme minimalism; progressive disclosure + clear affordances. **WCAG 2.2 AA** is a release gate.
@@ -37,4 +37,4 @@ Next.js (App Router) + TypeScript, PWA, mobile‑first · **Tailwind** · **shad
 - Weighting method + reflection serif‑vs‑sans (resolve by test) · beachhead persona/wedge · monetization · concrete EU host · v2 LLM + sync details.
 
 ## Immediate next step
-Harden the RC toward an earned `0.1.0`: **ship the method's missing depth (recursion — a new cycle from the reformulated question; a structured action plan; retained keywords) → make the a11y/i18n claims fully true → test the non‑negotiables (encrypted repo, persistence) → then** wire the deferred libs at their swap points (**RxDB** in `src/lib/storage`, **Paraglide** in `src/lib/i18n`, **Serwist** SW). Run: `npm install` → `npm run dev`; gate with `npm run check` (typecheck+lint+test) + `npm run build`.
+Method depth (recursion · action plan · keywords), the a11y/i18n claims, the non‑negotiable tests, the bilingual user guide, and the deepened banks (147 items) have shipped. Deferred‑lib swaps are now **evidence‑gated** (ADR‑026): RxDB → v2/sync, Serwist → `@serwist/next@10` GA, Paraglide → owner‑gated. Open owner decisions: **delivery model** (hosted vs packaged vs self‑host), **counsel LICENSE/DPIA sign‑off**, **Team/governance** mode (needed for the boards persona). Run: `npm install` → `npm run dev`; gate with `npm run check` + `npm run build`.
