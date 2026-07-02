@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Download } from "lucide-react";
-import { bundleFile, diag, setDeepMode } from "@/lib/diag";
+import { bundleFile, diag, isDeepMode, setDeepMode } from "@/lib/diag";
 import { APP_VERSION, GIT_COMMIT } from "@/lib/version";
 import { useLocale } from "@/lib/i18n/react";
 
@@ -12,7 +12,8 @@ import { useLocale } from "@/lib/i18n/react";
  */
 export function DiagnosticsPanel() {
   const { ui } = useLocale();
-  const [deep, setDeep] = useState(false);
+  // Read the real level, not a hardcoded default (deterministic per build env).
+  const [deep, setDeep] = useState(() => isDeepMode());
 
   const download = () => {
     const { filename, json } = bundleFile({ appVersion: APP_VERSION, commit: GIT_COMMIT });

@@ -15,7 +15,11 @@ axe scans), the non‑negotiables under unit test (encrypted repository,
 autosave/degrade, store actions, real migration loop), and **the method's
 missing depth (ADR‑025): recursion — a new cycle from the reformulated
 question; a structured action plan; retained keywords; `sharedWith`‑aware
-croisements with plural/diacritic folding; a deeper Socrate.**
+croisements with plural/diacritic folding; a deeper Socrate.** Plus a
+bilingual **user guide** (`docs/guide/`, EN/FR) with real screenshots — getting
+started, the full worked walkthrough, choosing a GUI, your data, FAQ — and
+honest-polish fixes (diagnostics level reporting, dead dict keys, stable About
+section ids, localized rights line).
 
 ## [0.1.0-rc.1] — 2026‑06 (release candidate)
 

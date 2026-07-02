@@ -13,20 +13,13 @@ export const fmt = (t: string, vars: Record<string, string | number>): string =>
 export interface UiDict {
   appName: string;
   tagline: string;
-  chooseDoor: string;
   pickGuiTitle: string;
   pickGuiHint: string;
   switchView: string;
   lastUsed: string;
   guiBestFor: string;
-  atlasName: string;
-  atlasDesc: string;
-  socrateName: string;
-  socrateDesc: string;
-  start: string;
   next: string;
   back: string;
-  finish: string;
   restart: string;
   backHome: string;
   yourQuestion: string;
@@ -34,7 +27,6 @@ export interface UiDict {
   freeText: string;
   freeTextPlaceholder: string;
   importance: string;
-  reframe: string;
   reframePlaceholder: string;
   synthesis: string;
   initialQuestion: string;
@@ -86,11 +78,6 @@ export interface UiDict {
   apply: string;
   applied: string;
   weightNeedsItems: string;
-  // croisements
-  crossLinks: string;
-  crossLinksHint: string;
-  crossLinksAcross: string; // "across {n} areas"
-  noCrossLinks: string;
   priorities: string;
   // the reading (insight engine)
   reading: string;
@@ -138,7 +125,6 @@ export interface UiDict {
   spread: string;
   yourDeck: string;
   close: string;
-  done: string;
   // persistence / data rights
   saving: string;
   saved: string;
@@ -168,6 +154,7 @@ export interface UiDict {
   downloadDiag: string;
   deepMode: string;
   version: string;
+  rightsLine: string;
   // atlas deepening + socrate progress
   commands: string;
   jumpToBoard: string;
@@ -180,20 +167,13 @@ export const DICT: Record<Locale, UiDict> = {
     appName: "Q‑Art",
     tagline:
       "Bring the question you can't resolve. Leave with a better question — and the answer that comes with it.",
-    chooseDoor: "Choose a door",
     pickGuiTitle: "Choose how you'll work",
     pickGuiHint: "Three ways into the same method. Switch anytime — your work follows you.",
     switchView: "Switch view",
     lastUsed: "Last used",
     guiBestFor: "Best for",
-    atlasName: "Atlas",
-    atlasDesc: "Map it yourself — the structured boards, at your own pace.",
-    socrateName: "Socrate",
-    socrateDesc: "Let it question you — one guided question at a time.",
-    start: "Start",
     next: "Next",
     back: "Back",
-    finish: "Finish",
     restart: "Start over",
     backHome: "Home",
     yourQuestion: "Your question",
@@ -201,7 +181,6 @@ export const DICT: Record<Locale, UiDict> = {
     freeText: "In your own words",
     freeTextPlaceholder: "Anything the list doesn't capture…",
     importance: "Importance",
-    reframe: "Reframe your question",
     reframePlaceholder: "How do I…",
     synthesis: "Synthesis",
     initialQuestion: "Initial question",
@@ -252,10 +231,6 @@ export const DICT: Record<Locale, UiDict> = {
     apply: "Apply",
     applied: "Applied",
     weightNeedsItems: "Check a few items first, then weigh them here.",
-    crossLinks: "What recurs across your map",
-    crossLinksHint: "Themes that surface in more than one area — often the real knot.",
-    crossLinksAcross: "across {n} areas",
-    noCrossLinks: "No themes recur yet — keep mapping.",
     priorities: "Top of your map",
     reading: "Your reading",
     readingIntro:
@@ -313,7 +288,6 @@ export const DICT: Record<Locale, UiDict> = {
     spread: "Spread",
     yourDeck: "Your deck",
     close: "Close",
-    done: "Done",
     saving: "Saving…",
     saved: "Saved",
     continueSession: "Continue your last session",
@@ -343,6 +317,8 @@ export const DICT: Record<Locale, UiDict> = {
     downloadDiag: "Download diagnostics",
     deepMode: "Detailed logging",
     version: "Version",
+    rightsLine:
+      "Q‑Art — © 2026 Ideotion. Personal, non-commercial use permitted; all other rights reserved.",
     commands: "Commands",
     jumpToBoard: "Jump to a board…",
     selectedCount: "{n} selected",
@@ -352,21 +328,14 @@ export const DICT: Record<Locale, UiDict> = {
     appName: "Q‑Art",
     tagline:
       "Apportez la question que vous n'arrivez pas à trancher. Repartez avec une meilleure question — et la réponse qui l'accompagne.",
-    chooseDoor: "Choisissez une porte",
     pickGuiTitle: "Choisissez votre manière de travailler",
     pickGuiHint:
       "Trois entrées dans la même méthode. Changez à tout moment — votre travail vous suit.",
     switchView: "Changer de vue",
     lastUsed: "Dernière utilisée",
     guiBestFor: "Idéal pour",
-    atlasName: "Atlas",
-    atlasDesc: "Cartographiez vous-même — les tableaux structurés, à votre rythme.",
-    socrateName: "Socrate",
-    socrateDesc: "Laissez-le vous questionner — une question guidée à la fois.",
-    start: "Commencer",
     next: "Suivant",
     back: "Retour",
-    finish: "Terminer",
     restart: "Recommencer",
     backHome: "Accueil",
     yourQuestion: "Votre question",
@@ -374,7 +343,6 @@ export const DICT: Record<Locale, UiDict> = {
     freeText: "Avec vos mots",
     freeTextPlaceholder: "Tout ce que la liste ne capture pas…",
     importance: "Importance",
-    reframe: "Reformulez votre question",
     reframePlaceholder: "Comment faire pour…",
     synthesis: "Synthèse",
     initialQuestion: "Question initiale",
@@ -426,10 +394,6 @@ export const DICT: Record<Locale, UiDict> = {
     apply: "Appliquer",
     applied: "Appliqué",
     weightNeedsItems: "Cochez d'abord quelques éléments, puis pesez-les ici.",
-    crossLinks: "Ce qui revient sur votre carte",
-    crossLinksHint: "Les thèmes présents dans plusieurs zones — souvent le vrai nœud.",
-    crossLinksAcross: "dans {n} zones",
-    noCrossLinks: "Aucun thème ne revient encore — continuez la cartographie.",
     priorities: "En haut de votre carte",
     reading: "Votre lecture",
     readingIntro:
@@ -487,7 +451,6 @@ export const DICT: Record<Locale, UiDict> = {
     spread: "Vue d'ensemble",
     yourDeck: "Votre jeu",
     close: "Fermer",
-    done: "Terminé",
     saving: "Enregistrement…",
     saved: "Enregistré",
     continueSession: "Reprendre votre dernière session",
@@ -517,6 +480,8 @@ export const DICT: Record<Locale, UiDict> = {
     downloadDiag: "Télécharger les diagnostics",
     deepMode: "Journalisation détaillée",
     version: "Version",
+    rightsLine:
+      "Q‑Art — © 2026 Ideotion. Usage personnel et non commercial autorisé ; tous les autres droits réservés.",
     commands: "Commandes",
     jumpToBoard: "Aller à un tableau…",
     selectedCount: "{n} sélectionné(s)",

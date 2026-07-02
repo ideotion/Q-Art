@@ -5,12 +5,15 @@
 import type { LocalizedText } from "@/lib/qart";
 
 export interface AboutSection {
+  /** stable id — UI hooks (e.g. the GUI list) key off this, never off copy */
+  id: "purpose" | "reframe" | "guis" | "privacy" | "a11y" | "safeguarding";
   heading: LocalizedText;
   body: LocalizedText;
 }
 
 export const ABOUT_SECTIONS: AboutSection[] = [
   {
+    id: "purpose",
     heading: { en: "What Q‑Art is for", fr: "À quoi sert Q‑Art" },
     body: {
       en: "When a decision matters, we reach for a reflex answer — the quickest way to stop the discomfort. Q‑Art slows that reflex down. It walks your question across many facets — what's really at stake, who's involved, what you feel, what you're avoiding — so the decision rests on the whole picture, not its loudest part.",
@@ -18,6 +21,7 @@ export const ABOUT_SECTIONS: AboutSection[] = [
     },
   },
   {
+    id: "reframe",
     heading: {
       en: "From a question to a better question",
       fr: "D'une question à une meilleure question",
@@ -28,6 +32,7 @@ export const ABOUT_SECTIONS: AboutSection[] = [
     },
   },
   {
+    id: "guis",
     heading: { en: "Three ways in", fr: "Trois entrées" },
     body: {
       en: "One method, three doors. Atlas is a structured workbench; Socrate is a calm guided dialogue; Cartes is a tactile card deck. Pick what fits the moment — and switch anytime without losing a thing, because all three write the same decision.",
@@ -35,6 +40,7 @@ export const ABOUT_SECTIONS: AboutSection[] = [
     },
   },
   {
+    id: "privacy",
     heading: { en: "Your privacy", fr: "Votre vie privée" },
     body: {
       en: "Q‑Art v1 is fully local. Your decision content never leaves your device — no account, no server, no tracking. What you write is stored on this device, encrypted at rest. Export a portable backup or delete everything at any time, from the synthesis of any door.",
@@ -42,6 +48,7 @@ export const ABOUT_SECTIONS: AboutSection[] = [
     },
   },
   {
+    id: "a11y",
     heading: { en: "Accessibility", fr: "Accessibilité" },
     body: {
       en: "Q‑Art targets WCAG 2.2 AA. Every interaction works by keyboard with no drag required, touch targets are generous, and the interface respects your reduced‑motion and colour‑scheme preferences. If something blocks you, that's a bug — please report it.",
@@ -52,6 +59,7 @@ export const ABOUT_SECTIONS: AboutSection[] = [
 
 /** The safeguarding notice + crisis signposting (ADR-017) — reachable from every GUI. */
 export const SAFEGUARDING: AboutSection = {
+  id: "safeguarding",
   heading: { en: "Not advice — and where to turn", fr: "Pas un avis — et vers qui se tourner" },
   body: {
     en: "Q‑Art helps you think. It is not therapy, and not medical, legal, or financial advice. If you're in distress or thinking of harming yourself, please reach out now: in immediate danger, call your local emergency number (112 in the EU, 911 in the US, 999 in the UK). For support, contact a local crisis line or your doctor — you don't have to sort this out alone.",
