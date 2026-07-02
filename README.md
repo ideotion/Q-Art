@@ -20,6 +20,10 @@ tracking; **encrypted at rest**. Bilingual **FR/EN**. Targets **WCAG 2.2 AA**.
 
 > **Status:** `0.1.0‑rc.1` — release candidate. Proprietary; personal, non‑commercial local use is permitted, all other rights reserved (`LICENSE`).
 
+![Q‑Art's reading: your map, interpreted — the pull, more of the same, the quiet payoff, an assumption worth testing](docs/guide/img/en-reading.png)
+
+**New here? Start with the [User Guide](docs/guide/README.md)** ([en français](docs/guide/fr/README.md)) — ten minutes to your first synthesis, and a full worked walkthrough of the method.
+
 ## Install (Debian/Ubuntu)
 
 One installer, one command. It's **transparent and local‑only** — it clones, builds, and serves
@@ -60,6 +64,7 @@ diagnostics) · `src/lib/i18n` (FR/EN) · `src/store` (Zustand + XState) · `src
 
 | File | What |
 |---|---|
+| **`docs/guide/`** | **The user guide (EN/FR): getting started, the full walkthrough, choosing a GUI, your data, FAQ.** |
 | `docs/design.md` | Consolidated UI & architecture decisions. |
 | `docs/architecture.md` | One‑object‑three‑views: module map, store/flow, storage, diagnostics. |
 | `docs/decisions.md` | Architecture Decision Records (ADRs). |
