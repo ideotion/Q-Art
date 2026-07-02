@@ -25,27 +25,27 @@ describe("export migration seam", () => {
     expect(() => migrateExport(exportAt(SCHEMA_VERSION - 1))).toThrow(/No migration/);
   });
 
-  it("applies a registered migration step (seam works end-to-end)", () => {
+  it("applies registered migration steps through the production loop", () => {
     const from = SCHEMA_VERSION;
-    const to = SCHEMA_VERSION + 1;
-    MIGRATIONS[from] = (d) => ({ ...d, schemaVersion: to, title: "migrated" }) as DecisionExport;
+    MIGRATIONS[from] = (d) => ({ ...d, schemaVersion: from + 1 }) as DecisionExport;
+    MIGRATIONS[from + 1] = (d) => ({ ...d, schemaVersion: from + 2 }) as DecisionExport;
     try {
-      // Pretend the app now targets `to` by migrating a `from` export upward.
-      const out = migrateAgainst(exportAt(from), to);
-      expect(out.schemaVersion).toBe(to);
+      // The REAL migrateExport walks both steps (target param = the seam's test hook).
+      const out = migrateExport(exportAt(from), from + 2);
+      expect(out.schemaVersion).toBe(from + 2);
+    } finally {
+      delete MIGRATIONS[from];
+      delete MIGRATIONS[from + 1];
+    }
+  });
+
+  it("throws mid-chain when a step is missing (no silent partial upgrade)", () => {
+    const from = SCHEMA_VERSION;
+    MIGRATIONS[from] = (d) => ({ ...d, schemaVersion: from + 1 }) as DecisionExport;
+    try {
+      expect(() => migrateExport(exportAt(from), from + 3)).toThrow(/No migration/);
     } finally {
       delete MIGRATIONS[from];
     }
   });
 });
-
-/** Local helper mirroring migrateExport but against an explicit target (for the seam test). */
-function migrateAgainst(data: DecisionExport, target: number): DecisionExport {
-  let d = data;
-  while (d.schemaVersion < target) {
-    const step = MIGRATIONS[d.schemaVersion];
-    if (!step) throw new Error(`No migration registered from schema v${d.schemaVersion}`);
-    d = step(d);
-  }
-  return d;
-}
