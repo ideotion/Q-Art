@@ -119,7 +119,7 @@ describe("marbles (constant-sum)", () => {
       ]),
     );
     const total = [...alloc.values()].reduce((a, b) => a + b, 0);
-    expect(total).toBeLessThanOrEqual(MARBLE_POOL + 1);
+    expect(total).toBeLessThanOrEqual(MARBLE_POOL); // never overdraws (clamped seed)
     expect(alloc.get("a")).toBeGreaterThan(alloc.get("b") as number);
   });
 });

@@ -46,4 +46,77 @@ describe("decision store (shared by both doors)", () => {
 
     expect(socrateShape).toEqual(atlasShape);
   });
+
+  it("writer actions are safe no-ops when no cycle is active", () => {
+    store().setQuestion("into the void?");
+    store().setFreeText("emotions", "x");
+    store().setWeights([{ rubric: "risks", label: "x", weight: 5 }]);
+    store().runSynthesis();
+    expect(store().activeCycle).toBeNull();
+  });
+
+  it("setQuestion keeps the synthesis' initial question in sync", () => {
+    store().startCase({ mode: "atlas" });
+    store().setQuestion("Should I move?");
+    expect(store().activeCycle?.question).toBe("Should I move?");
+    expect(store().activeCycle?.synthesis.initialQuestion).toBe("Should I move?");
+  });
+
+  it("setMode records which GUI is editing without touching data", () => {
+    store().startCase({ mode: "atlas", question: "Q?" });
+    store().toggleItem("emotions", { id: "emo_fear", label: "fear / anxiety" });
+    store().setMode("cartes");
+    expect(store().activeCycle?.mode).toBe("cartes");
+    expect(store().activeCycle?.rubrics.emotions?.checkedItems).toHaveLength(1);
+  });
+
+  it("setWeights batch-applies across rubrics and skips unknown items", () => {
+    store().startCase({ mode: "atlas" });
+    store().toggleItem("risks", { id: "risk_self_legal", label: "legal risk" });
+    store().toggleItem("emotions", { id: "emo_fear", label: "fear / anxiety" });
+    store().setWeights([
+      { rubric: "risks", id: "risk_self_legal", label: "legal risk", weight: 5 },
+      { rubric: "emotions", id: "emo_fear", label: "fear / anxiety", weight: 1 },
+      { rubric: "risks", id: "not_checked", label: "ghost", weight: 4 },
+      { rubric: "timing", id: "no_entry_here", label: "ghost", weight: 4 },
+    ]);
+    expect(store().activeCycle?.rubrics.risks?.checkedItems[0]?.weight).toBe(5);
+    expect(store().activeCycle?.rubrics.emotions?.checkedItems[0]?.weight).toBe(1);
+    expect(store().activeCycle?.rubrics.risks?.checkedItems).toHaveLength(1);
+  });
+
+  it("setWeightMethod records the chosen method (content-free A/B)", () => {
+    store().startCase({ mode: "atlas" });
+    store().setWeightMethod("marbles");
+    expect(store().activeCycle?.weightMethod).toBe("marbles");
+  });
+
+  it("setFirstStep creates then updates action-plan step 0", () => {
+    store().startCase({ mode: "atlas" });
+    store().setFirstStep("Hand task ABC to X on Monday");
+    expect(store().activeCycle?.actionPlan?.steps).toHaveLength(1);
+    store().setFirstStep("Hand task ABC to X on Tuesday");
+    expect(store().activeCycle?.actionPlan?.steps).toHaveLength(1);
+    expect(store().activeCycle?.actionPlan?.steps[0]?.action).toContain("Tuesday");
+  });
+
+  it("runSynthesis persists derived croisements + keywords onto the object", () => {
+    store().startCase({ mode: "atlas", question: "Q?" });
+    // "trust" recurs across two rubrics → a cross-link must surface it.
+    store().toggleItem("obstacles", { label: "I struggle to trust my colleagues", custom: true });
+    store().toggleItem("tried", { label: "delegating requires trust", custom: true });
+    store().runSynthesis();
+    const syn = store().activeCycle?.synthesis;
+    expect(syn?.crossLinks.some((l) => l.theme === "trust")).toBe(true);
+    expect(Object.keys(syn?.keywordsByRubric ?? {})).toContain("obstacles");
+  });
+
+  it("loadCycle replaces the working state (storage resume path)", () => {
+    store().startCase({ mode: "atlas", question: "old" });
+    const { activeCase, activeCycle } = store();
+    expect(activeCase && activeCycle).toBeTruthy();
+    store().reset();
+    store().loadCycle(activeCase!, activeCycle!);
+    expect(store().activeCycle?.question).toBe("old");
+  });
 });

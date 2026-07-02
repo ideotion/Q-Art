@@ -178,6 +178,16 @@ export class EncryptedIndexedDbRepository implements StorageRepository {
     tx.objectStore(CYCLES).clear();
     await txDone(tx);
   }
+
+  /**
+   * Close the underlying connection (teardown/tests; a swap to another engine).
+   * An open connection blocks `deleteDatabase` indefinitely. A new instance
+   * reopens the store with the persisted key.
+   */
+  async close(): Promise<void> {
+    const db = await this.dbp;
+    db.close();
+  }
 }
 
 /** Feature-detect the APIs this adapter needs. */
