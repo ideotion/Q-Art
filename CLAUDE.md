@@ -33,8 +33,15 @@ Next.js (App Router) + TypeScript, PWA, mobile‑first · **Tailwind** · **shad
 ## Git / workflow
 - Develop on a dedicated feature branch (e.g. `claude/<name>`), tracked in its PR — never commit straight to `main`. Conventional commits. Commit + push when changes are complete.
 
-## Open questions (ask the user)
-- Weighting method + reflection serif‑vs‑sans (resolve by test) · beachhead persona/wedge · monetization · concrete EU host · v2 LLM + sync details.
+## Decisions made (owner, this cycle)
+- **Beachhead:** broad — **all three personas** (independent operators · coaches/therapists B2B2C · boards/governance). Bank content spans personal/professional/governance.
+- **Delivery:** **self‑host for v1** (the `curl | bash` installer); treat v1 as a technical preview. Hosted PWA / Capacitor packaging deferred until later — the user guide is written against localhost and generalizes when this is revisited.
+
+## Open questions (still owner‑gated)
+- **Team/governance mode** — needed for the boards persona; a real post‑v1 workstream (anonymous‑pooling data model in `schema.md §5` + an anonymity threat model). Design/ADR is the proposed next build.
+- **Paraglide** migration — feasible but owner‑gated (ADR‑026); recommendation is "not yet".
+- **Cut `0.1.0`** — the roadmap gate is essentially met; the version bump + release is a human act (`docs/release.md`).
+- Counsel: **LICENSE grant + DPIA** sign‑off · **monetization** · **concrete EU host** (only when hosting) · weighting‑method + serif‑vs‑sans A/B (resolve by test) · v2 LLM + sync details.
 
 ## Immediate next step
-Method depth (recursion · action plan · keywords), the a11y/i18n claims, the non‑negotiable tests, the bilingual user guide, and the deepened banks (147 items) have shipped. Deferred‑lib swaps are now **evidence‑gated** (ADR‑026): RxDB → v2/sync, Serwist → `@serwist/next@10` GA, Paraglide → owner‑gated. Open owner decisions: **delivery model** (hosted vs packaged vs self‑host), **counsel LICENSE/DPIA sign‑off**, **Team/governance** mode (needed for the boards persona). Run: `npm install` → `npm run dev`; gate with `npm run check` + `npm run build`.
+Method depth (recursion · action plan · keywords), the a11y/i18n claims, the non‑negotiable tests, the bilingual user guide (`docs/guide/`, regenerate images with `scripts/capture-guide-screenshots.mjs`), and the deepened banks (147 items) have shipped. Deferred‑lib swaps are **evidence‑gated** (ADR‑026). The highest‑leverage buildable item left is **Team/governance mode** (design‑first). Run: `npm install` → `npm run dev`; gate with `npm run check` + `npm run build`.
