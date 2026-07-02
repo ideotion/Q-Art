@@ -30,6 +30,24 @@ export function emptyRubricEntry(key: RubricKey): RubricEntry {
   return { key, checkedItems: [], keywords: [] };
 }
 
+/**
+ * True when a cycle carries no user content yet (fresh `startCase`, untouched).
+ * Persistence skips pristine cycles so a stray page load never buries the real
+ * session under an empty most-recent case.
+ */
+export function isPristineCycle(cy: Cycle): boolean {
+  if (cy.question.trim()) return false;
+  if (cy.synthesis.reformulatedQuestion?.trim()) return false;
+  if (cy.actionPlan?.steps.some((s) => s.action.trim())) return false;
+  for (const entry of Object.values(cy.rubrics)) {
+    if (!entry) continue;
+    if (entry.checkedItems.length > 0) return false;
+    if (entry.freeText?.trim()) return false;
+    if (entry.keywords.length > 0) return false;
+  }
+  return true;
+}
+
 export function createCase(ownerId: ID, init?: Partial<Pick<Case, "id" | "title">>): Case {
   const ts = nowISO();
   return {

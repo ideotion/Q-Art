@@ -1,6 +1,6 @@
 # Changelog
 
-> **Confidential & proprietary** — Q‑Art is the property of **Ideotion**.
+> **Proprietary** — Q‑Art is the property of **Ideotion**.
 > © 2026 Ideotion · all rights reserved (`LICENSE`).
 
 All notable changes to Q‑Art. Format follows [Keep a Changelog](https://keepachangelog.com);

@@ -1,14 +1,15 @@
 # Q‑Art — Project Context (for AI sessions)
 
-Q‑Art is a **strategic decision‑making tool**. One method, **two doors**, over one shared decision object (`docs/schema.md`):
+Q‑Art is a **strategic decision‑making tool**. One method, **three GUIs** (ADR‑018), over one shared decision object (`docs/schema.md`):
 - **Atlas** — structured, deterministic board flow.
 - **Socrate** — guided maieutic flow. **v1 = a deterministic, pre‑authored question‑tree (NO LLM).** LLM enrichment (via **Mistral**) is a **v2** upgrade.
+- **Cartes** — tactile card‑deck flow (keep/skip/weigh), keyboard‑complete (ADR‑019).
 
 v1 = **Solo**, **bilingual FR/EN**, and — critically — **fully local, no LLM, no backend.**
 
 ## Current status
-- **Phase:** pre‑alpha, **`0.0.1`**. Strategy **and** UI/architecture are **locked** (`docs/design.md`). The **`0.0.1` scaffold is in place and green** (typecheck · lint · unit · build · format): Next 16 + TS + Tailwind PWA, the `qart` domain layer, the shared Zustand+XState store, the diagnostics fabric, and **both door UIs** (Atlas boards + Socrate question‑tree) writing one store.
-- **Wired vs deferred:** *wired* = domain layer, store, diagnostics, in‑memory storage **behind the repository abstraction**, FR/EN dictionary seam, both doors, CI + SessionStart hook. *Deferred (stubbed with clear swap points):* **RxDB + encryption** (`src/lib/storage`), **Paraglide** (`src/lib/i18n`), **Serwist** SW, **Motion**. e2e (Playwright) runs in CI.
+- **Phase:** release‑candidate hardening, **`0.1.0-rc.1`**. Strategy **and** UI/architecture are **locked** (`docs/design.md`). The RC is green (typecheck · lint · unit · e2e · a11y · shell · build · format): Next 16 + TS + Tailwind PWA, the `qart` domain layer + pure engines (weighting · croisements · reading), the shared Zustand+XState store, the diagnostics fabric, encrypted‑at‑rest persistence + versioned export/import, the offline service worker, and **all three GUIs** writing one store.
+- **Wired vs deferred:** *wired* = domain layer + engines, store, diagnostics, **encrypted IndexedDB** persistence behind the repository abstraction (ADR‑020), FR/EN dictionary seam (fully bilingual banks), all three GUIs, hand‑authored SW (ADR‑021), CI (verify · e2e · a11y · shell) + SessionStart hook. *Deferred at their swap points:* **RxDB** (`src/lib/storage`), **Paraglide** (`src/lib/i18n`), **Serwist**, **Motion** (deck physics).
 - **Layout:** `src/lib/qart` (domain) · `src/lib/diag` (diagnostics) · `src/lib/storage` (repo) · `src/lib/i18n` (FR/EN) · `src/store` (Zustand+XState) · `src/app` + `src/components` (UI).
 - Read, in order: **`docs/design.md`**, **`docs/decisions.md`** (ADRs), `docs/data-policy.md`, `docs/roadmap.md`, `docs/concept.md`, `docs/schema.md`, `docs/question-banks.md`, `docs/diagnostics.md`, `docs/research/ui-research-summary.md`.
 
@@ -21,7 +22,7 @@ Next.js (App Router) + TypeScript, PWA, mobile‑first · **Tailwind** · **shad
 **Mistral** (sovereign EU) — the chosen LLM provider **when LLM lands in v2** (EU endpoint, no‑training, structured output, self‑host roadmap; `MISTRAL_API_KEY` server‑only). **Not** Anthropic/Claude — **do not add Anthropic SDK code.**
 
 ## Non‑negotiable rules
-- **v1 is local & LLM‑free:** decision content **never leaves the device**; **encryption at rest** (RxDB) from day one.
+- **v1 is local & LLM‑free:** decision content **never leaves the device**; **encryption at rest** from day one (shipped: encrypted IndexedDB, ADR‑020; RxDB is the planned swap).
 - **Weighting:** prototype **MaxDiff vs constant‑sum marbles**, decide by test; a **non‑drag/stepper path is required** (WCAG 2.2 SC 2.5.7); billes = visual identity; per‑item 1–5 deprecated.
 - **Synthesis:** **text/ranked‑list first**; no node‑graph in v1; always a text restatement.
 - **Design:** "**calm, but discoverable**" — reject extreme minimalism; progressive disclosure + clear affordances. **WCAG 2.2 AA** is a release gate.
@@ -36,4 +37,4 @@ Next.js (App Router) + TypeScript, PWA, mobile‑first · **Tailwind** · **shad
 - Weighting method + reflection serif‑vs‑sans (resolve by test) · beachhead persona/wedge · monetization · concrete EU host · v2 LLM + sync details.
 
 ## Immediate next step
-Iterate on the green `0.0.1` scaffold: **Atlas UI polish → weighting A/B (MaxDiff vs marbles) → synthesis depth (croisements) → Socrate question‑tree depth**, then wire the deferred libs at their swap points (**RxDB** in `src/lib/storage`, **Paraglide** in `src/lib/i18n`, **Serwist** SW). Run: `npm install` → `npm run dev`; gate with `npm run check` (typecheck+lint+test) + `npm run build`.
+Harden the RC toward an earned `0.1.0`: **ship the method's missing depth (recursion — a new cycle from the reformulated question; a structured action plan; retained keywords) → make the a11y/i18n claims fully true → test the non‑negotiables (encrypted repo, persistence) → then** wire the deferred libs at their swap points (**RxDB** in `src/lib/storage`, **Paraglide** in `src/lib/i18n`, **Serwist** SW). Run: `npm install` → `npm run dev`; gate with `npm run check` (typecheck+lint+test) + `npm run build`.

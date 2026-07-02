@@ -1,6 +1,6 @@
 # Q‑Art — Open Questions (autonomous RC)
 
-> **Confidential & proprietary** — Q‑Art is the property of **Ideotion**.
+> **Proprietary** — Q‑Art is the property of **Ideotion**.
 > © 2026 Ideotion · all rights reserved (`LICENSE`).
 
 > Genuinely irreversible or ambiguous calls surfaced during the autonomous

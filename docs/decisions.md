@@ -1,6 +1,6 @@
 # Q‑Art — Decision Records (ADRs)
 
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (see `LICENSE`).
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`).
 > **Reads with:** `concept.md`, `schema.md`, `question-banks.md`, `data-policy.md`, `roadmap.md`, **`design.md`**, `diagnostics.md`.
 > **Scope note:** the "no third‑party orgs / no legally‑loaded claims" drafting rule governs the **method / concept** content. These ADRs record **engineering** decisions, so they name tools/vendors — capabilities only, **no legal claims**.
 

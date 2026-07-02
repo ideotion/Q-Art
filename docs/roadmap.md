@@ -1,6 +1,6 @@
 # Q‑Art — Versioning & Release Roadmap
 
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (see `LICENSE`). **Status:** Accepted.
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`). **Status:** Accepted.
 
 ## Version scheme (decimal intent → semver tags)
 - Pre‑alpha grind "0.01, 0.02 …" → **`0.0.1`, `0.0.2` …** (`package.json` starts at **`0.0.1`**).

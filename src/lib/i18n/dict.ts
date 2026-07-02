@@ -114,6 +114,8 @@ export interface UiDict {
   confirmDelete: string;
   imported: string;
   importFailed: string;
+  deleted: string;
+  opFailed: string;
   yourData: string;
   dataHint: string;
   // pwa
@@ -254,8 +256,10 @@ export const DICT: Record<Locale, UiDict> = {
     importDossier: "Import dossier",
     deleteAll: "Delete all my data",
     confirmDelete: "Delete everything stored on this device? This can't be undone.",
-    imported: "Imported",
+    imported: "Dossier imported — your session is loaded.",
     importFailed: "That file isn't a Q‑Art dossier.",
+    deleted: "Everything stored on this device was deleted.",
+    opFailed: "Something went wrong — nothing was changed.",
     yourData: "Your data",
     dataHint:
       "Everything stays on this device, encrypted at rest. Export a backup or delete it anytime.",
@@ -396,8 +400,10 @@ export const DICT: Record<Locale, UiDict> = {
     importDossier: "Importer un dossier",
     deleteAll: "Supprimer toutes mes données",
     confirmDelete: "Tout supprimer de cet appareil ? Cette action est irréversible.",
-    imported: "Importé",
+    imported: "Dossier importé — votre session est chargée.",
     importFailed: "Ce fichier n'est pas un dossier Q‑Art.",
+    deleted: "Tout ce qui était stocké sur cet appareil a été supprimé.",
+    opFailed: "Quelque chose n'a pas fonctionné — rien n'a été modifié.",
     yourData: "Vos données",
     dataHint:
       "Tout reste sur cet appareil, chiffré au repos. Exportez une sauvegarde ou supprimez à tout moment.",

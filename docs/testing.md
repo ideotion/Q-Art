@@ -1,6 +1,6 @@
 # Q‑Art — Testing
 
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (`LICENSE`).
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`).
 
 ## Layers
 

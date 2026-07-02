@@ -3,7 +3,9 @@
 import { useEffect, useRef } from "react";
 import { useMachine } from "@xstate/react";
 import type { Mode } from "../lib/qart";
+import { getRepository, loadMostRecent } from "../lib/storage";
 import { useDecisionStore } from "./decision-store";
+import { useBoot } from "./persistence";
 import { flowMachine } from "./flow-machine";
 
 /**
@@ -11,19 +13,43 @@ import { flowMachine } from "./flow-machine";
  * decision cycle exists, records that this GUI is now editing, and starts the
  * (per-page) navigation machine. Crucially it does NOT reset the store — so
  * switching GUIs mid-session keeps every answer (brief §3: zero data loss).
+ *
+ * Direct loads (refresh, bookmark, PWA restore) resume the most recent *saved*
+ * session instead of starting a fresh empty one — a plain F5 mid-decision must
+ * never bury the user's work behind an empty case.
  */
 export function useGuiSession(mode: Mode) {
   const [snap, send] = useMachine(flowMachine);
+  const hydrated = useBoot((s) => s.hydrated);
   const init = useRef(false);
 
   useEffect(() => {
-    if (init.current) return;
+    if (!hydrated || init.current) return;
     init.current = true;
-    const s = useDecisionStore.getState();
-    if (!s.activeCycle) s.startCase({ mode });
-    else s.setMode(mode);
-    send({ type: "START", mode });
-  }, [mode, send]);
+    let live = true;
+    void (async () => {
+      const s = useDecisionStore.getState();
+      if (s.activeCycle) {
+        s.setMode(mode);
+      } else {
+        const recent = await loadMostRecent(getRepository()).catch(() => null);
+        if (!live) return;
+        const st = useDecisionStore.getState();
+        if (!st.activeCycle) {
+          if (recent) {
+            st.loadCycle(recent.c, recent.cy);
+            st.setMode(mode);
+          } else {
+            st.startCase({ mode });
+          }
+        }
+      }
+      if (live) send({ type: "START", mode });
+    })();
+    return () => {
+      live = false;
+    };
+  }, [hydrated, mode, send]);
 
   /** Explicit, user-initiated fresh start: clears data AND navigation. */
   const restart = () => {

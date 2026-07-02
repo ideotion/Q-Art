@@ -5,8 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { GUIS, getGui, rememberGui, type GuiMeta } from "@/lib/gui";
-import { getRepository } from "@/lib/storage";
-import type { Case, Cycle } from "@/lib/qart";
+import { getRepository, loadMostRecent, type ResumePoint } from "@/lib/storage";
 import { useLoc, useLocale } from "@/lib/i18n/react";
 import { useBoot, useDecisionStore } from "@/store";
 import { GuiIcon } from "@/components/gui-icon";
@@ -49,23 +48,14 @@ function ContinueBanner() {
   const router = useRouter();
   const hydrated = useBoot((s) => s.hydrated);
   const loadCycle = useDecisionStore((s) => s.loadCycle);
-  const [resume, setResume] = useState<{ c: Case; cy: Cycle } | null>(null);
+  const [resume, setResume] = useState<ResumePoint | null>(null);
 
   useEffect(() => {
     if (!hydrated) return;
     let live = true;
     void (async () => {
-      try {
-        const repo = getRepository();
-        const cases = await repo.listCases();
-        if (!cases.length) return;
-        const c = [...cases].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
-        const cycles = await repo.listCycles(c.id);
-        const cy = [...cycles].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
-        if (live && cy) setResume({ c, cy });
-      } catch {
-        /* no resumable session */
-      }
+      const found = await loadMostRecent(getRepository()).catch(() => null);
+      if (live && found) setResume(found);
     })();
     return () => {
       live = false;

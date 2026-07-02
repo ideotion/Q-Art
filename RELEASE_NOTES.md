@@ -1,6 +1,6 @@
 # Q‑Art `0.1.0-rc.1` — the "Triptyque" release candidate
 
-> **Confidential & proprietary** — Q‑Art is the property of **Ideotion**.
+> **Proprietary** — Q‑Art is the property of **Ideotion**.
 > © 2026 Ideotion · all rights reserved (`LICENSE`).
 
 > **Draft release body — ready to paste.** The autonomous build cannot create or

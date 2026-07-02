@@ -9,6 +9,7 @@ export * from "./codec";
 export * from "./migrate";
 export * from "./crypto-idb";
 export * from "./dossier";
+export * from "./resume";
 
 import { InMemoryStorageRepository } from "./memory";
 import type { StorageRepository } from "./types";

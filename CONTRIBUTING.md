@@ -1,6 +1,6 @@
 # Contributing to Q‑Art
 
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (`LICENSE`).
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`).
 > Read `CLAUDE.md`, `docs/design.md`, and `docs/decisions.md` first — the strategy and architecture
 > are locked, and several rules are **non‑negotiable**.
 

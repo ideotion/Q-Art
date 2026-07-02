@@ -1,6 +1,6 @@
 # Q‑Art — Pending Architecture Decisions (menu)
 
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (see `LICENSE`).
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`).
 > **Status:** open — *to decide.* Pre‑scaffold.
 > For each question: options + trade‑offs + a recommendation (✅). **Decide by picking a letter**; chosen items graduate to ADRs in `decisions.md`. Items marked **← needs your steer** are the ones I can't sensibly default.
 

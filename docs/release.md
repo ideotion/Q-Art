@@ -1,6 +1,6 @@
 # Q‑Art — Releasing
 
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (`LICENSE`).
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`).
 > Versioning follows `roadmap.md` (ADR‑010). A bump is **earned**, not vibed.
 
 ## Version ↔ tag ↔ installer

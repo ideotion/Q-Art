@@ -1,7 +1,7 @@
 # Q‑Art — Concept, Methodology & Build Brief
 
 > **Status:** Living foundation · last revised 2026‑06‑16
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (see `LICENSE`).
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`).
 > **How to read this:** This document is deliberately **self‑contained**. Assume the reader — including a future AI session with **no memory of prior conversations or source files** — has zero other context. Everything needed to understand *what Q‑Art is, why it works, and what we are building* is captured here. If you are that future session: start at §0, and treat this file as the single source of truth.
 
 ---
@@ -210,6 +210,8 @@ Build the **canonical Q‑Art "decision object" once** — the data structure ho
 
 *Naming rationale:* **Atlas** = the book of maps you hold (the *cartographie*); **Socrate** (French spelling) = the maieutic art of questioning that is literally *Q‑Art*, nodding to the Francophone roots. Structure + dialogue; map + questioner.
 
+> **Build note (`0.1.0-rc.1`):** the two doors generalized to **three GUIs over the same object** — Atlas, Socrate, and **Cartes** (a tactile card‑deck presentation) — per ADR‑018/019. The doors remain the conceptual ends of the AI‑intensity axis; Cartes is a third *presentation*, not a third method.
+
 These two doors are the ends of the **AI-intensity axis** (§5): each can apply within both **Solo** and **Team** contexts. *Atlas* spans the LLM-less → light-assist range; *Socrate* is fully AI-driven. How many of these combinations we actually ship is undecided.
 
 ---
@@ -251,7 +253,7 @@ These two doors are the ends of the **AI-intensity axis** (§5): each can apply 
 
 ## 10. License & IP
 
-**This work is proprietary and confidential. © 2026 Ideotion. All rights reserved.** It is **not** open source; no license to use, copy, or distribute is granted — see the `LICENSE` file.
+**This work is proprietary. © 2026 Ideotion.** It is **not** open source: a limited grant permits personal, non‑commercial local use of unmodified builds; all other rights — modification, redistribution, commercial use — are reserved — see the `LICENSE` file.
 
 - **Posture:** protected / closed **at first.** Any later move toward a more open or commercial license is a deliberate, deferred decision.
 - **Assets to protect:** the Q-Art method and module structure; the curated QCM banks (Appendices B–C); the worked-case library (Appendix G); and the product names (*Q-Art*, *Atlas*, *Socrate*).

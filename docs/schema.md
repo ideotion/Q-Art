@@ -1,14 +1,15 @@
-# Q-Art — Canonical Decision-Object Schema (v0.1, draft)
+# Q-Art — Canonical Decision-Object Schema (v1)
 
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (see `LICENSE`).
-> **Reads with:** `concept.md` (method & intent). This file defines the data model that **both Atlas and Socrate fill in** — the single structure everything else (UI, AI, team pooling, export) builds on.
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`).
+> **Reads with:** `concept.md` (method & intent). This file defines the data model that **all three GUIs — Atlas, Socrate, Cartes — fill in** (ADR-018) — the single structure everything else (UI, AI, team pooling, export) builds on.
+> **Authoritative mirror:** `src/lib/qart/types.ts` implements this schema; if they ever disagree, the code + its tests win and this file must be updated.
 > **Drafting rule:** no living/recent individuals or organizations; only well-known historical figures; no legally-loaded claims.
 
 ---
 
 ## 1. Design principles
 
-1. **One object, two doors.** Atlas (structured) and Socrate (conversational) **produce and edit the exact same object.** A Socrate chat is just another way to fill it; nothing in the model knows or cares which door was used beyond a `mode` tag.
+1. **One object, three views.** Atlas (boards), Socrate (guided question-tree), and Cartes (deck) **produce and edit the exact same object** (ADR-018). Each GUI is just another way to fill it; nothing in the model knows or cares which view was used beyond a `mode` tag.
 2. **The question is the spine.** The object is organized around a question that **reforms**; the reformulated question can spawn a **new cycle** (recursion). A "Case" is therefore a *chain of cycles*, not a single form.
 3. **Every rubric has the same shape:** curated checklist items (from a bank) + per-item importance weight + free text + retained keywords. (See `concept.md` §3.1.)
 4. **Privacy by construction.** Owners are pseudonymous; in team mode the number→identity mapping is isolated and the pooled syntheses are anonymized.
@@ -23,7 +24,8 @@
 type ID = string;                 // opaque unique id (e.g. uuid)
 type ISODate = string;            // ISO-8601 timestamp
 type Weight = 1 | 2 | 3 | 4 | 5;  // relative importance ("billes"): 1 = minor, 5 = major
-type Mode = "atlas" | "socrate";  // which door produced/edited this (same object either way)
+type Mode = "atlas" | "socrate" | "cartes"; // which GUI produced/edited this (same object either way)
+type WeightMethod = "stepper" | "maxdiff" | "marbles"; // which weighting UI was used (ADR-005/022)
 
 // ---------- the 12 rubrics ----------
 // 10 exploration rubrics, plus the question (the spine) and the action plan (the output).
@@ -42,6 +44,7 @@ type RubricKey =
 // ---------- a Case = a chain of cycles ----------
 interface Case {
   id: ID;
+  schemaVersion: number;  // SCHEMA_VERSION (currently 1); drives export/import migrations
   ownerId: ID;            // pseudonymous owner
   title?: string;         // optional user label
   cycleIds: ID[];         // ordered; [0] is the first pass, last is the most recent
@@ -57,6 +60,7 @@ interface Cycle {
   mode: Mode;
   question: string;                   // "Ma question" — what this cycle works on
   rubrics: { [K in RubricKey]?: RubricEntry };
+  weightMethod?: WeightMethod;        // which weighting UI was used (default: stepper)
   synthesis: Synthesis;               // reformulation + retained keywords + croisements
   actionPlan?: ActionPlan;            // typically built in a later cycle
   createdAt: ISODate;
@@ -123,7 +127,7 @@ interface QcmBank {
 }
 interface QcmItem {
   id: ID;
-  label: string;
+  label: LocalizedText;       // { en, fr } — banks ship bilingual (ADR-002)
   sharedWith?: RubricKey[];   // an item may intentionally recur in other rubrics (by design)
   tags?: string[];            // e.g. risk taxonomy buckets: "org" | "family" | "self"
 }
@@ -244,11 +248,11 @@ This validates the model: the reframing links two cycles, and the action plan li
 2. **Croisements:** matched on `itemId`, on normalized keywords, or AI-assisted clustering?
 3. **Socrate mapping:** how a free conversation is reliably mapped onto rubric entries (function-calling into this schema vs post-hoc extraction).
 4. **Storage & sync:** local-first store + optional encrypted sync; how the team `identityRef` is isolated (separate store / key).
-5. **Internationalization:** rubric/bank content in FR and EN; the object keys stay language-neutral (as above).
-6. **Versioning:** schema version field on `Case`/`Cycle` for migration.
+5. **Internationalization:** *resolved* — rubric/bank/question-tree content ships bilingual (`LocalizedText`); the object keys stay language-neutral; the user's own words are stored as written.
+6. **Versioning:** *resolved* — `SCHEMA_VERSION` (1) on `Case` + versioned dossier export/import with a migration seam (ADR-020).
 
 ---
 
 ## 8. Next step
 
-Once this model is agreed, the natural build order is: lock the **QCM banks** per rubric → implement the **Atlas** boards over this object (deterministic, offline) → add **Socrate** as a second writer into the same object.
+This model is implemented (`src/lib/qart/types.ts`) and all three GUIs write it. What remains open above (weighting scale, croisement matching, Socrate mapping for the v2 LLM) is tracked in `decisions.md` §Open / deferred.

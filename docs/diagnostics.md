@@ -1,6 +1,6 @@
 # Q‑Art — Diagnostics Fabric (spec)
 
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (see `LICENSE`).
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`).
 > **Status:** Accepted — *living spec.* **Reads with:** `decisions.md` (ADR‑013), `data-policy.md` (the content‑free law), `roadmap.md`.
 
 ## Purpose
@@ -61,6 +61,8 @@ One JSON object per line (`.jsonl`); short keys, codes not sentences:
 | `env.json` | browser/OS (coarse), viewport, PWA/SW state, online, storage quota/usage |
 
 ## Event‑code catalog (seed — grows with the app)
+
+*Codes in the `llm.*` and `net.*` families — and `socrate.turn.*` / `socrate.degraded` — are **reserved for v2** (no LLM, no network exists in v1); they are catalogued here so the legend is stable.*
 - `app.boot` · `app.ready` · `app.error`
 - `nav.route`
 - `atlas.case.create` · `atlas.board.open` · `atlas.item.check` · `atlas.weight.set` · `atlas.synthesis.run` · `atlas.export`

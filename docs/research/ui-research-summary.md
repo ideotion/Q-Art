@@ -1,6 +1,6 @@
 # Q‑Art — UI/Architecture Research: Provenance & Summary
 
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (see `LICENSE`).
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`).
 > **Status:** Reference. The **decisions** these passes informed live in **`docs/design.md`** + **`docs/decisions.md`**. This file records *how* we got there and *what convinced us*, so a fresh session trusts the conclusions.
 
 ## The process (June 2026)
