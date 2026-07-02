@@ -1,6 +1,6 @@
 # Q‑Art — Architecture
 
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (`LICENSE`).
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`).
 > **Reads with:** `design.md` (decisions), `decisions.md` (ADRs), `schema.md` (the object),
 > `diagnostics.md`. This file is the practical module map for the `0.1.0‑rc.1` codebase.
 

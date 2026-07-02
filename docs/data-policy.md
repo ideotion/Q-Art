@@ -1,6 +1,6 @@
 # Q‑Art — Data Policy (canonical, internal source of truth)
 
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (see `LICENSE`).
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`).
 > **Status:** Accepted — *working version* (final wording sign‑off + DPIA pending counsel).
 > **Scope:** the **engineering data‑handling policy** and single source of truth. The public **Privacy Policy / Terms** are a separate, counsel‑reviewed artifact. **No legal claims here.**
 

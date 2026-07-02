@@ -1,6 +1,6 @@
 # Q‑Art — Design & Architecture (consolidated)
 
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (see `LICENSE`).
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`).
 > **Status:** Accepted (June 2026). **Reads with:** `concept.md`, `schema.md`, `decisions.md`, `data-policy.md`, `roadmap.md`, `diagnostics.md`.
 > **Provenance:** synthesized from **five cross‑examined research passes** — two UI/OSS reports, an adversarial red‑team, and an independent second‑opinion model run blind (Phase 1) then confronting all prior work (Phase 2). Summary in `research/ui-research-summary.md`. The pivots below are where the passes **independently converged**, which is why they're treated as settled.
 
@@ -28,7 +28,8 @@ Calm/quiet base (muted palette, one accent, generous space, purposeful motion) *
 - **Icons:** Lucide.
 
 ## 3. The "one map, two doors"
-One shared decision object (`schema.md`), one store. Both doors write it; switch mid‑flow.
+One shared decision object (`schema.md`), one store. All views write it; switch mid‑flow.
+The `0.1.0-rc.1` build generalized the two doors to **three GUIs** — Atlas (boards), Socrate (question‑tree), and **Cartes** (the card/“deck” presentation carried below as a prototype option, built to full parity; ADR‑018/019).
 - **Atlas:** responsive **card/board flow** (no heavy canvas — lighter, calmer, more accessible). Optional read‑only overview "map."
 - **Socrate (v1):** deterministic **question‑tree** filling the same boards. The question‑tree content (like the banks) **ships to the client = visible IP**; the secret server‑side LLM prompts are a **v2** concern.
 
@@ -42,12 +43,12 @@ One shared decision object (`schema.md`), one store. Both doors write it; switch
 |---|---|---|
 | Framework | **Next.js (App Router) + TS** | kept — SSR marketing/SEO helps discoverability (no App Store) |
 | UI | **shadcn/ui on Radix** | Radix default (lowest variance); Base UI = upgrade path; React Aria = a11y escape hatch |
-| i18n | **Paraglide** (compile‑time) | zero‑runtime, typed, framework‑agnostic; + CSS **logical properties** |
+| i18n | **Paraglide** (compile‑time) | *deferred* — shipped: the typed FR/EN dictionary seam (`src/lib/i18n`); parity is the gate, not the library. + CSS **logical properties** |
 | State | **Zustand (UI) + XState (flow)** | the guided flow is a guarded state machine |
-| Storage | **RxDB**, **encrypted at rest**, behind a **repository abstraction** | enables a Capacitor/SQLite swap + a v2 sync path |
+| Storage | **RxDB**, **encrypted at rest**, behind a **repository abstraction** | *RxDB deferred* — shipped: **encrypted IndexedDB** (AES‑GCM, non‑extractable key) behind the same interface (ADR‑020); enables a Capacitor/SQLite swap + a v2 sync path |
 | Motion | **CSS/View Transitions + Motion (physics only)** | |
 | Input | **react‑textarea‑autosize** | dictation‑safe |
-| PWA | **Serwist** | |
+| PWA | **Serwist** | *deferred* — shipped: a hand‑authored service worker (ADR‑021; Serwist’s plugin is webpack‑based, Next 16 builds with Turbopack) |
 | Quality | TS strict · ESLint/Prettier · Vitest · Playwright · GH Actions · SessionStart hook | |
 | **v1 backend** | **none** | no LLM in v1 → fully client‑side. Backend (Mistral proxy + optional sync) = **v2**. |
 

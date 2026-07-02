@@ -1,6 +1,6 @@
 # Q‑Art
 
-> **Confidential & proprietary** — Q‑Art is the property of **Ideotion**.
+> **Proprietary** — Q‑Art is the property of **Ideotion**.
 > © 2026 Ideotion · all rights reserved. See `LICENSE`.
 
 **A strategic decision‑making tool.** Bring the question you can't resolve; leave with a

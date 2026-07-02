@@ -1,6 +1,6 @@
 # Q-Art — Curated Question Banks (v0.1 seed)
 
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (see `LICENSE`).
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`).
 > **Reads with:** `concept.md` (method) and `schema.md` (data model). These banks are the **proprietary content** that fills `QcmBank` / `QcmItem` per `RubricKey`.
 > **Drafting rule:** no living/recent individuals or organizations; only well-known historical figures; no legally-loaded claims.
 
@@ -14,7 +14,7 @@
 - **Free text is always available** in every rubric; the checklist exists so no one freezes at a blank page.
 - Items are written to suit **personal *and* professional** decisions (the audience spans independent operators, people at crossroads, and teams).
 - Some items **deliberately recur across rubrics** (`sharedWith` in the schema) — that recurrence is what *croisements* detect.
-- **Localization:** seed is in English; a French set is pending (schema §7). Keys/labels here are display text, not identifiers.
+- **Localization:** the shipped banks (`src/lib/qart/banks.ts`) are **fully bilingual FR/EN** (`LocalizedText`, parity‑tested). The lists below are the English reference text; the code is authoritative.
 - This is a **seed** (v0.1) — meant to be expanded and tuned with use.
 
 ---

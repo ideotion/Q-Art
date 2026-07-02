@@ -1,6 +1,6 @@
 # Q‑Art — Installer guide
 
-> **Confidential & proprietary** · © 2026 Ideotion · all rights reserved (`LICENSE`).
+> **Proprietary** · © 2026 Ideotion · personal, non-commercial use permitted; all other rights reserved (`LICENSE`).
 > The installer (`install.sh`, ADR‑023) clones, builds, and serves Q‑Art **locally**. It is a
 > 100% local app — it sends none of your data anywhere.
 
