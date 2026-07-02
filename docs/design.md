@@ -43,12 +43,12 @@ The `0.1.0-rc.1` build generalized the two doors to **three GUIs** — Atlas (bo
 |---|---|---|
 | Framework | **Next.js (App Router) + TS** | kept — SSR marketing/SEO helps discoverability (no App Store) |
 | UI | **shadcn/ui on Radix** | Radix default (lowest variance); Base UI = upgrade path; React Aria = a11y escape hatch |
-| i18n | **Paraglide** (compile‑time) | *deferred* — shipped: the typed FR/EN dictionary seam (`src/lib/i18n`); parity is the gate, not the library. + CSS **logical properties** |
+| i18n | **Paraglide** (compile‑time) | *deferred (feasible, owner‑gated — ADR‑026)*: bundler‑agnostic compiler works under Turbopack, but a large ~180‑key refactor for tree‑shaking only; the typed FR/EN dictionary already gates parity. + CSS **logical properties** |
 | State | **Zustand (UI) + XState (flow)** | the guided flow is a guarded state machine |
-| Storage | **RxDB**, **encrypted at rest**, behind a **repository abstraction** | *RxDB deferred* — shipped: **encrypted IndexedDB** (AES‑GCM, non‑extractable key) behind the same interface (ADR‑020); enables a Capacitor/SQLite swap + a v2 sync path |
+| Storage | **RxDB**, **encrypted at rest**, behind a **repository abstraction** | *RxDB deferred to v2/sync (ADR‑026)* — its free encryption is CryptoJS/extractable‑key; the shipped **encrypted IndexedDB** (WebCrypto AES‑GCM, **non‑extractable** key, ADR‑020) is stronger for v1. RxDB wraps the same interface when sync lands |
 | Motion | **CSS/View Transitions + Motion (physics only)** | |
 | Input | **react‑textarea‑autosize** | dictation‑safe |
-| PWA | **Serwist** | *deferred* — shipped: a hand‑authored service worker (ADR‑021; Serwist’s plugin is webpack‑based, Next 16 builds with Turbopack) |
+| PWA | **Serwist** | *deferred until `@serwist/next@10` GA (ADR‑026)* — its plugin is webpack‑based, Next 16 builds with Turbopack; the shipped hand‑authored SW (ADR‑021) is dependency‑free and correct |
 | Quality | TS strict · ESLint/Prettier · Vitest · Playwright · GH Actions · SessionStart hook | |
 | **v1 backend** | **none** | no LLM in v1 → fully client‑side. Backend (Mistral proxy + optional sync) = **v2**. |
 

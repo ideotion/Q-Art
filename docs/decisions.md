@@ -146,6 +146,15 @@ Each entry: **Status · Context · Decision · Consequences.** Several ADRs were
   - **Socrate depth** — every rubric node surfaces the rubric's further open prompts ("also worth asking"), and the reframe node offers the reading's one‑click reframes (same pivot in both doors).
 - **Consequences:** The canonical two‑cycle shape (schema.md §6) is now walkable end‑to‑end in every GUI; e2e covers it. LLM enrichment (v2) can deepen the same seams. Bank/insight content stays a deliberate, owner‑led authoring effort.
 
+## ADR‑026 — Deferred‑library feasibility under Next 16 + Turbopack *(New — post‑`0.1.0-rc.1`)*
+- **Status:** Accepted (verdicts below); revisit at the named triggers.
+- **Context:** ADR‑003 named **Paraglide** (i18n), **RxDB** (storage), **Serwist** (PWA) as the stack; the RC shipped working alternatives behind their seams (typed dictionary, encrypted‑IndexedDB adapter, hand‑authored SW) and deferred the named libs. A feasibility pass evaluated actually wiring each against the **real build engine — Next 16 on Turbopack** — and the v1 constraints (self‑host, **no sync**).
+- **Decision & evidence:**
+  - **RxDB — keep deferred (do not swap in v1).** RxDB's core depends on `crypto-js@4.2.0`; its free encryption plugin is **CryptoJS‑based with a passphrase‑derived key held in JS**. The shipped adapter (ADR‑020) uses **WebCrypto AES‑GCM under a non‑extractable `CryptoKey`** — strictly stronger at‑rest posture. RxDB's real value is **replication/sync**, which is a **v2** concern. Swapping now would *weaken* the crypto for *zero* v1 benefit. **Trigger to revisit:** when v2 local‑first sync lands (then wrap RxDB behind the same `StorageRepository`, and use its premium/WebCrypto encryption, not the CryptoJS default).
+  - **Serwist — keep deferred.** `@serwist/next` (stable v9) integrates via **webpack**; Next 16 builds with **Turbopack**, so the plugin path is unsupported/uncertain (v10 is preview). The hand‑authored SW (ADR‑021) is dependency‑free and correct (consent‑based updates, versioned cache, OK‑only navigation caching). **Trigger to revisit:** `@serwist/next@10` GA with documented Turbopack support.
+  - **Paraglide — feasible; owner‑gated.** Paraglide v2 is a **bundler‑agnostic compiler** (`paraglide-js compile` emits plain ESM imported normally — **no webpack/Turbopack plugin**, peer dep only `typescript>=5.6`), so it builds under Turbopack. The swap is a **large, mechanical refactor** (~180 dictionary keys → message files; every `ui.*` call site → `m.*()`), whose only v1 gains are tree‑shaking of unused strings and stack alignment — the typed dictionary already delivers type‑safe FR/EN parity (a CI gate). Held pending an explicit go‑ahead given the size‑to‑benefit ratio.
+- **Consequences:** v1 keeps the three working alternatives as the *shipped* choices, now on evidence rather than expedience. RxDB and Serwist are v2/GA‑gated. Paraglide is the only net‑positive swap available today and is a discrete future PR when green‑lit. `design.md`'s stack table and `CLAUDE.md` are updated to say "deferred *by decision*" with these triggers.
+
 ---
 
 ## Open / deferred
