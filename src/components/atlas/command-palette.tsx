@@ -3,14 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Check, CornerDownLeft, Search } from "lucide-react";
 import { BOARDS } from "@/lib/qart";
+import { fmt } from "@/lib/i18n/dict";
 import { useLoc, useLocale } from "@/lib/i18n/react";
 import { useDecisionStore } from "@/store";
 
-const fmt = (t: string, vars: Record<string, string | number>) =>
-  Object.entries(vars).reduce((s, [k, v]) => s.replace(`{${k}}`, String(v)), t);
-
 /**
- * Atlas ⌘K command palette — also the board overview/minimap. A native <dialog>
+ * Atlas ⌘K/Ctrl+K command palette — also the board overview/minimap. A native <dialog>
  * (showModal) gives focus-trapping + Escape for free, so it stays accessible.
  * Each entry shows how many items the board has selected. Jump with Enter or click.
  */
@@ -19,6 +17,14 @@ export function CommandPalette({ onJump }: { onJump: (index: number) => void }) 
   const loc = useLoc();
   const ref = useRef<HTMLDialogElement>(null);
   const [q, setQ] = useState("");
+  // Show the platform's actual shortcut (the handler accepts both ⌘K and Ctrl+K).
+  // Post-mount read: navigator isn't available during prerender (same pattern
+  // as LocaleProvider's localStorage read).
+  const [kbd, setKbd] = useState("Ctrl K");
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (/Mac|iP(hone|ad|od)/.test(navigator.platform)) setKbd("⌘K");
+  }, []);
   const cycle = useDecisionStore((s) => s.activeCycle);
 
   const open = () => {
@@ -62,7 +68,7 @@ export function CommandPalette({ onJump }: { onJump: (index: number) => void }) 
       >
         <Search className="size-3.5" aria-hidden />
         {ui.commands}
-        <kbd className="border-border ml-1 rounded border px-1 text-[10px]">⌘K</kbd>
+        <kbd className="border-border ml-1 rounded border px-1 text-[10px]">{kbd}</kbd>
       </button>
 
       <dialog

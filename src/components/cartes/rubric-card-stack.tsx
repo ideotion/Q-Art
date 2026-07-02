@@ -1,15 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, RotateCcw, X } from "lucide-react";
 import { getBank, RUBRIC_META, type RubricKey } from "@/lib/qart";
+import { fmt } from "@/lib/i18n/dict";
 import { useLoc, useLocale } from "@/lib/i18n/react";
 import { useDecisionStore } from "@/store";
 import { diag, safe } from "@/lib/diag";
 import { AutoTextarea } from "../text-field";
-
-const fmt = (t: string, vars: Record<string, string | number>) =>
-  Object.entries(vars).reduce((s, [k, v]) => s.replace(`{${k}}`, String(v)), t);
 
 /**
  * A rubric, dealt as a card stack: one bank item at a time, kept or skipped.
@@ -34,12 +32,18 @@ export function RubricCardStack({ rubric }: { rubric: RubricKey }) {
   const isKept = item ? checked.has(item.id) : false;
   const atEnd = idx >= items.length;
 
+  // Keep/skip on the last card unmounts both buttons — hand focus to the
+  // completion note instead of dropping it to <body>.
+  const endRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (atEnd) endRef.current?.focus();
+  }, [atEnd]);
+
   const advance = () => setIdx((i) => Math.min(i + 1, items.length));
 
   const keep = () => {
     if (!item) return;
-    const text = loc(item.label);
-    if (!checked.has(item.id)) toggleItem(rubric, { id: item.id, label: text });
+    if (!checked.has(item.id)) toggleItem(rubric, { id: item.id, label: loc(item.label) });
     diag("D", "cartes", "cartes.card.keep", { rubric: safe(rubric) });
     advance();
   };
@@ -47,17 +51,26 @@ export function RubricCardStack({ rubric }: { rubric: RubricKey }) {
     diag("D", "cartes", "cartes.card.skip", { rubric: safe(rubric) });
     advance();
   };
+  /** Un-keep the current card without advancing (parity with un-checking in Atlas). */
+  const unkeep = () => {
+    if (!item || !checked.has(item.id)) return;
+    toggleItem(rubric, { id: item.id, label: loc(item.label) });
+  };
 
   return (
     <div className="space-y-4">
       <p className="text-muted text-xs">{loc(RUBRIC_META[rubric].intent)}</p>
 
       {atEnd ? (
-        <div className="border-border bg-card grid min-h-40 place-items-center rounded-2xl border border-dashed p-6 text-center">
+        <div
+          ref={endRef}
+          tabIndex={-1}
+          className="border-border bg-card grid min-h-40 place-items-center rounded-2xl border border-dashed p-6 text-center outline-none"
+        >
           <div className="space-y-3">
             <p className="text-sm">{ui.allCardsSeen}</p>
             <p className="text-muted text-xs">
-              {fmt(ui.deckProgress, { a: keptCount, b: items.length })} · {ui.kept}
+              {fmt(ui.keptOf, { a: keptCount, b: items.length })}
             </p>
             {keptCount > 0 || idx > 0 ? (
               <button
@@ -80,10 +93,14 @@ export function RubricCardStack({ rubric }: { rubric: RubricKey }) {
           >
             <p className="text-lg leading-snug font-medium text-balance">{loc(item.label)}</p>
             {isKept ? (
-              <span className="text-accent inline-flex items-center gap-1 text-xs font-medium">
+              <button
+                type="button"
+                onClick={unkeep}
+                className="text-accent hover:text-foreground inline-flex min-h-9 items-center gap-1 self-start text-xs font-medium underline-offset-2 hover:underline"
+              >
                 <Check className="size-3.5" aria-hidden />
-                {ui.kept}
-              </span>
+                {ui.kept} — {ui.removeKept}
+              </button>
             ) : null}
           </article>
 
@@ -99,7 +116,6 @@ export function RubricCardStack({ rubric }: { rubric: RubricKey }) {
             <button
               type="button"
               onClick={keep}
-              aria-pressed={isKept}
               className="bg-accent text-accent-foreground inline-flex min-h-12 items-center gap-1.5 rounded-full px-6 text-sm font-medium"
             >
               <Check className="size-4" aria-hidden />

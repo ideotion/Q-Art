@@ -110,5 +110,13 @@ export function weightsToAllocation(weights: Map<ID, Weight>, pool = MARBLE_POOL
   const total = [...weights.values()].reduce((a, b) => a + b, 0);
   if (total === 0) return out;
   for (const [id, w] of weights) out.set(id, Math.round((w / total) * pool));
+  // Rounding can overshoot the constant sum; trim from the largest allocations
+  // so the seed never exceeds the pool (no "-1 marbles left").
+  let used = [...out.values()].reduce((a, b) => a + b, 0);
+  while (used > pool) {
+    const [maxId] = [...out.entries()].sort((a, b) => b[1] - a[1])[0];
+    out.set(maxId, (out.get(maxId) ?? 0) - 1);
+    used--;
+  }
   return out;
 }

@@ -6,6 +6,10 @@
  */
 import type { Locale } from "../qart";
 
+/** Tiny template helper: replaces every `{key}` occurrence in a dict string. */
+export const fmt = (t: string, vars: Record<string, string | number>): string =>
+  Object.entries(vars).reduce((s, [k, v]) => s.split(`{${k}}`).join(String(v)), t);
+
 export interface UiDict {
   appName: string;
   tagline: string;
@@ -13,6 +17,7 @@ export interface UiDict {
   pickGuiTitle: string;
   pickGuiHint: string;
   switchView: string;
+  lastUsed: string;
   guiBestFor: string;
   atlasName: string;
   atlasDesc: string;
@@ -99,6 +104,8 @@ export interface UiDict {
   kept: string;
   cardOf: string; // "Card {a} / {b}"
   deckProgress: string; // "{a} / {b}"
+  keptOf: string; // "Kept {a} of {b}"
+  removeKept: string;
   allCardsSeen: string;
   spread: string;
   yourDeck: string;
@@ -149,6 +156,7 @@ export const DICT: Record<Locale, UiDict> = {
     pickGuiTitle: "Choose how you'll work",
     pickGuiHint: "Three ways into the same method. Switch anytime — your work follows you.",
     switchView: "Switch view",
+    lastUsed: "Last used",
     guiBestFor: "Best for",
     atlasName: "Atlas",
     atlasDesc: "Map it yourself — the structured boards, at your own pace.",
@@ -244,6 +252,8 @@ export const DICT: Record<Locale, UiDict> = {
     kept: "Kept",
     cardOf: "Card {a} / {b}",
     deckProgress: "{a} / {b}",
+    keptOf: "Kept {a} of {b}",
+    removeKept: "Remove from kept",
     allCardsSeen: "You've been through every card in this suit.",
     spread: "Spread",
     yourDeck: "Your deck",
@@ -292,6 +302,7 @@ export const DICT: Record<Locale, UiDict> = {
     pickGuiHint:
       "Trois entrées dans la même méthode. Changez à tout moment — votre travail vous suit.",
     switchView: "Changer de vue",
+    lastUsed: "Dernière utilisée",
     guiBestFor: "Idéal pour",
     atlasName: "Atlas",
     atlasDesc: "Cartographiez vous-même — les tableaux structurés, à votre rythme.",
@@ -388,6 +399,8 @@ export const DICT: Record<Locale, UiDict> = {
     kept: "Gardé",
     cardOf: "Carte {a} / {b}",
     deckProgress: "{a} / {b}",
+    keptOf: "Gardées : {a} sur {b}",
+    removeKept: "Retirer des cartes gardées",
     allCardsSeen: "Vous avez parcouru toutes les cartes de cette série.",
     spread: "Vue d'ensemble",
     yourDeck: "Votre jeu",
