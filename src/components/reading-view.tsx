@@ -1,14 +1,19 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import { RUBRIC_META, readCycle, type Insight, type ReframeSuggestion } from "@/lib/qart";
-import type { UiDict } from "@/lib/i18n/dict";
+import {
+  RUBRIC_META,
+  localizedItemLabel,
+  readCycle,
+  shortPhrase,
+  type Insight,
+  type Locale,
+  type ReframeSuggestion,
+} from "@/lib/qart";
+import { fmt, type UiDict } from "@/lib/i18n/dict";
 import { useLoc, useLocale } from "@/lib/i18n/react";
 import { useDecisionStore } from "@/store";
 import { AutoTextarea } from "./text-field";
-
-const fmt = (t: string, vars: Record<string, string | number>) =>
-  Object.entries(vars).reduce((s, [k, v]) => s.replace(`{${k}}`, String(v)), t);
 
 /**
  * The reading: the deterministic "intelligence layer" rendered as plain, warm
@@ -16,7 +21,7 @@ const fmt = (t: string, vars: Record<string, string | number>) =>
  * then offers the pivot (a better question) and one small step.
  */
 export function ReadingView() {
-  const { ui } = useLocale();
+  const { ui, locale } = useLocale();
   const loc = useLoc();
   const cycle = useDecisionStore((s) => s.activeCycle);
   const setReformulation = useDecisionStore((s) => s.setReformulation);
@@ -38,7 +43,7 @@ export function ReadingView() {
         {reading.insights.length > 0 ? (
           <ul className="mt-3 space-y-4">
             {reading.insights.map((ins, i) => {
-              const { title, body } = renderInsight(ins, ui, loc);
+              const { title, body } = renderInsight(ins, ui, loc, locale);
               return (
                 <li key={i} className="border-accent/40 border-l-2 pl-4">
                   <p className="text-sm font-medium">{title}</p>
@@ -58,7 +63,7 @@ export function ReadingView() {
         {reframeButtons.length > 0 ? (
           <ul className="mt-3 space-y-2">
             {reframeButtons.map((r, i) => {
-              const text = reframeText(r, ui);
+              const text = reframeText(r, ui, locale);
               return (
                 <li key={i}>
                   <button
@@ -109,8 +114,10 @@ function renderInsight(
   ins: Insight,
   ui: UiDict,
   loc: (t: { en: string; fr: string }) => string,
+  locale: Locale,
 ): { title: string; body: string } {
-  const a = ins.primary?.label ?? "";
+  const a = ins.primary ? localizedItemLabel(ins.primary, locale) : "";
+  const b = ins.secondary ? localizedItemLabel(ins.secondary, locale) : "";
   switch (ins.kind) {
     case "knot":
       return {
@@ -120,7 +127,7 @@ function renderInsight(
     case "tension":
       return {
         title: ui.insightTensionTitle,
-        body: fmt(ui.insightTensionBody, { a, b: ins.secondary?.label ?? "" }),
+        body: fmt(ui.insightTensionBody, { a, b }),
       };
     case "role":
       return { title: ui.insightRoleTitle, body: fmt(ui.insightRoleBody, { a }) };
@@ -139,8 +146,10 @@ function renderInsight(
   }
 }
 
-function reframeText(r: ReframeSuggestion, ui: UiDict): string {
-  const theme = r.theme ?? "";
+function reframeText(r: ReframeSuggestion, ui: UiDict, locale: Locale): string {
+  const theme = r.itemId
+    ? shortPhrase(localizedItemLabel({ itemId: r.itemId, label: r.theme ?? "" }, locale))
+    : (r.theme ?? "");
   switch (r.kind) {
     case "overcome":
       return fmt(ui.reframeOvercome, { theme });

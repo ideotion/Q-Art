@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { rankedPriorities } from "@/lib/qart";
+import { localizedItemLabel, rankedPriorities } from "@/lib/qart";
 import { useLocale } from "@/lib/i18n/react";
 import { useDecisionStore } from "@/store";
 import { ReadingView } from "./reading-view";
@@ -15,7 +15,7 @@ import { ExportPanel } from "./export-panel";
  * not in the grading. Text-first, no node-graph.
  */
 export function SynthesisView() {
-  const { ui } = useLocale();
+  const { ui, locale } = useLocale();
   const cycle = useDecisionStore((s) => s.activeCycle);
   const runSynthesis = useDecisionStore((s) => s.runSynthesis);
 
@@ -48,9 +48,10 @@ export function SynthesisView() {
               <ul className="mt-2 space-y-1">
                 {priorities.map((it, i) => (
                   <li key={i} className="flex items-center justify-between gap-3 text-sm">
-                    <span>{it.label}</span>
-                    <span className="text-accent tracking-tight" aria-label={`${it.weight}/5`}>
-                      {"●".repeat(it.weight)}
+                    <span>{localizedItemLabel(it, locale)}</span>
+                    <span className="text-accent tracking-tight">
+                      <span className="sr-only">{`${it.weight}/5`}</span>
+                      <span aria-hidden>{"●".repeat(it.weight)}</span>
                     </span>
                   </li>
                 ))}

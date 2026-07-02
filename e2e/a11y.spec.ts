@@ -36,3 +36,42 @@ for (const route of ROUTES) {
     }
   }
 }
+
+/**
+ * Deep-state scans: the initial view isn't where the complex widgets live.
+ * These drive the app into its densest states — the weighting panel over real
+ * items, and the command palette — and hold them to the same gate.
+ */
+async function analyze(page: Page) {
+  const results = await new AxeBuilder({ page }).withTags(WCAG).analyze();
+  const bad = results.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
+  expect(bad, JSON.stringify(bad.map((v) => ({ id: v.id, nodes: v.nodes.length })))).toEqual([]);
+}
+
+for (const locale of LOCALES) {
+  test(`a11y deep · synthesis + weighting · ${locale}`, async ({ page }) => {
+    await page.addInitScript((loc) => localStorage.setItem("qart.locale", loc), locale);
+    await page.goto("/atlas");
+    await page.getByRole("textbox").first().fill("Should I resign?");
+    await page
+      .getByRole("button", {
+        name: /real problem, not a passing|vrai problème, pas une contrariété/i,
+      })
+      .click();
+    const nav = page.getByRole("navigation", { name: /Steps|Étapes/ });
+    for (let i = 0; i < 7; i++) await nav.getByRole("button", { name: /Next|Suivant/ }).click();
+    await page
+      .getByText(/Weigh what matters \(optional\)|Pesez ce qui compte \(facultatif\)/)
+      .click();
+    await analyze(page);
+  });
+
+  test(`a11y deep · command palette · ${locale}`, async ({ page }) => {
+    await page.addInitScript((loc) => localStorage.setItem("qart.locale", loc), locale);
+    await page.goto("/atlas");
+    await page.getByRole("heading").first().waitFor();
+    await page.keyboard.press("ControlOrMeta+k");
+    await page.getByRole("dialog").waitFor();
+    await analyze(page);
+  });
+}

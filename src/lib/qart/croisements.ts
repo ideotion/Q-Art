@@ -136,6 +136,7 @@ const tokenize = (s: string): string[] =>
     .filter((w) => w.length >= 3 && !STOPWORDS.has(w));
 
 export interface PriorityItem {
+  itemId?: string; // bank id when present — lets the UI re-localize live
   label: string;
   weight: Weight;
   rubric: RubricKey;
@@ -146,7 +147,12 @@ export function rankedPriorities(cycle: Cycle, limit?: number): PriorityItem[] {
   const items: PriorityItem[] = [];
   for (const [rubric, entry] of Object.entries(cycle.rubrics)) {
     for (const ci of entry?.checkedItems ?? []) {
-      items.push({ label: ci.label, weight: ci.weight, rubric: rubric as RubricKey });
+      items.push({
+        itemId: ci.itemId,
+        label: ci.label,
+        weight: ci.weight,
+        rubric: rubric as RubricKey,
+      });
     }
   }
   items.sort((a, b) => b.weight - a.weight);
