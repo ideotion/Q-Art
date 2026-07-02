@@ -68,6 +68,70 @@ export const QCM_BANKS: Record<RubricKey, QcmBank> = {
         },
         sharedWith: ["emotions"],
       },
+      {
+        id: "framing_partly_others",
+        label: {
+          en: "It's partly someone else's to act on.",
+          fr: "Cela relève en partie de quelqu'un d'autre.",
+        },
+      },
+      {
+        id: "framing_little_control",
+        label: {
+          en: "I have little control over it.",
+          fr: "J'ai peu de prise dessus.",
+        },
+      },
+      {
+        id: "framing_avoided_naming",
+        label: {
+          en: "I've been avoiding naming it plainly.",
+          fr: "J'évite de le nommer clairement.",
+        },
+      },
+      {
+        id: "belief_trust_earned",
+        label: {
+          en: "Trust has to be earned before I give any.",
+          fr: "La confiance doit se mériter avant que je l'accorde.",
+        },
+        sharedWith: ["stakeholders"],
+      },
+      {
+        id: "belief_please",
+        label: {
+          en: "I must please others, or I'm worth nothing.",
+          fr: "Je dois plaire aux autres, sinon je ne vaux rien.",
+        },
+      },
+      {
+        id: "belief_mistake_authority",
+        label: {
+          en: "Admitting a mistake means losing authority.",
+          fr: "Reconnaître une erreur, c'est perdre son autorité.",
+        },
+      },
+      {
+        id: "belief_not_contradict",
+        label: {
+          en: "One must not contradict one's hierarchy.",
+          fr: "On ne doit pas contredire sa hiérarchie.",
+        },
+      },
+      {
+        id: "belief_speak_certain",
+        label: {
+          en: "One should only speak when certain.",
+          fr: "On ne devrait parler que si l'on est certain.",
+        },
+      },
+      {
+        id: "belief_always_never",
+        label: {
+          en: 'I catch myself saying "always / never / everyone".',
+          fr: "Je me surprends à dire « toujours / jamais / tout le monde ».",
+        },
+      },
     ]),
   },
   stakeholders: {
@@ -121,6 +185,41 @@ export const QCM_BANKS: Record<RubricKey, QcmBank> = {
           fr: "J'attends que quelqu'un d'autre bouge en premier.",
         },
       },
+      {
+        id: "stk_friends",
+        label: {
+          en: "my friends / my network",
+          fr: "mes amis, mon réseau",
+        },
+      },
+      {
+        id: "stk_board",
+        label: {
+          en: "the board / my co-directors",
+          fr: "le conseil, mes coadministrateurs",
+        },
+      },
+      {
+        id: "stk_authority",
+        label: {
+          en: "a regulator / an authority",
+          fr: "un régulateur, une autorité",
+        },
+      },
+      {
+        id: "role_victim",
+        label: {
+          en: "I feel wronged or stuck in it.",
+          fr: "Je me sens lésé(e) ou coincé(e).",
+        },
+      },
+      {
+        id: "role_we_they",
+        label: {
+          en: 'I keep saying "we / they / one" instead of "I".',
+          fr: "Je dis « on / ils » au lieu de « je ».",
+        },
+      },
     ]),
   },
   emotions: {
@@ -151,6 +250,41 @@ export const QCM_BANKS: Record<RubricKey, QcmBank> = {
         label: {
           en: "I recognize this feeling from other situations.",
           fr: "Je reconnais cette émotion d'autres situations.",
+        },
+      },
+      {
+        id: "emo_overwhelm",
+        label: {
+          en: "overwhelm / feeling swamped",
+          fr: "débordement / sensation d'être submergé(e)",
+        },
+      },
+      {
+        id: "emo_resentment",
+        label: {
+          en: "resentment / bitterness",
+          fr: "ressentiment / amertume",
+        },
+      },
+      {
+        id: "emo_loneliness",
+        label: {
+          en: "loneliness in the decision",
+          fr: "solitude dans la décision",
+        },
+      },
+      {
+        id: "emo_mild",
+        label: {
+          en: "the feeling is mild",
+          fr: "l'émotion est légère",
+        },
+      },
+      {
+        id: "emo_engine",
+        label: {
+          en: "I can feel this emotion as energy to act.",
+          fr: "Je peux sentir cette émotion comme une énergie pour agir.",
         },
       },
     ]),
@@ -193,6 +327,41 @@ export const QCM_BANKS: Record<RubricKey, QcmBank> = {
         label: {
           en: "I rarely let myself imagine the ideal.",
           fr: "Je m'autorise rarement à imaginer l'idéal.",
+        },
+      },
+      {
+        id: "ideal_plan_ahead",
+        label: {
+          en: "…I plan ahead.",
+          fr: "…je planifie à l'avance.",
+        },
+      },
+      {
+        id: "ideal_someone_else",
+        label: {
+          en: "…someone else is involved.",
+          fr: "…quelqu'un d'autre est impliqué.",
+        },
+      },
+      {
+        id: "ideal_feel_free",
+        label: {
+          en: "In the ideal, I'd feel free and proud.",
+          fr: "Dans l'idéal, je me sentirais libre et fier(ère).",
+        },
+      },
+      {
+        id: "ideal_borrow",
+        label: {
+          en: "I could borrow what works in those good moments.",
+          fr: "Je pourrais m'inspirer de ce qui marche dans ces bons moments.",
+        },
+      },
+      {
+        id: "ideal_innovating",
+        label: {
+          en: "Imagining the ideal reveals an element that could solve it.",
+          fr: "Imaginer l'idéal révèle un élément qui pourrait le résoudre.",
         },
       },
     ]),
@@ -246,6 +415,48 @@ export const QCM_BANKS: Record<RubricKey, QcmBank> = {
           fr: "Je peux nommer un signe observable de progrès.",
         },
       },
+      {
+        id: "obj_too_ambitious",
+        label: {
+          en: "It may be too ambitious for now.",
+          fr: "Il est peut-être trop ambitieux pour l'instant.",
+        },
+      },
+      {
+        id: "obj_has_date",
+        label: {
+          en: "It has a clear date or duration.",
+          fr: "Il a une date ou une durée claire.",
+        },
+      },
+      {
+        id: "ben_growth",
+        label: {
+          en: "growth / new opportunities",
+          fr: "de la croissance / de nouvelles opportunités",
+        },
+      },
+      {
+        id: "ben_reputation",
+        label: {
+          en: "a stronger reputation or standing",
+          fr: "une meilleure réputation, une meilleure position",
+        },
+      },
+      {
+        id: "ben_team_morale",
+        label: {
+          en: "a re-motivated team",
+          fr: "une équipe re-motivée",
+        },
+      },
+      {
+        id: "obj_progress_not_perfection",
+        label: {
+          en: "I'll aim for progress, not perfection.",
+          fr: "Je viserai le progrès, pas la perfection.",
+        },
+      },
     ]),
   },
   resources: {
@@ -283,6 +494,41 @@ export const QCM_BANKS: Record<RubricKey, QcmBank> = {
         },
       },
       { id: "res_health", label: { en: "my health / energy", fr: "ma santé / mon énergie" } },
+      {
+        id: "res_network",
+        label: {
+          en: "my network / peers in the same boat",
+          fr: "mon réseau, des pairs dans la même situation",
+        },
+      },
+      {
+        id: "res_info",
+        label: {
+          en: "information I can still gather",
+          fr: "des informations que je peux encore réunir",
+        },
+      },
+      {
+        id: "res_subcontract",
+        label: {
+          en: "subcontracting / delegation",
+          fr: "la sous-traitance, la délégation",
+        },
+      },
+      {
+        id: "res_resilience",
+        label: {
+          en: "my resilience / what I've overcome before",
+          fr: "ma résilience, ce que j'ai déjà surmonté",
+        },
+      },
+      {
+        id: "res_advisor",
+        label: {
+          en: "a trusted advisor (coach, accountant, lawyer)",
+          fr: "un conseil de confiance (coach, comptable, avocat)",
+        },
+      },
     ]),
   },
   tried: {
@@ -323,6 +569,41 @@ export const QCM_BANKS: Record<RubricKey, QcmBank> = {
         label: {
           en: "What I keep doing may be making it worse.",
           fr: "Ce que je continue de faire empire peut-être les choses.",
+        },
+      },
+      {
+        id: "try_delegate_takeback",
+        label: {
+          en: "I've tried delegating, then taking it back.",
+          fr: "J'ai essayé de déléguer, puis de reprendre la main.",
+        },
+      },
+      {
+        id: "try_control_more",
+        label: {
+          en: "I've tried controlling it more tightly.",
+          fr: "J'ai essayé de tout contrôler de plus près.",
+        },
+      },
+      {
+        id: "try_ultimatum",
+        label: {
+          en: "I've tried an ultimatum or pressure.",
+          fr: "J'ai essayé l'ultimatum ou la pression.",
+        },
+      },
+      {
+        id: "try_never_tested",
+        label: {
+          en: "I've assumed the answer without ever testing it.",
+          fr: "J'ai supposé la réponse sans jamais la tester.",
+        },
+      },
+      {
+        id: "try_same_person",
+        label: {
+          en: "I keep turning to the same person or approach.",
+          fr: "Je me tourne toujours vers la même personne ou approche.",
         },
       },
     ]),
@@ -375,6 +656,42 @@ export const QCM_BANKS: Record<RubricKey, QcmBank> = {
       {
         id: "obs_not_ready",
         label: { en: "I don't feel ready.", fr: "Je ne me sens pas prêt(e)." },
+      },
+      {
+        id: "obs_avoid_responsibility",
+        label: {
+          en: "not deciding lets me avoid responsibility or change",
+          fr: "ne pas décider m'évite la responsabilité ou le changement",
+        },
+      },
+      {
+        id: "obs_dont_know_how",
+        label: {
+          en: "I don't know how to start.",
+          fr: "Je ne sais pas par où commencer.",
+        },
+      },
+      {
+        id: "obs_loyalty",
+        label: {
+          en: "loyalty or guilt holds me back",
+          fr: "la loyauté ou la culpabilité me retient",
+        },
+      },
+      {
+        id: "obs_sunk_cost",
+        label: {
+          en: "I've already invested too much to change now.",
+          fr: "J'ai déjà trop investi pour changer maintenant.",
+        },
+        sharedWith: ["risks"],
+      },
+      {
+        id: "obs_resistance_useful",
+        label: {
+          en: "my resistance has a useful function I haven't named",
+          fr: "ma résistance a une fonction utile que je n'ai pas nommée",
+        },
       },
     ]),
   },
@@ -469,6 +786,85 @@ export const QCM_BANKS: Record<RubricKey, QcmBank> = {
           fr: "Je devrais renoncer à un peu de contrôle, de confort, ou à une identité familière.",
         },
       },
+      {
+        id: "risk_org_climate",
+        label: {
+          en: "a worsening team or work climate",
+          fr: "une dégradation du climat de travail",
+        },
+        tags: ["org"],
+      },
+      {
+        id: "risk_org_reputation",
+        label: {
+          en: "damage to reputation or authority",
+          fr: "une atteinte à la réputation ou à l'autorité",
+        },
+        tags: ["org"],
+      },
+      {
+        id: "risk_org_dependence",
+        label: {
+          en: "over-dependence on a market, supplier, or client",
+          fr: "une dépendance excessive à un marché, un fournisseur, un client",
+        },
+        tags: ["org"],
+      },
+      {
+        id: "risk_org_opportunity",
+        label: {
+          en: "missing an opportunity",
+          fr: "rater une opportunité",
+        },
+        tags: ["org"],
+      },
+      {
+        id: "risk_family_image",
+        label: {
+          en: "damage to how those close to me see me",
+          fr: "une atteinte à l'image que mes proches ont de moi",
+        },
+        tags: ["family"],
+      },
+      {
+        id: "risk_family_relocation",
+        label: {
+          en: "having to relocate",
+          fr: "devoir déménager",
+        },
+        tags: ["family"],
+      },
+      {
+        id: "risk_self_sidelined",
+        label: {
+          en: "being sidelined / demotivation",
+          fr: "une mise à l'écart, une démotivation",
+        },
+        tags: ["self"],
+      },
+      {
+        id: "risk_self_depression",
+        label: {
+          en: "low mood turning into depression",
+          fr: "un moral en berne virant à la dépression",
+        },
+        tags: ["self"],
+      },
+      {
+        id: "risk_gov_liability",
+        label: {
+          en: "personal or criminal liability for the decision",
+          fr: "une responsabilité personnelle ou pénale liée à la décision",
+        },
+        tags: ["self"],
+      },
+      {
+        id: "price_short_term_cost",
+        label: {
+          en: "I'd accept a short-term cost for a longer-term gain.",
+          fr: "J'accepterais un coût à court terme pour un gain à plus long terme.",
+        },
+      },
     ]),
   },
   timing: {
@@ -509,6 +905,35 @@ export const QCM_BANKS: Record<RubricKey, QcmBank> = {
         label: {
           en: "I tend to delay this kind of decision",
           fr: "j'ai tendance à repousser ce genre de décision",
+        },
+      },
+      {
+        id: "time_real_or_chosen",
+        label: {
+          en: "I'm not sure if the deadline is real or self-imposed.",
+          fr: "Je ne sais pas si l'échéance est réelle ou que je me l'impose.",
+        },
+      },
+      {
+        id: "time_others_waiting",
+        label: {
+          en: "others are waiting on my decision",
+          fr: "d'autres attendent ma décision",
+        },
+        sharedWith: ["stakeholders"],
+      },
+      {
+        id: "time_window_closing",
+        label: {
+          en: "a window is closing",
+          fr: "une fenêtre se referme",
+        },
+      },
+      {
+        id: "time_rushing",
+        label: {
+          en: "I'm tempted to rush it to end the discomfort",
+          fr: "je suis tenté(e) de précipiter pour faire cesser l'inconfort",
         },
       },
     ]),

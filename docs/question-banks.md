@@ -248,7 +248,7 @@ Guiding stance: the *best*, not the perfect; small steps; a right to error.
 
 ## Open / to expand
 
-- **Depth:** these are seed lists (~8–15 items/rubric); expand with real usage and per-domain variants (e.g. an artisan vs. a manager).
+- **Depth:** the shipped banks (`src/lib/qart/banks.ts`) now carry ~13–23 items/rubric (147 total), spanning **personal, professional, and governance** decisions (drama-triangle roles, an expanded belief set, the risk taxonomy of `concept.md` Appendix B, personal/criminal-liability items). Keep expanding with real usage and per-domain variants (artisan vs. manager vs. board member).
 - **French set:** author the FR labels (the method's native language).
 - **Tags:** extend beyond the risk buckets (org/family/self) for filtering and croisements.
 - **Shared items:** mark `sharedWith` links so deliberately recurring items are detected across rubrics.

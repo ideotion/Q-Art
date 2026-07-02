@@ -61,12 +61,24 @@ export interface Reading {
 
 // Semantic groupings of bank items (mirror docs/question-banks.md). Kept here so
 // the engine reads meaning, not just text; extend alongside the banks.
-const ROLE_IDS = new Set(["role_overhelp", "role_control", "role_silent", "role_waiting"]);
+const ROLE_IDS = new Set([
+  "role_overhelp",
+  "role_control",
+  "role_silent",
+  "role_waiting",
+  "role_victim",
+]);
 const BELIEF_IDS = new Set([
   "belief_handle_alone",
   "belief_perfect",
   "belief_all_or_nothing",
   "belief_emotion_weak",
+  "belief_trust_earned",
+  "belief_please",
+  "belief_mistake_authority",
+  "belief_not_contradict",
+  "belief_speak_certain",
+  "belief_always_never",
 ]);
 const SAMENESS_IDS = new Set([
   "try_harder",
@@ -74,9 +86,20 @@ const SAMENESS_IDS = new Set([
   "try_avoid",
   "try_nothing_changed",
   "try_worse",
+  "try_control_more",
+  "try_same_person",
+  "try_ultimatum",
+  "try_delegate_takeback",
 ]);
-const PAYOFF_IDS = new Set(["obs_avoid_conversation", "obs_comfortable", "obs_not_ready"]);
-const EXCEPTION_IDS = new Set(["ideal_exceptions", "ideal_clear_terms"]);
+const PAYOFF_IDS = new Set([
+  "obs_avoid_conversation",
+  "obs_comfortable",
+  "obs_not_ready",
+  "obs_avoid_responsibility",
+  "obs_loyalty",
+  "obs_sunk_cost",
+]);
+const EXCEPTION_IDS = new Set(["ideal_exceptions", "ideal_clear_terms", "ideal_borrow"]);
 
 const WANT_RUBRICS: RubricKey[] = ["ideal_scene", "objective_benefits"];
 const FEAR_RUBRICS: RubricKey[] = ["obstacles", "risks", "emotions"];

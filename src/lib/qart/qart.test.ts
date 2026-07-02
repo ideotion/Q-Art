@@ -59,7 +59,70 @@ describe("banks", () => {
       expect.arrayContaining(["risk_self_legal", "risk_family_marital", "risk_self_income"]),
     );
   });
+
+  it("every item is bilingual (non-empty EN and FR)", () => {
+    for (const bank of ALL_BANKS) {
+      for (const item of bank.items) {
+        expect(item.label.en.trim().length).toBeGreaterThan(0);
+        expect(item.label.fr.trim().length).toBeGreaterThan(0);
+        // A common authoring slip: FR field left identical to EN.
+        expect(item.label.fr).not.toBe(item.label.en);
+      }
+    }
+  });
+
+  it("every reading insight-set id exists in the banks", () => {
+    // Guards the reading (insights.ts) against silent bank renames/removals.
+    const ids = new Set(ALL_BANKS.flatMap((b) => b.items.map((i) => i.id)));
+    for (const id of READING_ANCHOR_IDS) expect(ids.has(id)).toBe(true);
+  });
 });
+
+/**
+ * Bank ids the deterministic reading (insights.ts) keys off. Kept here as a
+ * cross-module contract: if a bank edit drops one, this test fails loudly
+ * instead of the reading quietly going thinner.
+ */
+const READING_ANCHOR_IDS = [
+  // roles (drama triangle)
+  "role_overhelp",
+  "role_control",
+  "role_silent",
+  "role_waiting",
+  "role_victim",
+  // beliefs to test
+  "belief_handle_alone",
+  "belief_perfect",
+  "belief_all_or_nothing",
+  "belief_emotion_weak",
+  "belief_trust_earned",
+  "belief_please",
+  "belief_mistake_authority",
+  "belief_not_contradict",
+  "belief_speak_certain",
+  "belief_always_never",
+  // more-of-the-same
+  "try_harder",
+  "try_wait",
+  "try_avoid",
+  "try_nothing_changed",
+  "try_worse",
+  "try_control_more",
+  "try_same_person",
+  "try_ultimatum",
+  "try_delegate_takeback",
+  // quiet payoff of the status quo
+  "obs_avoid_conversation",
+  "obs_comfortable",
+  "obs_not_ready",
+  "obs_avoid_responsibility",
+  "obs_loyalty",
+  "obs_sunk_cost",
+  // the exception where it already works
+  "ideal_exceptions",
+  "ideal_clear_terms",
+  "ideal_borrow",
+];
 
 describe("Socrate question-tree (v1, deterministic)", () => {
   it("starts at intro, ends at summary, and is a valid linear chain", () => {
