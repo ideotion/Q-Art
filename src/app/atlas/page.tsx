@@ -80,7 +80,9 @@ export default function AtlasPage() {
                 </section>
               ))}
 
-              {board.isSynthesis ? <SynthesisView /> : null}
+              {board.isSynthesis ? (
+                <SynthesisView onNextCycle={() => send({ type: "GOTO_BOARD", index: 0 })} />
+              ) : null}
               {board.includesActionPlan ? (
                 <p className="text-muted text-sm">{ui.actionPlanHint}</p>
               ) : null}

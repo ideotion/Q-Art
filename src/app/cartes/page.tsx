@@ -90,7 +90,9 @@ export default function CartesPage() {
                   {card.kind === "rubric" && card.rubric ? (
                     <RubricCardStack key={card.rubric} rubric={card.rubric} />
                   ) : null}
-                  {card.kind === "synthesis" ? <SynthesisView /> : null}
+                  {card.kind === "synthesis" ? (
+                    <SynthesisView onNextCycle={() => send({ type: "GOTO_CARD", index: 0 })} />
+                  ) : null}
                 </div>
               </div>
             )}

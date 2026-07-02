@@ -27,6 +27,9 @@ test("Atlas walks the boards to the synthesis", async ({ page }) => {
 });
 
 test("Socrate walks the full question-tree with content to the synthesis", async ({ page }) => {
+  // Skip view transitions (the app honors reduced motion): a click landing mid
+  // transition can be swallowed by the ::view-transition overlay.
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/socrate");
   const nav = page.getByRole("navigation", { name: /Steps|Étapes/ });
   const next = nav.getByRole("button", { name: /Next|Suivant/ });
@@ -35,7 +38,9 @@ test("Socrate walks the full question-tree with content to the synthesis", async
   // intro → question node. Query textboxes by role: react-textarea-autosize also
   // renders a hidden aria-hidden measurement textarea, which role queries exclude.
   await next.click();
-  await page.getByRole("textbox").fill("Should I resign?");
+  await page
+    .getByRole("textbox", { name: /Your question|Votre question/ })
+    .fill("Should I resign?");
 
   // 10 rubric nodes: tick a proposition on the first, then walk the rest.
   await next.click();
@@ -44,7 +49,9 @@ test("Socrate walks the full question-tree with content to the synthesis", async
 
   // reframe node → summary node (the synthesis).
   await next.click();
-  await page.getByRole("textbox").fill("How do I leave on my own terms?");
+  await page
+    .getByRole("textbox", { name: /Reframed question|Question reformulée/ })
+    .fill("How do I leave on my own terms?");
   await next.click();
   await expect(page.getByText(/Initial question|Question initiale/)).toBeVisible();
   await expect(page.getByText("Should I resign?").first()).toBeVisible();

@@ -111,6 +111,49 @@ describe("decision store (shared by both doors)", () => {
     expect(Object.keys(syn?.keywordsByRubric ?? {})).toContain("obstacles");
   });
 
+  it("startNextCycle chains a new cycle on the reformulated question (recursion)", () => {
+    store().startCase({ mode: "socrate", question: "Should I resign?" });
+    store().toggleItem("emotions", { id: "emo_fear", label: "fear / anxiety" });
+
+    store().startNextCycle(); // no reformulation yet -> must be a no-op
+    expect(store().activeCase?.cycleIds).toHaveLength(1);
+
+    store().setReformulation("How do I tell my boss?");
+    const first = store().activeCycle!;
+    store().startNextCycle();
+
+    const { activeCase, activeCycle } = store();
+    expect(activeCase?.cycleIds).toHaveLength(2);
+    expect(activeCase?.cycleIds[1]).toBe(activeCycle?.id);
+    expect(activeCycle?.parentCycleId).toBe(first.id);
+    expect(activeCycle?.question).toBe("How do I tell my boss?");
+    expect(activeCycle?.synthesis.initialQuestion).toBe("How do I tell my boss?");
+    expect(activeCycle?.mode).toBe("socrate"); // same door carries over
+    expect(activeCycle?.rubrics).toEqual({}); // the map starts clean
+  });
+
+  it("setKeywords stores trimmed retained words on the rubric", () => {
+    store().startCase({ mode: "atlas" });
+    store().setKeywords("emotions", [" fear ", "trust", ""]);
+    expect(store().activeCycle?.rubrics.emotions?.keywords).toEqual(["fear", "trust"]);
+  });
+
+  it("action-plan steps: add, update, remove", () => {
+    store().startCase({ mode: "atlas" });
+    store().addActionStep("Call X");
+    store().addActionStep();
+    store().updateActionStep(1, { action: "Draft the terms", status: "to_refine", when: "Friday" });
+    expect(store().activeCycle?.actionPlan?.steps).toHaveLength(2);
+    expect(store().activeCycle?.actionPlan?.steps[1]).toMatchObject({
+      action: "Draft the terms",
+      status: "to_refine",
+      when: "Friday",
+    });
+    store().removeActionStep(0);
+    expect(store().activeCycle?.actionPlan?.steps).toHaveLength(1);
+    expect(store().activeCycle?.actionPlan?.steps[0]?.action).toBe("Draft the terms");
+  });
+
   it("loadCycle replaces the working state (storage resume path)", () => {
     store().startCase({ mode: "atlas", question: "old" });
     const { activeCase, activeCycle } = store();

@@ -12,6 +12,7 @@ import {
   emptyRubricEntry,
   nowISO,
   topKeywordsByRubric,
+  type ActionStep,
   type Case,
   type Cycle,
   type ID,
@@ -58,8 +59,20 @@ export interface DecisionState {
   setWeightMethod(method: WeightMethod): void;
   setFreeText(rubric: RubricKey, text: string): void;
   setReformulation(question: string): void;
+  /** Retained ("bold") words for a rubric — they feed croisements + keywords. */
+  setKeywords(rubric: RubricKey, keywords: string[]): void;
   /** Capture the one small first step (action plan, step 0). */
   setFirstStep(action: string): void;
+  /** Structured action plan (built mainly in the recursion cycle). */
+  addActionStep(action?: string): void;
+  updateActionStep(index: number, patch: Partial<ActionStep>): void;
+  removeActionStep(index: number): void;
+  /**
+   * The method's pivot (concept.md §3.4): start a NEW cycle on the reformulated
+   * question — same case, chained via parentCycleId; the map empties, the
+   * question carries over. No-op without a reformulation.
+   */
+  startNextCycle(): void;
   /** Recompute the derived synthesis (croisements + keywords) onto the object. */
   runSynthesis(): void;
   /** Replace the working cycle (e.g. after loading from storage). */
@@ -170,12 +183,57 @@ export const useDecisionStore = create<DecisionState>()((set, get) => {
         cy.synthesis.reformulatedQuestion = question;
       }),
 
+    setKeywords: (rubric, keywords) =>
+      update((cy) => {
+        ensureEntry(cy, rubric).keywords = keywords.map((k) => k.trim()).filter(Boolean);
+        diag("D", "store", "atlas.keywords.set", {
+          rubric: safe(rubric),
+          n: keywords.length,
+        });
+      }),
+
     setFirstStep: (action) =>
       update((cy) => {
         if (!cy.actionPlan) cy.actionPlan = { steps: [] };
         if (cy.actionPlan.steps.length === 0) cy.actionPlan.steps.push({ action });
         else cy.actionPlan.steps[0].action = action;
       }),
+
+    addActionStep: (action = "") =>
+      update((cy) => {
+        if (!cy.actionPlan) cy.actionPlan = { steps: [] };
+        cy.actionPlan.steps.push({ action });
+        diag("D", "store", "plan.step.add", { n: cy.actionPlan.steps.length });
+      }),
+
+    updateActionStep: (index, patch) =>
+      update((cy) => {
+        const step = cy.actionPlan?.steps[index];
+        if (!step) return;
+        Object.assign(step, patch);
+      }),
+
+    removeActionStep: (index) =>
+      update((cy) => {
+        if (!cy.actionPlan) return;
+        cy.actionPlan.steps.splice(index, 1);
+      }),
+
+    startNextCycle: () => {
+      const { activeCase, activeCycle } = get();
+      const reframed = activeCycle?.synthesis.reformulatedQuestion?.trim();
+      if (!activeCase || !activeCycle || !reframed) return;
+      const c = structuredClone(activeCase);
+      const cy = createCycle(c.id, {
+        mode: activeCycle.mode,
+        question: reframed,
+        parentCycleId: activeCycle.id,
+      });
+      c.cycleIds = [...c.cycleIds, cy.id];
+      c.updatedAt = nowISO();
+      set({ activeCase: c, activeCycle: cy });
+      diag("I", "store", "cycle.recurse", { depth: c.cycleIds.length });
+    },
 
     runSynthesis: () =>
       update((cy) => {

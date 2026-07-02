@@ -5,6 +5,7 @@ import { getBank, type RubricKey } from "@/lib/qart";
 import { useLoc, useLocale } from "@/lib/i18n/react";
 import { useDecisionStore } from "@/store";
 import { AutoTextarea } from "./text-field";
+import { KeywordChips } from "./keyword-chips";
 
 /**
  * Edits one rubric of the shared decision object — used by both Atlas and Socrate.
@@ -58,6 +59,7 @@ export function RubricEditor({ rubric }: { rubric: RubricKey }) {
         onChange={(v) => setFreeText(rubric, v)}
         placeholder={ui.freeTextPlaceholder}
       />
+      <KeywordChips rubric={rubric} />
     </div>
   );
 }

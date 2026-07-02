@@ -135,6 +135,17 @@ Each entry: **Status · Context · Decision · Consequences.** Several ADRs were
 - **Decision:** Build a pure, no‑LLM **reading engine** (`src/lib/qart/insights.ts`) that interprets the decision object and surfaces, in plain bilingual prose: the **knot** (recurring high‑weight theme), the **pull** (what you want vs. what you fear), your **part** in keeping it going, **"more of the same"**, the **quiet payoff** of the status quo, an **untested belief**, the **exception** where it already works, and skipped **gaps** — then **offers** reframed questions ("Should I…?" → "How do I…?", the method's pivot) and captures **one small step**. The engine returns structured findings keyed off the user's own words; the UI renders the copy (FR/EN). It never advises. Gathering is **lightened**: ticking is enough; weighting is an **optional** refinement, not a grade on every item.
 - **Consequences:** All three GUIs gain the reading via the shared synthesis. Insight classification uses stable bank‑item id groupings (mirrors the banks; extend together). LLM enrichment (v2/Socrate) can deepen this behind the same shape; the deterministic reading remains the private, offline baseline.
 
+## ADR‑025 — Recursion, the structured action plan & retained keywords *(New — post‑`0.1.0-rc.1`)*
+- **Status:** Accepted
+- **Context:** The method's defining depth (concept.md §2/§3.4) was schema‑ready but unbuilt: no way to run a new cycle on the reformulated question, an action plan reduced to one text field, and `RubricEntry.keywords` with no writer. Croisements ignored the banks' designed `sharedWith` recurrence and did raw token matching.
+- **Decision:** Ship the missing depth, deterministically:
+  - **Recursion** — `startNextCycle()` chains a new cycle on the reformulated question (`parentCycleId`, appended to `Case.cycleIds`; same door; the map starts clean). The synthesis offers the pivot when a reformulation exists and shows the cycle number; resume follows the chain's last cycle.
+  - **Action plan** — a structured editor (action · with whom · by when · indicator · status *ready/to refine/to build* · self‑sabotage watch), front‑and‑centre in a recursion cycle, a quiet disclosure in a first pass.
+  - **Retained keywords** — per‑rubric chips in every GUI's rubric editor, feeding croisements and the keyword summaries.
+  - **Croisements** — diacritics‑insensitive matching with a naive FR/EN plural fold (display keeps the user's surface form), plus `sharedWith`‑aware **designed recurrence**: a checked bank item echoes into linked rubrics *the user actually engaged*.
+  - **Socrate depth** — every rubric node surfaces the rubric's further open prompts ("also worth asking"), and the reframe node offers the reading's one‑click reframes (same pivot in both doors).
+- **Consequences:** The canonical two‑cycle shape (schema.md §6) is now walkable end‑to‑end in every GUI; e2e covers it. LLM enrichment (v2) can deepen the same seams. Bank/insight content stays a deliberate, owner‑led authoring effort.
+
 ---
 
 ## Open / deferred

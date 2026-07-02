@@ -41,6 +41,34 @@ export interface UiDict {
   reformulatedQuestion: string;
   none: string;
   actionPlanHint: string;
+  // recursion (the method's pivot) + structured action plan
+  cycleN: string; // "Cycle {n}"
+  fromReframed: string;
+  nextCycle: string;
+  nextCycleHint: string;
+  actionPlan: string;
+  actionPlanIntro: string;
+  addStep: string;
+  removeStep: string;
+  stepAction: string;
+  stepActionPlaceholder: string;
+  stepWith: string;
+  stepWhen: string;
+  stepIndicator: string;
+  stepSabotage: string;
+  stepStatus: string;
+  statusReady: string;
+  statusRefine: string;
+  statusBuild: string;
+  stepN: string; // "Step {n}"
+  // retained keywords
+  keywordsLabel: string;
+  keywordsHint: string;
+  keywordAddPlaceholder: string;
+  keywordAdd: string;
+  keywordRemove: string; // "Remove {word}"
+  // socrate depth
+  alsoAsk: string;
   notAdvice: string;
   language: string;
   progress: string; // "{a} / {b}"
@@ -180,6 +208,33 @@ export const DICT: Record<Locale, UiDict> = {
     reformulatedQuestion: "Reframed question",
     none: "—",
     actionPlanHint: "The action plan is built in the next cycle, on your reframed question.",
+    cycleN: "Cycle {n}",
+    fromReframed: "picking up your reframed question",
+    nextCycle: "Explore this question — new cycle",
+    nextCycleHint:
+      "The method's pivot: run a fresh pass on your reframed question. The map starts clean; the question carries over — this is where the answer takes shape.",
+    actionPlan: "Action plan",
+    actionPlanIntro:
+      "The best, not the perfect: small steps, a right to error. For each step — what, with whom, by when, and how you'll know it worked.",
+    addStep: "Add a step",
+    removeStep: "Remove this step",
+    stepAction: "Action",
+    stepActionPlaceholder: "What exactly will I do?",
+    stepWith: "With whom",
+    stepWhen: "By when",
+    stepIndicator: "How I'll know it worked",
+    stepSabotage: "A self-sabotage to watch",
+    stepStatus: "Status",
+    statusReady: "Ready",
+    statusRefine: "To refine",
+    statusBuild: "Still to build",
+    stepN: "Step {n}",
+    keywordsLabel: "Retained words",
+    keywordsHint: "Mark the words that ring true — they feed your synthesis.",
+    keywordAddPlaceholder: "Add a word…",
+    keywordAdd: "Retain",
+    keywordRemove: "Remove {word}",
+    alsoAsk: "Also worth asking",
     notAdvice:
       "Q‑Art helps you think — it is not therapy, medical, or legal advice. In crisis, contact local emergency services.",
     language: "Language",
@@ -327,6 +382,33 @@ export const DICT: Record<Locale, UiDict> = {
     none: "—",
     actionPlanHint:
       "Le plan d'action se construit au cycle suivant, sur votre question reformulée.",
+    cycleN: "Cycle {n}",
+    fromReframed: "à partir de votre question reformulée",
+    nextCycle: "Explorer cette question — nouveau cycle",
+    nextCycleHint:
+      "Le pivot de la méthode : relancez un passage sur votre question reformulée. La carte repart à neuf ; la question vous suit — c'est là que la réponse prend forme.",
+    actionPlan: "Plan d'action",
+    actionPlanIntro:
+      "Le meilleur, pas le parfait : de petits pas, un droit à l'erreur. Pour chaque pas — quoi, avec qui, pour quand, et comment savoir que ça a marché.",
+    addStep: "Ajouter un pas",
+    removeStep: "Retirer ce pas",
+    stepAction: "Action",
+    stepActionPlaceholder: "Que vais-je faire, concrètement ?",
+    stepWith: "Avec qui",
+    stepWhen: "Pour quand",
+    stepIndicator: "Comment je saurai que ça a marché",
+    stepSabotage: "Un auto-sabotage à surveiller",
+    stepStatus: "Statut",
+    statusReady: "Prêt",
+    statusRefine: "À affiner",
+    statusBuild: "À construire",
+    stepN: "Pas {n}",
+    keywordsLabel: "Mots retenus",
+    keywordsHint: "Marquez les mots qui sonnent juste — ils nourrissent votre synthèse.",
+    keywordAddPlaceholder: "Ajouter un mot…",
+    keywordAdd: "Retenir",
+    keywordRemove: "Retirer {word}",
+    alsoAsk: "À se demander aussi",
     notAdvice:
       "Q‑Art vous aide à réfléchir — ce n'est ni une thérapie, ni un avis médical ou juridique. En cas de crise, contactez les services d'urgence locaux.",
     language: "Langue",

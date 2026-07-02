@@ -29,7 +29,6 @@ export function ReadingView() {
   if (!cycle) return null;
 
   const reading = readCycle(cycle);
-  const reframeButtons = reading.reframes.filter((r) => r.kind !== "smallest_step");
 
   return (
     <section className="space-y-6">
@@ -60,28 +59,7 @@ export function ReadingView() {
       <div>
         <h3 className="text-muted text-xs tracking-wide uppercase">{ui.betterQuestion}</h3>
         <p className="text-muted mt-1 text-sm">{ui.betterQuestionHint}</p>
-        {reframeButtons.length > 0 ? (
-          <ul className="mt-3 space-y-2">
-            {reframeButtons.map((r, i) => {
-              const text = reframeText(r, ui, locale);
-              return (
-                <li key={i}>
-                  <button
-                    type="button"
-                    onClick={() => setReformulation(text)}
-                    className="border-border hover:border-accent group flex w-full items-center justify-between gap-3 rounded-lg border px-3 py-2 text-left text-sm transition-colors"
-                  >
-                    <span>{text}</span>
-                    <span className="text-accent inline-flex shrink-0 items-center gap-1 text-xs">
-                      {ui.useThis}
-                      <ArrowRight className="size-3.5" aria-hidden />
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        ) : null}
+        <ReframeSuggestions onPick={setReformulation} />
         <div className="mt-3">
           <AutoTextarea
             value={cycle.synthesis.reformulatedQuestion ?? ""}
@@ -107,6 +85,40 @@ export function ReadingView() {
         </div>
       </div>
     </section>
+  );
+}
+
+/**
+ * The offered reframes (the pivot), as one-click suggestions. Shared by the
+ * reading and by Socrate's reframe node, so both doors offer the same pivot.
+ */
+export function ReframeSuggestions({ onPick }: { onPick: (text: string) => void }) {
+  const { ui, locale } = useLocale();
+  const cycle = useDecisionStore((s) => s.activeCycle);
+  if (!cycle) return null;
+  const reframes = readCycle(cycle).reframes.filter((r) => r.kind !== "smallest_step");
+  if (reframes.length === 0) return null;
+  return (
+    <ul className="mt-3 space-y-2">
+      {reframes.map((r, i) => {
+        const text = reframeText(r, ui, locale);
+        return (
+          <li key={i}>
+            <button
+              type="button"
+              onClick={() => onPick(text)}
+              className="border-border hover:border-accent group flex w-full items-center justify-between gap-3 rounded-lg border px-3 py-2 text-left text-sm transition-colors"
+            >
+              <span>{text}</span>
+              <span className="text-accent inline-flex shrink-0 items-center gap-1 text-xs">
+                {ui.useThis}
+                <ArrowRight className="size-3.5" aria-hidden />
+              </span>
+            </button>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 

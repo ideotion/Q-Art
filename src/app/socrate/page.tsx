@@ -1,13 +1,14 @@
 "use client";
 
 import { ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
-import { SOCRATE_TREE } from "@/lib/qart";
+import { RUBRIC_META, SOCRATE_TREE } from "@/lib/qart";
 import { fmt } from "@/lib/i18n/dict";
 import { useLoc, useLocale } from "@/lib/i18n/react";
 import { useDecisionStore, useGuiSession } from "@/store";
 import { withViewTransition } from "@/lib/view-transition";
 import { AppHeader } from "@/components/app-header";
 import { RubricEditor } from "@/components/rubric-editor";
+import { ReframeSuggestions } from "@/components/reading-view";
 import { SynthesisView } from "@/components/synthesis-view";
 import { AutoTextarea } from "@/components/text-field";
 
@@ -47,6 +48,7 @@ export default function SocratePage() {
             <p className="text-muted mb-3 text-xs">{fmt(ui.stepOf, { a: step, b: total })}</p>
             <h1 className="text-xl leading-snug font-medium text-balance">{loc(node.prompt)}</h1>
             {node.help ? <p className="text-muted mt-2 text-sm italic">{loc(node.help)}</p> : null}
+            {node.kind === "rubric" && node.rubric ? <FollowUps rubric={node.rubric} /> : null}
 
             <div className="mt-6">
               {node.kind === "question" ? (
@@ -60,15 +62,24 @@ export default function SocratePage() {
               ) : null}
               {node.kind === "rubric" && node.rubric ? <RubricEditor rubric={node.rubric} /> : null}
               {node.kind === "reframe" ? (
-                <AutoTextarea
-                  value={reformulation}
-                  onChange={setReformulation}
-                  placeholder={ui.reframePlaceholder}
-                  ariaLabel={ui.reformulatedQuestion}
-                  minRows={3}
+                <div>
+                  <ReframeSuggestions onPick={setReformulation} />
+                  <div className="mt-3">
+                    <AutoTextarea
+                      value={reformulation}
+                      onChange={setReformulation}
+                      placeholder={ui.reframePlaceholder}
+                      ariaLabel={ui.reformulatedQuestion}
+                      minRows={3}
+                    />
+                  </div>
+                </div>
+              ) : null}
+              {node.kind === "summary" ? (
+                <SynthesisView
+                  onNextCycle={() => send({ type: "GOTO_NODE", id: SOCRATE_TREE.rootId })}
                 />
               ) : null}
-              {node.kind === "summary" ? <SynthesisView /> : null}
             </div>
           </>
         ) : null}
@@ -94,6 +105,24 @@ export default function SocratePage() {
           </button>
         )}
       </nav>
+    </div>
+  );
+}
+
+/** The rubric's further open prompts — the maieutic follow-ups beyond the headline question. */
+function FollowUps({ rubric }: { rubric: keyof typeof RUBRIC_META }) {
+  const { ui } = useLocale();
+  const loc = useLoc();
+  const followUps = RUBRIC_META[rubric].openPrompts.slice(1);
+  if (followUps.length === 0) return null;
+  return (
+    <div className="mt-4">
+      <p className="text-muted text-xs font-medium tracking-wide uppercase">{ui.alsoAsk}</p>
+      <ul className="text-muted mt-1.5 list-disc space-y-1 ps-5 text-sm">
+        {followUps.map((q, i) => (
+          <li key={i}>{loc(q)}</li>
+        ))}
+      </ul>
     </div>
   );
 }

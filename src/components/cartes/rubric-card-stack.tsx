@@ -8,6 +8,7 @@ import { useLoc, useLocale } from "@/lib/i18n/react";
 import { useDecisionStore } from "@/store";
 import { diag, safe } from "@/lib/diag";
 import { AutoTextarea } from "../text-field";
+import { KeywordChips } from "../keyword-chips";
 
 /**
  * A rubric, dealt as a card stack: one bank item at a time, kept or skipped.
@@ -131,6 +132,7 @@ export function RubricCardStack({ rubric }: { rubric: RubricKey }) {
         onChange={(v) => setFreeText(rubric, v)}
         placeholder={ui.freeTextPlaceholder}
       />
+      <KeywordChips rubric={rubric} />
     </div>
   );
 }

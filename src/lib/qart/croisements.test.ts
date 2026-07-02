@@ -83,3 +83,61 @@ describe("topKeywordsByRubric", () => {
     expect(kw.emotions).not.toContain("the");
   });
 });
+
+describe("croisements — matching upgrades", () => {
+  it("folds plural/diacritic inflections into one theme, displaying a surface form", () => {
+    const cy = createCycle("c", { mode: "atlas" });
+    cy.rubrics.emotions = {
+      key: "emotions",
+      checkedItems: [{ label: "peurs anciennes", weight: 4, custom: true }],
+      keywords: [],
+    };
+    cy.rubrics.obstacles = {
+      key: "obstacles",
+      checkedItems: [{ label: "la peur du conflit", weight: 3, custom: true }],
+      keywords: [],
+    };
+    const links = computeCrossLinks(cy);
+    const peur = links.find((l) => l.theme === "peur" || l.theme === "peurs");
+    expect(peur).toBeDefined();
+    expect(peur?.rubrics.sort()).toEqual(["emotions", "obstacles"]);
+    expect(peur?.weightSum).toBe(7);
+  });
+
+  it("a checked sharedWith item echoes into engaged linked rubrics (designed recurrence)", () => {
+    const cy = createCycle("c", { mode: "atlas" });
+    // obs_fear_consequences is declared sharedWith: ["risks", "emotions"] in the banks.
+    cy.rubrics.obstacles = {
+      key: "obstacles",
+      checkedItems: [
+        { itemId: "obs_fear_consequences", label: "fear of the consequences", weight: 5 },
+      ],
+      keywords: [],
+    };
+    // emotions engaged (any content) -> receives the echo; risks untouched -> no echo.
+    cy.rubrics.emotions = {
+      key: "emotions",
+      checkedItems: [{ itemId: "emo_hope", label: "hope / excitement", weight: 2 }],
+      keywords: [],
+    };
+    const links = computeCrossLinks(cy);
+    const fear = links.find((l) => l.theme === "fear");
+    expect(fear).toBeDefined();
+    expect(fear?.rubrics.sort()).toEqual(["emotions", "obstacles"]);
+    // The untouched rubric must NOT be claimed as part of the recurrence.
+    expect(fear?.rubrics).not.toContain("risks");
+  });
+
+  it("does not echo sharedWith into rubrics the user never engaged", () => {
+    const cy = createCycle("c", { mode: "atlas" });
+    cy.rubrics.obstacles = {
+      key: "obstacles",
+      checkedItems: [
+        { itemId: "obs_fear_consequences", label: "fear of the consequences", weight: 5 },
+      ],
+      keywords: [],
+    };
+    const links = computeCrossLinks(cy);
+    expect(links.find((l) => l.theme === "fear")).toBeUndefined();
+  });
+});
