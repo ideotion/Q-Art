@@ -6,20 +6,27 @@
  *
  * Strategy:
  *  - app shell (the GUI routes): precached on install; navigations are
- *    network-first, falling back to cache so the app opens offline.
- *  - static assets (/_next/static, icons, fonts): stale-while-revalidate.
+ *    network-first (only OK responses are cached), falling back to cache so the
+ *    app opens offline.
+ *  - static assets (/_next/static, icons, manifest): stale-while-revalidate.
+ *    Everything else passes through untouched.
+ *
+ * Updates are consent-based: a new worker WAITS until the page posts
+ * SKIP_WAITING (the in-app "new version ready" toast) — never a surprise
+ * takeover of open pages. If precaching fails, install fails and the previous
+ * worker keeps serving (no silently-broken offline shell).
  */
-const CACHE = "qart-shell-v1";
+const CACHE = "qart-shell-v2"; // bump on any caching-strategy change to purge old entries
 const SHELL = ["/", "/atlas", "/socrate", "/cartes", "/manifest.webmanifest", "/icon.svg"];
 
+const isStaticAsset = (url) =>
+  url.pathname.startsWith("/_next/static/") ||
+  url.pathname === "/icon.svg" ||
+  url.pathname === "/manifest.webmanifest" ||
+  url.pathname === "/favicon.ico";
+
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches
-      .open(CACHE)
-      .then((c) => c.addAll(SHELL))
-      .then(() => self.skipWaiting())
-      .catch(() => self.skipWaiting()),
-  );
+  event.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)));
 });
 
 self.addEventListener("activate", (event) => {
@@ -46,8 +53,12 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(request)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(request, copy));
+          // Cache only healthy responses — a transient 500 must never become
+          // the permanent offline fallback for a route.
+          if (res.ok && !res.redirected) {
+            const copy = res.clone();
+            caches.open(CACHE).then((c) => c.put(request, copy));
+          }
           return res;
         })
         .catch(() => caches.match(request).then((r) => r || caches.match("/"))),
@@ -55,7 +66,8 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Static assets: stale-while-revalidate (content-hashed → safe to keep).
+  // Static assets only: stale-while-revalidate (content-hashed → safe to keep).
+  if (!isStaticAsset(url)) return;
   event.respondWith(
     caches.match(request).then((cached) => {
       const network = fetch(request)
