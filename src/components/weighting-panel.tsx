@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Minus, Plus } from "lucide-react";
 import {
   MARBLE_POOL,
   WEIGHT_METHODS,
   allocationToWeights,
+  localizedItemLabel,
   maxdiffSets,
   maxdiffWeights,
   weightsToAllocation,
@@ -13,6 +14,7 @@ import {
   type Weight,
   type WeightMethod,
 } from "@/lib/qart";
+import { fmt } from "@/lib/i18n/dict";
 import { useLocale } from "@/lib/i18n/react";
 import { useDecisionStore, type ItemRef, type WeightUpdate } from "@/store";
 import { WeightStepper } from "./weight-stepper";
@@ -27,23 +29,38 @@ interface PanelItem {
   weight: Weight;
 }
 
-const fmt = (t: string, vars: Record<string, string | number>) =>
-  Object.entries(vars).reduce((s, [k, v]) => s.replace(`{${k}}`, String(v)), t);
-
 const SEG_ON = "bg-accent text-accent-foreground";
 const SEG_OFF = "text-muted hover:text-foreground";
+
+const isMethod = (m: string | null): m is WeightMethod =>
+  m !== null && (WEIGHT_METHODS as readonly string[]).includes(m);
 
 /**
  * The weighting pass (ADR-005). One panel, three selectable methods over every
  * checked item in the cycle — direct steppers, MaxDiff (most/least), and
- * constant-sum marbles. Each method has a non-drag, keyboard path (SC 2.5.7) and
+ * constant-sum marbles. Each method has a non-drag, keyboard path (SC 2.5.7),
+ * every control is named after the item it weighs (SC 1.3.1/2.4.6), and each
  * folds its result back into the canonical 1–5 billes. The chosen method is
- * recorded content-free for the later A/B.
+ * recorded content-free for the later A/B and remembered across sessions.
  */
 export function WeightingPanel() {
-  const { ui } = useLocale();
+  const { ui, locale } = useLocale();
   const cycle = useDecisionStore((s) => s.activeCycle);
   const setWeightMethod = useDecisionStore((s) => s.setWeightMethod);
+
+  // Apply the remembered method to a cycle that hasn't chosen one yet
+  // (post-mount: the preference lives in localStorage).
+  const cycleId = cycle?.id;
+  const hasMethod = !!cycle?.weightMethod;
+  useEffect(() => {
+    if (!cycleId || hasMethod) return;
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (isMethod(saved) && saved !== "stepper") setWeightMethod(saved);
+    } catch {
+      /* ignore */
+    }
+  }, [cycleId, hasMethod, setWeightMethod]);
 
   const items: PanelItem[] = useMemo(() => {
     if (!cycle) return [];
@@ -54,16 +71,18 @@ export function WeightingPanel() {
           key: `${rubric}::${ci.itemId ?? ci.label}`,
           rubric: rubric as RubricKey,
           ref: { id: ci.itemId, label: ci.label },
-          label: ci.label,
+          label: localizedItemLabel(ci, locale),
           weight: ci.weight,
         });
       }
     }
     return out;
-  }, [cycle]);
+  }, [cycle, locale]);
 
   if (!cycle) return null;
   const method: WeightMethod = cycle.weightMethod ?? "stepper";
+  // Remount the stateful panels when the item *set* changes, not just its size.
+  const setSignature = items.map((i) => i.key).join("|");
 
   const pick = (m: WeightMethod) => {
     setWeightMethod(m);
@@ -108,9 +127,9 @@ export function WeightingPanel() {
       {items.length === 0 ? (
         <p className="text-muted text-sm">{ui.weightNeedsItems}</p>
       ) : method === "maxdiff" ? (
-        <MaxDiffPanel key={`md-${items.length}`} items={items} />
+        <MaxDiffPanel key={`md-${setSignature}`} items={items} />
       ) : method === "marbles" ? (
-        <MarblesPanel key={`mb-${items.length}`} items={items} />
+        <MarblesPanel key={`mb-${setSignature}`} items={items} />
       ) : (
         <StepperPanel items={items} />
       )}
@@ -127,7 +146,7 @@ function StepperPanel({ items }: { items: PanelItem[] }) {
         <li key={it.key} className="space-y-1">
           <span className="text-sm">{it.label}</span>
           <WeightStepper
-            label={ui.importance}
+            label={`${ui.importance} — ${it.label}`}
             value={it.weight}
             onChange={(w) => setItemWeight(it.rubric, it.ref, w)}
           />
@@ -142,6 +161,17 @@ function Billes({ n }: { n: number }) {
     <span className="text-accent tracking-tight" aria-hidden>
       {"●".repeat(Math.max(0, n))}
     </span>
+  );
+}
+
+/** Completion note that receives focus, so keyboard users aren't dropped to <body>. */
+function DoneNote({ text }: { text: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  useEffect(() => ref.current?.focus(), []);
+  return (
+    <p ref={ref} tabIndex={-1} className="text-accent text-sm outline-none">
+      {text} ✓
+    </p>
   );
 }
 
@@ -192,7 +222,7 @@ function MaxDiffPanel({ items }: { items: PanelItem[] }) {
     }
   };
 
-  if (done) return <p className="text-accent text-sm">{ui.applied} ✓</p>;
+  if (done) return <DoneNote text={ui.applied} />;
 
   return (
     <div className="space-y-3">
@@ -212,6 +242,7 @@ function MaxDiffPanel({ items }: { items: PanelItem[] }) {
                   type="button"
                   onClick={() => setBest(best === key ? null : key)}
                   aria-pressed={best === key}
+                  aria-label={`${ui.maxdiffMost} — ${it.label}`}
                   className={`min-h-9 rounded-full px-3 text-xs font-medium ${best === key ? SEG_ON : "border-border border"}`}
                 >
                   {ui.maxdiffMost}
@@ -220,6 +251,7 @@ function MaxDiffPanel({ items }: { items: PanelItem[] }) {
                   type="button"
                   onClick={() => setWorst(worst === key ? null : key)}
                   aria-pressed={worst === key}
+                  aria-label={`${ui.maxdiffLeast} — ${it.label}`}
                   className={`min-h-9 rounded-full px-3 text-xs font-medium ${worst === key ? SEG_ON : "border-border border"}`}
                 >
                   {ui.maxdiffLeast}
@@ -256,11 +288,13 @@ function MarblesPanel({ items }: { items: PanelItem[] }) {
   const bump = (key: string, delta: number) => {
     setDone(false);
     setAlloc((prev) => {
-      const next = new Map(prev);
-      const cur = next.get(key) ?? 0;
+      const cur = prev.get(key) ?? 0;
       const target = cur + delta;
       if (target < 0) return prev;
-      if (delta > 0 && left <= 0) return prev;
+      // Recompute the pool from `prev`, not from a stale render closure.
+      const usedNow = [...prev.values()].reduce((a, b) => a + b, 0);
+      if (delta > 0 && usedNow >= MARBLE_POOL) return prev;
+      const next = new Map(prev);
       next.set(key, target);
       return next;
     });
@@ -298,7 +332,8 @@ function MarblesPanel({ items }: { items: PanelItem[] }) {
                 >
                   <Minus className="size-4" aria-hidden />
                 </button>
-                <span className="min-w-16 text-center text-sm" aria-label={`${count}`}>
+                <span className="min-w-16 text-center text-sm">
+                  <span className="sr-only">{count}</span>
                   <Billes n={count} />
                 </span>
                 <button

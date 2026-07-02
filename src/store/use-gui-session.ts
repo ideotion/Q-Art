@@ -60,5 +60,12 @@ export function useGuiSession(mode: Mode) {
     send({ type: "START", mode });
   };
 
-  return { snap, send, restart } as const;
+  /**
+   * True once the session exists (resume-or-start completed). Pages must gate
+   * their inputs on this: a textbox rendered over a null cycle silently drops
+   * keystrokes, and typing during an in-flight resume would be overwritten.
+   */
+  const ready = !snap.matches("idle");
+
+  return { snap, send, restart, ready } as const;
 }
